@@ -6,7 +6,7 @@
   <artifactId>SDFEconomy</artifactId>
   <version>0.0.1</version>
   <name>SDFEconomy</name>
-  <description>This is a sample plugin for CraftBukkit</description>
+  <description>CraftBukkit plugin which implements a Multiverse aware Economy.</description>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -16,6 +16,10 @@
     <repository>
       <id>bukkit-repo</id>
       <url>http://repo.bukkit.org/content/groups/public/</url>
+    </repository>
+    <repository>
+      <id>vault-repo</id>
+      <url>http://ci.herocraftonline.com/plugin/repository/project/Vault/LastSuccessful/repository/</url>
     </repository>
   </repositories>
 
@@ -27,6 +31,12 @@
       <version>1.3.1-R1.0</version>
       <type>jar</type>
       <scope>provided</scope>
+    </dependency>
+    <!-- Use Vault Economy API interface -->
+    <dependency>
+      <groupId>net.milkbowl.vault</groupId>
+      <artifactId>Vault</artifactId>
+      <version>1.2.19-SNAPSHOT</version>
     </dependency>
     <!-- Following dependency is provided by CraftBukkit -->
     <dependency>

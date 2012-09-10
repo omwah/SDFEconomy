@@ -3,17 +3,18 @@
 main: com.github.omwah.SDFEconomy.SDFEconomy
 name: ${project.name}
 version: ${project.version}
-author: SampleAuthor
+author: Omwah
 description: ${project.description}
+
 commands:
-  sample:
-    description: set the sample message
-    usage: /<command> message
-    permission: sample.message
+  economy:
+    description: Manipulate and query player balances and banks
+    aliases: [econ]
+    usage: |
+
 permissions:
-  sample.*:
-    description: gives all permissions of the SamplePlugin
+  econ.*:
+    description: All SDFEconomy permissions
     default: op
     children:
-      sample.message:
-        description: gives permission to set the sample message using the sample command
+      econ.common.*: truez

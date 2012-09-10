@@ -6,6 +6,9 @@ import org.bukkit.plugin.java.JavaPlugin;
  * This is the main class of the sample plug-in
  */
 public class SDFEconomy extends JavaPlugin {
+    EconomyAPI api;
+    EconomyStorage storage;
+    
     /*
      * This is called when your plug-in is enabled
      */
@@ -14,11 +17,14 @@ public class SDFEconomy extends JavaPlugin {
         // save the configuration file
         saveDefaultConfig();
         
-        // Create the SampleListener
+        this.storage = new EconomyYamlStorage();
+        this.api = new EconomyAPI(this.getServer(), this.storage, this.getConfig());
+        
+        // Create the Listener to register players into economy on joining
         new SDFEconomyListener(this);
         
-        // set the command executor for sample
-        this.getCommand("sample").setExecutor(new SDFEconomyCommandExecutor(this));
+        // set the command executor for economy
+        this.getCommand("economy").setExecutor(new SDFEconomyCommandExecutor(this));
     }
     
     /*
@@ -26,7 +32,13 @@ public class SDFEconomy extends JavaPlugin {
      */
     @Override
     public void onDisable() {
-        
+        storage.commit();
     }
 
+    /*
+     * 
+     */
+    EconomyAPI getAPI() {
+        return this.api;
+    }
 }
