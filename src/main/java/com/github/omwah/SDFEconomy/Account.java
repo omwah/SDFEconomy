@@ -8,12 +8,20 @@ import java.util.Observable;
 
 /**
  *
- * @author Omwah
  */
 public abstract class Account extends Observable {
-    double balance;
+    String name;
     String location;
+    double balance = 0.0;
     
+    public String getName() {
+        return name;
+    }
+    
+    String getLocation() {
+        return this.location;
+    }
+        
     double getBalance() {
         return this.balance;
     }
@@ -23,9 +31,5 @@ public abstract class Account extends Observable {
         setChanged();
         notifyObservers();
     }
-    
-    String getLocation() {
-        return this.location;
-    }
-    
+
 }

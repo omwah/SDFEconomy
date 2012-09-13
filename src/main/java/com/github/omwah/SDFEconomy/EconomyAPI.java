@@ -27,10 +27,10 @@ public class EconomyAPI implements Economy {
         this.storage = storage;
         this.config = config;
         
-        this.config.addDefault("bank.enabled", true);
-        this.config.addDefault("currency.numerical_format", "#,##0.00");
-        this.config.addDefault("currency.name.plural", "simoleons");
-        this.config.addDefault("currency.name.singular", "simoleons");
+        this.config.addDefault("api.bank.enabled", true);
+        this.config.addDefault("api.currency.numerical_format", "#,##0.00");
+        this.config.addDefault("api.currency.name.plural", "simoleons");
+        this.config.addDefault("api.currency.name.singular", "simoleons");
     }
     
     /*
@@ -54,7 +54,7 @@ public class EconomyAPI implements Economy {
      */
     @Override
     public boolean hasBankSupport() {
-        return this.config.getBoolean("bank.enabled");
+        return this.config.getBoolean("api.bank.enabled");
     }
 
     /*
@@ -67,7 +67,7 @@ public class EconomyAPI implements Economy {
 
     @Override
     public String format(double amount) {
-        String pattern = this.config.getString("currency.numerical_format");
+        String pattern = this.config.getString("api.currency.numerical_format");
         DecimalFormat formatter = new DecimalFormat(pattern);
         String formatted = formatter.format(amount);
         return formatted;
@@ -75,7 +75,7 @@ public class EconomyAPI implements Economy {
 
     @Override
     public String currencyNamePlural() {
-        return this.config.getString("currency.name.plural");
+        return this.config.getString("api.currency.name.plural");
     }
 
     @Override

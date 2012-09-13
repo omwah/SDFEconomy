@@ -4,10 +4,28 @@
  */
 package com.github.omwah.SDFEconomy;
 
+import java.util.ArrayList;
+
 /**
  *
- * @author mcduffie
  */
-public class BankAccount {
+public class BankAccount extends Account {
+    private ArrayList<String> members;
+    
+    public ArrayList<String> getMembers() {
+        return members;
+    }
+    
+    public void addMember(String newMember) {
+        
+    }
+    
+    public void removeMember(String oldMember) {
+        
+    }
+    
+    public void isMember(String memberName) {
+        
+    }
     
 }
