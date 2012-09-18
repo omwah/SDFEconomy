@@ -31,7 +31,7 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
     }
     
     private ConfigurationSection getPlayerSection(String playerName, String location) {
-        return this.storage.getConfigurationSection(this.player_prefix + "." + playerName + "." + location);
+        return this.storage.getConfigurationSection(location + "." + this.player_prefix + "." + playerName);
     }
 
     public boolean hasPlayerAccount(String playerName, String location) {
@@ -52,7 +52,7 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
     }
 
     private ConfigurationSection getBankSection(String accountName, String location) {
-        return this.storage.getConfigurationSection(this.bank_prefix + "." + accountName + "." + location);
+        return this.storage.getConfigurationSection(location + "." + this.bank_prefix + "." + accountName);
     }
 
      public boolean hasBankAccount(String accountName, String location) {
