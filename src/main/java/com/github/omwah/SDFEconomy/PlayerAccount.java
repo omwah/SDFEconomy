@@ -9,14 +9,8 @@ package com.github.omwah.SDFEconomy;
  * @author mcduffie
  */
 public class PlayerAccount extends Account {
-    private final String name;
-    
     public PlayerAccount(String name, String location) {
         this.name = name;
         this.location = location;
-    }
-    
-    public String getName() {
-        return name;
     }
 }

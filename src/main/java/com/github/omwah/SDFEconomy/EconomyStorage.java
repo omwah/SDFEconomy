@@ -32,7 +32,7 @@ public interface EconomyStorage {
     /*
      * 
      */
-    BankAccount createBankAccount(String accountName, String location, double begBalance);
+    void createBankAccount(String accountName, String location, double begBalance);
     /*
      * 
      */

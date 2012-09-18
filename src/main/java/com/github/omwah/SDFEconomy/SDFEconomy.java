@@ -14,12 +14,14 @@ public class SDFEconomy extends JavaPlugin {
      */
     @Override
     public void onEnable() {
+        this.getConfig().addDefault("storage.yaml.filename", "accounts.yaml");
+        
+        this.storage = new EconomyYamlStorage(this.getConfig().getString("storage.yaml.filename"));
+        this.api = new EconomyAPI(this.getServer(), this.storage, this.getConfig());
+
         // save the configuration file
         saveDefaultConfig();
-        
-        this.storage = new EconomyYamlStorage();
-        this.api = new EconomyAPI(this.getServer(), this.storage, this.getConfig());
-        
+       
         // Create the Listener to register players into economy on joining
         new SDFEconomyListener(this);
         
