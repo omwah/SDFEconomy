@@ -17,7 +17,8 @@ public class SDFEconomy extends JavaPlugin {
         this.getConfig().addDefault("storage.yaml.filename", "accounts.yaml");
         
         this.storage = new EconomyYamlStorage(this.getConfig().getString("storage.yaml.filename"));
-        this.api = new EconomyAPI(this.getServer(), this.storage, this.getConfig());
+        DirectLocationTranslator locationTrans = new DirectLocationTranslator();
+        this.api = new EconomyAPI(this.getServer(), this.getConfig(), this.storage, locationTrans);
 
         // save the configuration file
         saveDefaultConfig();

@@ -6,7 +6,6 @@ package com.github.omwah.SDFEconomy;
 
 /**
  *
- * @author Omwah
  */
 public interface EconomyStorage {
     /*

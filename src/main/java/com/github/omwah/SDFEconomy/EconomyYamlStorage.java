@@ -14,7 +14,6 @@ import org.bukkit.configuration.ConfigurationSection;
 
 /**
  *
- * @author Omwah
  */
 public class EconomyYamlStorage implements EconomyStorage, Observer {
     private final String player_prefix = "player";

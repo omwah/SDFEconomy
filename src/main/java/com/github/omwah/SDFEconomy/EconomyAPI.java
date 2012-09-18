@@ -13,7 +13,6 @@ import net.milkbowl.vault.economy.EconomyResponse;
 
 /**
  *
- * @author Omwah
  */
 public class EconomyAPI implements Economy {
     private final String name = "SDFEconomy";
@@ -21,11 +20,13 @@ public class EconomyAPI implements Economy {
     private Server server;
     private EconomyStorage storage;
     private Configuration config;
+    private LocationTranslator locationTrans;
     
-    public EconomyAPI(Server server, EconomyStorage storage, Configuration config) {
+    public EconomyAPI(Server server, Configuration config, EconomyStorage storage, LocationTranslator locationTrans) {
         this.server = server;
-        this.storage = storage;
         this.config = config;
+        this.storage = storage;
+        this.locationTrans = locationTrans;
         
         this.config.addDefault("api.bank.enabled", true);
         this.config.addDefault("api.currency.numerical_format", "#,##0.00");
