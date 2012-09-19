@@ -20,13 +20,13 @@ public class EconomyAPI implements Economy {
     private Server server;
     private EconomyStorage storage;
     private Configuration config;
-    private LocationTranslator locationTrans;
+    private LocationTranslator locTrans;
     
     public EconomyAPI(Server server, Configuration config, EconomyStorage storage, LocationTranslator locationTrans) {
         this.server = server;
         this.config = config;
         this.storage = storage;
-        this.locationTrans = locationTrans;
+        this.locTrans = locationTrans;
         
         this.config.addDefault("api.bank.enabled", true);
         this.config.addDefault("api.currency.numerical_format", "#,##0.00");
@@ -90,7 +90,7 @@ public class EconomyAPI implements Economy {
     }
     
     public boolean hasAccount(Player playerObj) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return storage.hasPlayerAccount(playerObj.getName(), locTrans.getLocationName(playerObj));
     }
 
 
