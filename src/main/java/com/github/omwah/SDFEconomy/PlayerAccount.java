@@ -1,11 +1,9 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
  */
 package com.github.omwah.SDFEconomy;
 
 /**
- *
+ * An Account specialization for a Player
  */
 public class PlayerAccount extends Account {
     public PlayerAccount(String name, String location) {

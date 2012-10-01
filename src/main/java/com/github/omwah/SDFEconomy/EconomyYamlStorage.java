@@ -1,6 +1,4 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
  */
 package com.github.omwah.SDFEconomy;
 
@@ -13,7 +11,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.ConfigurationSection;
 
 /**
- *
+ * Implements an Economy storage through a YAML file
  */
 public class EconomyYamlStorage implements EconomyStorage, Observer {
     private final String player_prefix = "player";
@@ -45,9 +43,10 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
         return account;
     }
     
-    public void createPlayerAccount(String playerName, String location, double begBalance) {
+    public PlayerAccount createPlayerAccount(String playerName, String location, double begBalance) {
         ConfigurationSection section = this.storage.createSection(this.player_prefix + "." + playerName + "." + location);
         section.set("balance", begBalance);
+        return getPlayerAccount(playerName, location);
     }
 
     private ConfigurationSection getBankSection(String accountName, String location) {
@@ -67,9 +66,10 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
         return account;
      }
     
-    public void createBankAccount(String accountName, String location, double begBalance) {
+    public BankAccount createBankAccount(String accountName, String location, double begBalance) {
         ConfigurationSection section = getBankSection(accountName, location);
         section.set("balance", begBalance);
+        return getBankAccount(accountName, location);
     }
     
     public void update(Observable o, Object arg) {

@@ -3,14 +3,14 @@ package com.github.omwah.SDFEconomy;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /*
- * This is the main class of the sample plug-in
+ * Bukkit Plugin class for SDFEconomy
  */
 public class SDFEconomy extends JavaPlugin {
     EconomyAPI api;
     EconomyStorage storage;
     
     /*
-     * This is called when your plug-in is enabled
+     * Called when the plugin is enabled
      */
     @Override
     public void onEnable() {
@@ -31,7 +31,7 @@ public class SDFEconomy extends JavaPlugin {
     }
     
     /*
-     * This is called when your plug-in shuts down
+     * Called when the plug-in shuts down
      */
     @Override
     public void onDisable() {
@@ -39,7 +39,7 @@ public class SDFEconomy extends JavaPlugin {
     }
 
     /*
-     * 
+     * Returns the Vault interface class for the Economy
      */
     EconomyAPI getAPI() {
         return this.api;

@@ -5,7 +5,7 @@ package com.github.omwah.SDFEconomy;
 import org.bukkit.entity.Player;
 
 /**
- *
+ * Returns the location of a player exactly.
  */
 public class DirectLocationTranslator implements LocationTranslator { 
     public DirectLocationTranslator() {

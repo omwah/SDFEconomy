@@ -1,5 +1,4 @@
 /*
- * 
  */
 package com.github.omwah.SDFEconomy;
 
@@ -10,9 +9,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.configuration.Configuration;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
+import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 
 /**
- *
+ * Provides the interface necessary to implement a Vault Economy.
  */
 public class EconomyAPI implements Economy {
     private final String name = "SDFEconomy";
@@ -29,13 +29,15 @@ public class EconomyAPI implements Economy {
         this.locTrans = locationTrans;
         
         this.config.addDefault("api.bank.enabled", true);
+        this.config.addDefault("api.bank.initial_balance", 0.00);
+        this.config.addDefault("api.player.initial_balance", 10.00);
         this.config.addDefault("api.currency.numerical_format", "#,##0.00");
         this.config.addDefault("api.currency.name.plural", "simoleons");
         this.config.addDefault("api.currency.name.singular", "simoleons");
     }
     
     /*
-     *
+     * Returns that the economy is enabled
      */
     @Override
     public boolean isEnabled() {
@@ -43,7 +45,7 @@ public class EconomyAPI implements Economy {
     }
 
     /*
-     * 
+     * The name of the Economy
      */
     @Override
     public String getName() {
@@ -51,7 +53,7 @@ public class EconomyAPI implements Economy {
     }
 
     /*
-     * 
+     * Whether bank support is enabled
      */
     @Override
     public boolean hasBankSupport() {
@@ -93,14 +95,14 @@ public class EconomyAPI implements Economy {
         return storage.hasPlayerAccount(playerObj.getName(), locTrans.getLocationName(playerObj));
     }
 
-
     @Override
     public double getBalance(String playerName) {
         return getBalance((Player) server.getOfflinePlayer(playerName));
     }
     
     public double getBalance(Player playerObj) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        PlayerAccount account = storage.getPlayerAccount(playerObj.getName(), locTrans.getLocationName(playerObj));
+        return account.getBalance();
     }
 
     @Override
@@ -110,17 +112,38 @@ public class EconomyAPI implements Economy {
 
     @Override
     public EconomyResponse withdrawPlayer(String playerName, double amount) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return withdrawPlayer((Player) server.getOfflinePlayer(playerName), amount);
+    }
+    
+    public EconomyResponse withdrawPlayer(Player playerObj, double amount) {
+        PlayerAccount account = storage.getPlayerAccount(playerObj.getName(), locTrans.getLocationName(playerObj));
+        account.setBalance(account.getBalance() - amount);
+        EconomyResponse response = new EconomyResponse(amount, account.getBalance(), ResponseType.SUCCESS, "");
+        return response;
     }
 
     @Override
     public EconomyResponse depositPlayer(String playerName, double amount) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return depositPlayer((Player) server.getOfflinePlayer(playerName), amount);
     }
-
+    
+    public EconomyResponse depositPlayer(Player playerObj, double amount) {
+        PlayerAccount account = storage.getPlayerAccount(playerObj.getName(), locTrans.getLocationName(playerObj));
+        account.setBalance(account.getBalance() + amount);
+        EconomyResponse response = new EconomyResponse(amount, account.getBalance(), ResponseType.SUCCESS, "");
+        return response;
+    }
+    
     @Override
-    public EconomyResponse createBank(String name, String player) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public EconomyResponse createBank(String name, String playerName) {
+        return createBank(name, (Player) server.getOfflinePlayer(playerName));
+    }
+    
+    public EconomyResponse createBank(String name, Player playerObj) {
+        double initialBalance = config.getDouble("api.bank.initial_balance");
+        BankAccount account = storage.createBankAccount(name, locTrans.getLocationName(playerObj), initialBalance);
+        EconomyResponse response = new EconomyResponse(initialBalance, account.getBalance(), ResponseType.SUCCESS, "");
+        return response;
     }
 
     @Override
