@@ -4,6 +4,8 @@ package com.github.omwah.SDFEconomy;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 import java.util.Observer;
 import java.util.Observable;
@@ -46,30 +48,46 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
     public PlayerAccount createPlayerAccount(String playerName, String location, double begBalance) {
         ConfigurationSection section = this.storage.createSection(this.player_prefix + "." + playerName + "." + location);
         section.set("balance", begBalance);
-        return getPlayerAccount(playerName, location);
+        PlayerAccount newPlayer = getPlayerAccount(playerName, location);
+        updateAccount(newPlayer);
+        return newPlayer;
     }
-
-    private ConfigurationSection getBankSection(String accountName, String location) {
-        return this.storage.getConfigurationSection(location + "." + this.bank_prefix + "." + accountName);
+    
+    public List<String> getBankNames() {
+        Set<String> namesSet = this.storage.getConfigurationSection(this.bank_prefix).getKeys(false);
+        List<String> nameList = new ArrayList<String>();
+        nameList.addAll(namesSet);
+        return nameList;
+    }
+    
+    private ConfigurationSection getBankSection(String accountName) {
+        return this.storage.getConfigurationSection(this.bank_prefix + "." + accountName);
     }
 
      public boolean hasBankAccount(String accountName, String location) {
-        return getBankSection(accountName, location) != null;
+        ConfigurationSection section = getBankSection(accountName);
+        return section != null && section.getString("location").compareTo(location) == 0;
     }
 
-    public BankAccount getBankAccount(String accountName, String location) {
-        ConfigurationSection section = getBankSection(accountName, location);
-        BankAccount account = new BankAccount(accountName, location);
+    public BankAccount getBankAccount(String accountName) {
+        ConfigurationSection section = getBankSection(accountName);
+        BankAccount account = new BankAccount(accountName, section.getString("owner"), section.getString("location"));
         account.setBalance(section.getDouble("balance"));
         account.setMembers(section.getStringList("members"));
         account.addObserver((Observer) this);
         return account;
      }
     
-    public BankAccount createBankAccount(String accountName, String location, double begBalance) {
-        ConfigurationSection section = getBankSection(accountName, location);
-        section.set("balance", begBalance);
-        return getBankAccount(accountName, location);
+    public BankAccount createBankAccount(String accountName, String owner, String location, double begBalance) {
+        BankAccount account = new BankAccount(accountName, owner, location);
+        account.setBalance(begBalance);
+        account.addObserver((Observer) this);
+        updateAccount(account);
+        return account;
+    }
+    
+    public void deleteBankAccount(String accountName) {
+        this.storage.set(this.bank_prefix + "." + accountName, null);
     }
     
     public void update(Observable o, Object arg) {
@@ -93,6 +111,8 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
         section.set("balance", account.getBalance());
         if (account instanceof BankAccount) {
             section.set("members", ((BankAccount) account).getMembers());
+            section.set("location", ((BankAccount) account).getLocation());
+            section.set("owner", ((BankAccount) account).getOwner());
         }
     }
     

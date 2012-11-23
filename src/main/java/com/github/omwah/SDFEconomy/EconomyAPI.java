@@ -141,54 +141,97 @@ public class EconomyAPI implements Economy {
     
     public EconomyResponse createBank(String name, Player playerObj) {
         double initialBalance = config.getDouble("api.bank.initial_balance");
-        BankAccount account = storage.createBankAccount(name, locTrans.getLocationName(playerObj), initialBalance);
+        BankAccount account = storage.createBankAccount(name, playerObj.getName(), locTrans.getLocationName(playerObj), initialBalance);
         EconomyResponse response = new EconomyResponse(initialBalance, account.getBalance(), ResponseType.SUCCESS, "");
         return response;
     }
 
     @Override
     public EconomyResponse deleteBank(String name) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        storage.deleteBankAccount(name);
+        EconomyResponse response = new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
+        return response;
     }
 
     @Override
     public EconomyResponse bankBalance(String name) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        BankAccount account = storage.getBankAccount(name);
+        EconomyResponse response = new EconomyResponse(0, account.getBalance(), ResponseType.SUCCESS, "");
+        return response;
     }
 
     @Override
     public EconomyResponse bankHas(String name, double amount) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        BankAccount account = storage.getBankAccount(name);
+        ResponseType result;
+        if(account.getBalance() > amount) {
+            result = ResponseType.SUCCESS;
+        } else {
+            result = ResponseType.FAILURE;
+        }
+        EconomyResponse response = new EconomyResponse(0, account.getBalance(), result, "");
+        return response;
     }
 
     @Override
     public EconomyResponse bankWithdraw(String name, double amount) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        BankAccount account = storage.getBankAccount(name);
+        account.setBalance(account.getBalance() - amount);
+        EconomyResponse response = new EconomyResponse(amount, account.getBalance(), ResponseType.SUCCESS, "");
+        return response;
     }
 
     @Override
     public EconomyResponse bankDeposit(String name, double amount) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        BankAccount account = storage.getBankAccount(name);
+        account.setBalance(account.getBalance() + amount);
+        EconomyResponse response = new EconomyResponse(amount, account.getBalance(), ResponseType.SUCCESS, "");
+        return response;
     }
 
     @Override
     public EconomyResponse isBankOwner(String name, String playerName) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        BankAccount account = storage.getBankAccount(name);
+        Player playerObj = (Player) server.getOfflinePlayer(playerName);
+        String location = locTrans.getLocationName(playerObj);
+        
+        ResponseType result;
+        if(account.getLocation().compareTo(location) == 0 && account.isOwner(playerName)) {
+            result = ResponseType.SUCCESS;
+        } else {
+            result = ResponseType.FAILURE;
+        }
+        EconomyResponse response = new EconomyResponse(0, account.getBalance(), result, "");
+        return response;    
     }
 
     @Override
     public EconomyResponse isBankMember(String name, String playerName) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        BankAccount account = storage.getBankAccount(name);
+        Player playerObj = (Player) server.getOfflinePlayer(playerName);
+        String location = locTrans.getLocationName(playerObj);
+        
+        ResponseType result;
+        if(account.getLocation().compareTo(location) == 0 && account.isMember(playerName)) {
+            result = ResponseType.SUCCESS;
+        } else {
+            result = ResponseType.FAILURE;
+        }
+        EconomyResponse response = new EconomyResponse(0, account.getBalance(), result, "");
+        return response;   
     }
 
     @Override
     public List<String> getBanks() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return storage.getBankNames();
     }
 
     @Override
     public boolean createPlayerAccount(String playerName) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        double initialBalance = config.getDouble("api.player.initial_balance");
+        Player playerObj = (Player) server.getOfflinePlayer(playerName);
+        PlayerAccount account = storage.createPlayerAccount(playerObj.getName(), locTrans.getLocationName(playerObj), initialBalance);
+        return true;
     }
     
 }

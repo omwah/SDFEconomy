@@ -2,6 +2,8 @@
  */
 package com.github.omwah.SDFEconomy;
 
+import java.util.List;
+
 /**
  * Interface for storage of Economy data
  */
@@ -19,17 +21,21 @@ public interface EconomyStorage {
      */
     PlayerAccount createPlayerAccount(String playerName, String location, double begBalance);
     /*
-     * Is there a Bank account in a given location
+     * Get a list of all bank names
      */
-    boolean hasBankAccount(String accountName, String location);
+    List<String> getBankNames();
     /*
-     * Get a Bank account for a given location
+     * Get a Bank account, account should be unique to a certain location
      */
-    BankAccount getBankAccount(String accountName, String location);
+    BankAccount getBankAccount(String accountName);
     /*
+     * Create a new Bank account, Bank is tied to location during creation
+     */
+    BankAccount createBankAccount(String accountName, String ownerName, String location, double begBalance);
+     /*
      * Create a new Bank account
      */
-    BankAccount createBankAccount(String accountName, String location, double begBalance);
+    void deleteBankAccount(String accountName);
     /*
      * Updates the storage values for an Account
      */

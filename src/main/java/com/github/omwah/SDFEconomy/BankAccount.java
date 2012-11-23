@@ -9,15 +9,25 @@ import java.util.ArrayList;
  * Specialization of Account for Bank Accounts.
  */
 public class BankAccount extends Account {
+    private String owner;
     private ArrayList<String> members;
     
     /*
      * Create a new BankAccount
      */
 
-    public BankAccount(String name, String location) {
+    public BankAccount(String name, String owner, String location) {
         this.name = name;
+        this.owner = owner;
         this.location = location;
+    }
+    
+    /*
+     * Get the owner of the Bank
+     */
+    
+    public String getOwner() {
+        return owner;
     }
     
     /*
@@ -33,7 +43,9 @@ public class BankAccount extends Account {
      */
 
     public void setMembers(List<String> memberList) {
-        members.addAll(memberList); 
+        members.addAll(memberList);
+        setChanged();
+        notifyObservers();
     }
     
     /*
@@ -42,6 +54,8 @@ public class BankAccount extends Account {
      
     public void addMember(String newMember) {
         members.add(newMember);
+        setChanged();
+        notifyObservers();
     }
     
     /*
@@ -50,7 +64,9 @@ public class BankAccount extends Account {
     
     public void removeMember(String oldMember) {
         // ArrayList will use the .equals of String to compare
-        members.remove(oldMember);    
+        members.remove(oldMember);
+        setChanged();
+        notifyObservers();
     }
     
     /*
@@ -60,5 +76,14 @@ public class BankAccount extends Account {
     public boolean isMember(String memberName) {
        return members.indexOf(memberName) >= 0;
     }
+    
+    /*
+     * Determine if someone the owner of the bank
+     */
+    
+    public boolean isOwner(String playerName) {
+       return this.owner == playerName;
+    }
+    
     
 }
