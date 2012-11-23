@@ -17,4 +17,4 @@ permissions:
     description: All SDFEconomy permissions
     default: op
     children:
-      econ.common.*: truez
+      econ.common.*: true
