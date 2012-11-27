@@ -13,6 +13,6 @@ public class DirectLocationTranslator implements LocationTranslator {
 
 
     public String getLocationName(Player player) {
-        return player.getLocation().toString();
+        return player.getLocation().getWorld().getName();
     }
 }

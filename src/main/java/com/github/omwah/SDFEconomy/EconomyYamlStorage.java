@@ -20,17 +20,23 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
     private final String bank_prefix = "bank";
     
     private final String filename;
+    private final boolean save_on_update;
     YamlConfiguration storage;
 
     private static final Logger log = Logger.getLogger("Minecraft");
 
-    public EconomyYamlStorage(String filename) {
+    public EconomyYamlStorage(String filename, boolean save_on_update) {
         this.filename = filename;
+        this.save_on_update = save_on_update;
         this.storage = new YamlConfiguration();
     }
     
     private ConfigurationSection getPlayerSection(String playerName, String location) {
-        return this.storage.getConfigurationSection(location + "." + this.player_prefix + "." + playerName);
+        ConfigurationSection section = this.storage.getConfigurationSection(location + "." + this.player_prefix + "." + playerName);
+        if (section == null) {
+            section = this.storage.createSection(location + "." + this.player_prefix + "." + playerName);
+        }
+        return section;
     }
 
     public boolean hasPlayerAccount(String playerName, String location) {
@@ -46,11 +52,11 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
     }
     
     public PlayerAccount createPlayerAccount(String playerName, String location, double begBalance) {
-        ConfigurationSection section = this.storage.createSection(this.player_prefix + "." + playerName + "." + location);
-        section.set("balance", begBalance);
-        PlayerAccount newPlayer = getPlayerAccount(playerName, location);
-        updateAccount(newPlayer);
-        return newPlayer;
+        PlayerAccount newAccount = new PlayerAccount(playerName, location);
+        newAccount.setBalance(begBalance);
+        updateAccount(newAccount);
+        newAccount.addObserver((Observer) this);
+        return newAccount;
     }
     
     public List<String> getBankNames() {
@@ -61,7 +67,11 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
     }
     
     private ConfigurationSection getBankSection(String accountName) {
-        return this.storage.getConfigurationSection(this.bank_prefix + "." + accountName);
+        ConfigurationSection section = this.storage.getConfigurationSection(this.bank_prefix + "." + accountName);
+        if (section == null) {
+            section = this.storage.createSection(this.bank_prefix + "." + accountName);
+        }
+        return section;
     }
 
      public boolean hasBankAccount(String accountName, String location) {
@@ -94,25 +104,26 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
         if (o instanceof Account) {
             updateAccount((Account) o);
         }
-        this.commit();
     }
             
     @Override
     public void updateAccount(Account account) {
-        String section_prefix;
+        ConfigurationSection section;
         if(account instanceof PlayerAccount) {
-            section_prefix = this.player_prefix;
+            section = getPlayerSection(account.getName(), account.getLocation());
         } else if (account instanceof BankAccount) {
-            section_prefix = this.bank_prefix;
+            section = getBankSection(account.getName());
         } else {
-            throw new IllegalArgumentException("Account passed not an instance of PlayerAccount or BankAccount");
+            throw new IllegalArgumentException("Account passed was not an instance of PlayerAccount or BankAccount");
         }
-        ConfigurationSection section = this.storage.createSection(this.player_prefix + "." + account.getName() + "." + account.getLocation());
         section.set("balance", account.getBalance());
+        section.set("location", account.getLocation());
         if (account instanceof BankAccount) {
             section.set("members", ((BankAccount) account).getMembers());
-            section.set("location", ((BankAccount) account).getLocation());
             section.set("owner", ((BankAccount) account).getOwner());
+        }
+        if (this.save_on_update) {
+            this.commit();
         }
     }
     

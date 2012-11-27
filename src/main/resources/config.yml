@@ -1,1 +1,17 @@
-seperate_worlds: True
+api:
+    bank:
+        enabled: true
+        initial_balance: 0.0
+api:
+    player:
+        initial_balance: 10.00
+api:
+    currency:
+        numerical_format: "#,##0.00"
+        name:
+            plural: "simoleons"
+            singular: "simoleons"
+storage:
+    yaml:
+        filename: "accounts.yaml"
+        save_on_update: true

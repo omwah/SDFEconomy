@@ -33,7 +33,7 @@ public class EconomyAPI implements Economy {
         this.config.addDefault("api.player.initial_balance", 10.00);
         this.config.addDefault("api.currency.numerical_format", "#,##0.00");
         this.config.addDefault("api.currency.name.plural", "simoleons");
-        this.config.addDefault("api.currency.name.singular", "simoleons");
+        this.config.addDefault("api.currency.name.singular", "simoleon");
     }
     
     /*
@@ -228,10 +228,14 @@ public class EconomyAPI implements Economy {
 
     @Override
     public boolean createPlayerAccount(String playerName) {
-        double initialBalance = config.getDouble("api.player.initial_balance");
         Player playerObj = (Player) server.getOfflinePlayer(playerName);
+        return createPlayerAccount(playerObj);
+    }
+
+    public boolean createPlayerAccount(Player playerObj) {
+        double initialBalance = config.getDouble("api.player.initial_balance");
         PlayerAccount account = storage.createPlayerAccount(playerObj.getName(), locTrans.getLocationName(playerObj), initialBalance);
         return true;
     }
-    
+     
 }

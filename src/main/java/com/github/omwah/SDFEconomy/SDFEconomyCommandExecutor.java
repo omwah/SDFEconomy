@@ -23,6 +23,7 @@ public class SDFEconomyCommandExecutor implements CommandExecutor {
      * On command set the sample message
      */
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        System.out.println("command = " + command + "args = " + args.toString());
         if (sender.hasPermission("sample.message") && args.length > 0) {
             this.plugin.getConfig().set("sample.message", Joiner.on(' ').join(args));
             return true;
