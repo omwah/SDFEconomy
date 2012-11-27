@@ -7,7 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  * Bukkit Plugin class for SDFEconomy
  */
 public class SDFEconomy extends JavaPlugin {
-    EconomyAPI api;
+    SDFEconomyAPI api;
     EconomyStorage storage;
     
     /*
@@ -22,7 +22,7 @@ public class SDFEconomy extends JavaPlugin {
                                               this.getConfig().getBoolean("storage.yaml.save_on_update"));
                                                  
         DirectLocationTranslator locationTrans = new DirectLocationTranslator();
-        this.api = new EconomyAPI(this.getServer(), this.getConfig(), this.storage, locationTrans);
+        this.api = new SDFEconomyAPI(this.getServer(), this.getConfig(), this.storage, locationTrans);
 
         // save the configuration file
         saveDefaultConfig();
@@ -45,7 +45,7 @@ public class SDFEconomy extends JavaPlugin {
     /*
      * Returns the Vault interface class for the Economy
      */
-    EconomyAPI getAPI() {
+    SDFEconomyAPI getAPI() {
         return this.api;
     }
 }

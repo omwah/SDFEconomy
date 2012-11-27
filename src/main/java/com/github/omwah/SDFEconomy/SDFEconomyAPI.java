@@ -14,7 +14,7 @@ import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 /**
  * Provides the interface necessary to implement a Vault Economy.
  */
-public class EconomyAPI implements Economy {
+public class SDFEconomyAPI implements Economy {
     private final String name = "SDFEconomy";
     
     private Server server;
@@ -22,7 +22,7 @@ public class EconomyAPI implements Economy {
     private Configuration config;
     private LocationTranslator locTrans;
     
-    public EconomyAPI(Server server, Configuration config, EconomyStorage storage, LocationTranslator locationTrans) {
+    public SDFEconomyAPI(Server server, Configuration config, EconomyStorage storage, LocationTranslator locationTrans) {
         this.server = server;
         this.config = config;
         this.storage = storage;
