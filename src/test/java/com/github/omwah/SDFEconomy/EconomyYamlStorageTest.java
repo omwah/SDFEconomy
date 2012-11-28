@@ -46,23 +46,27 @@ public class EconomyYamlStorageTest {
         // Test creation of new player account
         {
             EconomyYamlStorage stor_save = new EconomyYamlStorage(out_file, false);
-            PlayerAccount saved_account = stor_save.createPlayerAccount("player", "world", 10.0);
+            PlayerAccount saved_account = stor_save.createPlayerAccount("Player1", "world1", 10.0);
             stor_save.commit();
 
-            assertEquals("player", saved_account.getName());
-            assertEquals("world", saved_account.getLocation());
+            assertEquals("Player1", saved_account.getName());
+            assertEquals("world1", saved_account.getLocation());
             assertEquals(10.0, saved_account.getBalance(), 1e-6);
         }
 
         // Test can be read back in, turn save on update on to test
         {
             EconomyYamlStorage stor_read = new EconomyYamlStorage(out_file, true);
-            boolean has_account = stor_read.hasPlayerAccount("player", "world");
-            assertTrue("Player account was not created", has_account);
 
-            PlayerAccount read_account = stor_read.getPlayerAccount("player", "world");
-            assertEquals("player", read_account.getName());
-            assertEquals("world", read_account.getLocation());
+            boolean has_account = stor_read.hasPlayerAccount("Player1", "world1");
+            assertTrue("Player1 account was not created", has_account);
+
+            has_account = stor_read.hasPlayerAccount("Player2", "world2");
+            assertFalse("Player2 account should not exist", has_account);
+
+            PlayerAccount read_account = stor_read.getPlayerAccount("Player1", "world1");
+            assertEquals("Player1", read_account.getName());
+            assertEquals("world1", read_account.getLocation());
             assertEquals(10.0, read_account.getBalance(), 1e-6);
             
             // Update to check observer updates
@@ -71,10 +75,31 @@ public class EconomyYamlStorageTest {
 
         // Check that updated balance was written
         {
-            EconomyYamlStorage stor_update = new EconomyYamlStorage(out_file, false);
-            PlayerAccount updated_account = stor_update.getPlayerAccount("player", "world");
+            EconomyYamlStorage stor_update = new EconomyYamlStorage(out_file, true);
+            PlayerAccount updated_account = stor_update.getPlayerAccount("Player1", "world1");
 
             assertEquals(50.0, updated_account.getBalance(), 1e-6);
+
+            stor_update.createPlayerAccount("Player2", "world1", 10.0);
+            stor_update.createPlayerAccount("Player1", "world2", 10.0);
+        }
+        
+        // Check that Player2 now exists
+        {
+            EconomyYamlStorage stor_update = new EconomyYamlStorage(out_file, true);
+
+            boolean has_account = stor_update.hasPlayerAccount("Player2", "world1");
+            assertTrue("Player2 does not exist in world1", has_account);
+
+            has_account = stor_update.hasPlayerAccount("Player1", "world2");
+            assertTrue("Player1 does not exist in world2", has_account);
+        }
+    }
+
+    @Test
+    public void testBankAccount() {
+        // Test creation of new bank account
+        {
         }
      }
 }

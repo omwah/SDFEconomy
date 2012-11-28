@@ -32,12 +32,16 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
         this.storage = YamlConfiguration.loadConfiguration(accounts_file);
     }
     
-    private ConfigurationSection getPlayerSection(String playerName, String location) {
+    private ConfigurationSection getPlayerSection(String playerName, String location, boolean createIfMissing) {
         ConfigurationSection section = this.storage.getConfigurationSection(location + "." + this.player_prefix + "." + playerName);
-        if (section == null) {
+        if (section == null && createIfMissing) {
             section = this.storage.createSection(location + "." + this.player_prefix + "." + playerName);
         }
         return section;
+    }
+
+    private ConfigurationSection getPlayerSection(String playerName, String location) {
+        return getPlayerSection(playerName, location, false);
     }
 
     public boolean hasPlayerAccount(String playerName, String location) {
@@ -45,11 +49,16 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
     }
 
     public PlayerAccount getPlayerAccount(String playerName, String location) {
-        ConfigurationSection section = getPlayerSection(playerName, location);
-        PlayerAccount account = new PlayerAccount(playerName, location);
-        account.setBalance(section.getDouble("balance"));
-        account.addObserver((Observer) this);
-        return account;
+        if (!hasPlayerAccount(playerName, location)) {
+            this.log.severe("Player " + playerName + " @ " + location + " does not exist.");
+            return null; 
+        } else {
+            ConfigurationSection section = getPlayerSection(playerName, location);
+            PlayerAccount account = new PlayerAccount(playerName, location);
+            account.setBalance(section.getDouble("balance"));
+            account.addObserver((Observer) this);
+            return account;
+        }
     }
     
     public PlayerAccount createPlayerAccount(String playerName, String location, double begBalance) {
@@ -67,21 +76,29 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
         return nameList;
     }
     
-    private ConfigurationSection getBankSection(String accountName) {
+    private ConfigurationSection getBankSection(String accountName, boolean createIfMissing) {
         ConfigurationSection section = this.storage.getConfigurationSection(this.bank_prefix + "." + accountName);
-        if (section == null) {
+        if (section == null && createIfMissing) {
             section = this.storage.createSection(this.bank_prefix + "." + accountName);
         }
         return section;
     }
 
-     public boolean hasBankAccount(String accountName, String location) {
+    private ConfigurationSection getBankSection(String accountName) {
+        return getBankSection(accountName, false);
+    }
+
+    public boolean hasBankAccount(String accountName, String location) {
         ConfigurationSection section = getBankSection(accountName);
         return section != null && section.getString("location").compareTo(location) == 0;
     }
 
     public BankAccount getBankAccount(String accountName) {
         ConfigurationSection section = getBankSection(accountName);
+        if (section == null) {
+            this.log.severe("Bank account " + accountName + " does not exist");
+            return null;
+        }
         BankAccount account = new BankAccount(accountName, section.getString("owner"), section.getString("location"));
         account.setBalance(section.getDouble("balance"));
         account.setMembers(section.getStringList("members"));
@@ -111,9 +128,9 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
     public void updateAccount(Account account) {
         ConfigurationSection section;
         if(account instanceof PlayerAccount) {
-            section = getPlayerSection(account.getName(), account.getLocation());
+            section = getPlayerSection(account.getName(), account.getLocation(), true);
         } else if (account instanceof BankAccount) {
-            section = getBankSection(account.getName());
+            section = getBankSection(account.getName(), true);
         } else {
             throw new IllegalArgumentException("Account passed was not an instance of PlayerAccount or BankAccount");
         }
