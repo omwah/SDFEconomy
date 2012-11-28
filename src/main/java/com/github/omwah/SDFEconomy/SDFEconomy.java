@@ -1,5 +1,7 @@
 package com.github.omwah.SDFEconomy;
 
+import java.io.File;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 
@@ -17,16 +19,19 @@ public class SDFEconomy extends JavaPlugin {
     public void onEnable() {
         this.getConfig().addDefault("storage.yaml.filename", "accounts.yaml");
         this.getConfig().addDefault("storage.yaml.save_on_update", true);
-        
-        this.storage = new EconomyYamlStorage(this.getDataFolder() + "/" + this.getConfig().getString("storage.yaml.filename"), 
-                                              this.getConfig().getBoolean("storage.yaml.save_on_update"));
+
+        File storageFile = new File(this.getDataFolder(), this.getConfig().getString("storage.yaml.filename"));
+        boolean save_on_update = this.getConfig().getBoolean("storage.yaml.save_on_update");
+
+        this.storage = new EconomyYamlStorage(storageFile, save_on_update);
+                                              
                                                  
         DirectLocationTranslator locationTrans = new DirectLocationTranslator();
         this.api = new SDFEconomyAPI(this.getServer(), this.getConfig(), this.storage, locationTrans);
 
         // save the configuration file
         saveDefaultConfig();
-        this.storage.commit();
+        
         // Create the Listener to register players into economy on joining
         new SDFEconomyListener(this);
         

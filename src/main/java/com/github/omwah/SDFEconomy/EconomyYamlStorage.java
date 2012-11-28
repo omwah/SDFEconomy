@@ -2,6 +2,7 @@
  */
 package com.github.omwah.SDFEconomy;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
@@ -19,16 +20,16 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
     private final String player_prefix = "player";
     private final String bank_prefix = "bank";
     
-    private final String filename;
+    private final File accounts_file;
     private final boolean save_on_update;
     YamlConfiguration storage;
 
-    private static final Logger log = Logger.getLogger("Minecraft");
+    private static final Logger log = Logger.getLogger(EconomyYamlStorage.class.getName());
 
-    public EconomyYamlStorage(String filename, boolean save_on_update) {
-        this.filename = filename;
+    public EconomyYamlStorage(File accounts_file, boolean save_on_update) {
+        this.accounts_file = accounts_file;
         this.save_on_update = save_on_update;
-        this.storage = new YamlConfiguration();
+        this.storage = YamlConfiguration.loadConfiguration(accounts_file);
     }
     
     private ConfigurationSection getPlayerSection(String playerName, String location) {
@@ -130,10 +131,18 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
     @Override
     public void commit() {
         try {
-            this.storage.save(this.filename);
+            this.storage.save(this.accounts_file);
         } catch(IOException e) {
-            this.log.severe("Error saving YamlStorage to: " + this.filename + "\n" + e);
+            this.log.severe("Error saving YamlStorage to: " + this.accounts_file.getPath() + "\n" + e);
         }
+    }
+
+    /*
+     * Intended to be used for debug purposes only
+     */
+    @Override
+    public String toString() {
+        return this.storage.saveToString();
     }
 
 }
