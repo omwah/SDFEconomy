@@ -20,6 +20,7 @@ public class BankAccount extends Account {
         this.name = name;
         this.owner = owner;
         this.location = location;
+        this.members = new ArrayList<String>();
     }
     
     /*
@@ -82,7 +83,7 @@ public class BankAccount extends Account {
      */
     
     public boolean isOwner(String playerName) {
-       return this.owner == playerName;
+       return this.owner.equals(playerName);
     }
     
     

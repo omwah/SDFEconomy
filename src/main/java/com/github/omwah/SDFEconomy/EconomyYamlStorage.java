@@ -17,8 +17,8 @@ import org.bukkit.configuration.ConfigurationSection;
  * Implements an Economy storage through a YAML file
  */
 public class EconomyYamlStorage implements EconomyStorage, Observer {
-    private final String player_prefix = "player";
-    private final String bank_prefix = "bank";
+    private final String player_prefix = "player_account";
+    private final String bank_prefix = "bank_account";
     
     private final File accounts_file;
     private final boolean save_on_update;
@@ -107,6 +107,10 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
      }
     
     public BankAccount createBankAccount(String accountName, String owner, String location, double begBalance) {
+        if (this.hasBankAccount(accountName, location)) {
+            this.log.severe("Bank account " + accountName + " @ " + location + " already exists");
+            return null;
+        }
         BankAccount account = new BankAccount(accountName, owner, location);
         account.setBalance(begBalance);
         account.addObserver((Observer) this);
@@ -116,6 +120,9 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
     
     public void deleteBankAccount(String accountName) {
         this.storage.set(this.bank_prefix + "." + accountName, null);
+        if (this.save_on_update) {
+            this.commit();
+        }
     }
     
     public void update(Observable o, Object arg) {
