@@ -50,7 +50,7 @@ public class SDFEconomy extends JavaPlugin {
     /*
      * Returns the Vault interface class for the Economy
      */
-    SDFEconomyAPI getAPI() {
+    public SDFEconomyAPI getAPI() {
         return this.api;
     }
 }

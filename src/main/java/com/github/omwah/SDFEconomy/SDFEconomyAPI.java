@@ -7,16 +7,16 @@ import java.text.DecimalFormat;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.configuration.Configuration;
-import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 
 /**
  * Provides the interface necessary to implement a Vault Economy.
+ * Implements most of Vault.Economy interface but does not declare
+ * itself as implementing this interface because there is no easy
+ * way in Vault to use this class directly without a proxy class.
  */
-public class SDFEconomyAPI implements Economy {
-    private final String name = "SDFEconomy";
-    
+public class SDFEconomyAPI {
     private Server server;
     private EconomyStorage storage;
     private Configuration config;
@@ -37,25 +37,9 @@ public class SDFEconomyAPI implements Economy {
     }
     
     /*
-     * Returns that the economy is enabled
-     */
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
-    /*
-     * The name of the Economy
-     */
-    @Override
-    public String getName() {
-        return this.name;
-    }
-
-    /*
      * Whether bank support is enabled
      */
-    @Override
+
     public boolean hasBankSupport() {
         return this.config.getBoolean("api.bank.enabled");
     }
@@ -63,12 +47,11 @@ public class SDFEconomyAPI implements Economy {
     /*
      * Returns -1 since no rounding occurs.
      */
-    @Override
+
     public int fractionalDigits() {
         return -1;
     }
 
-    @Override
     public String format(double amount) {
         String pattern = this.config.getString("api.currency.numerical_format");
         DecimalFormat formatter = new DecimalFormat(pattern);
@@ -76,17 +59,14 @@ public class SDFEconomyAPI implements Economy {
         return formatted;
     }
 
-    @Override
     public String currencyNamePlural() {
         return this.config.getString("api.currency.name.plural");
     }
 
-    @Override
     public String currencyNameSingular() {
          return this.config.getString("currency.name.singular");
     }
 
-    @Override
     public boolean hasAccount(String playerName) {
         return hasAccount(server.getPlayer(playerName));
     }
@@ -95,7 +75,6 @@ public class SDFEconomyAPI implements Economy {
         return storage.hasPlayerAccount(playerObj.getName(), locTrans.getLocationName(playerObj));
     }
 
-    @Override
     public double getBalance(String playerName) {
         return getBalance((Player) server.getOfflinePlayer(playerName));
     }
@@ -105,12 +84,11 @@ public class SDFEconomyAPI implements Economy {
         return account.getBalance();
     }
 
-    @Override
     public boolean has(String playerName, double amount) {
         return getBalance(playerName) >= amount;
     }
 
-    @Override
+
     public EconomyResponse withdrawPlayer(String playerName, double amount) {
         return withdrawPlayer((Player) server.getOfflinePlayer(playerName), amount);
     }
@@ -122,7 +100,6 @@ public class SDFEconomyAPI implements Economy {
         return response;
     }
 
-    @Override
     public EconomyResponse depositPlayer(String playerName, double amount) {
         return depositPlayer((Player) server.getOfflinePlayer(playerName), amount);
     }
@@ -134,7 +111,6 @@ public class SDFEconomyAPI implements Economy {
         return response;
     }
     
-    @Override
     public EconomyResponse createBank(String name, String playerName) {
         return createBank(name, (Player) server.getOfflinePlayer(playerName));
     }
@@ -146,21 +122,18 @@ public class SDFEconomyAPI implements Economy {
         return response;
     }
 
-    @Override
     public EconomyResponse deleteBank(String name) {
         storage.deleteBankAccount(name);
         EconomyResponse response = new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
         return response;
     }
 
-    @Override
     public EconomyResponse bankBalance(String name) {
         BankAccount account = storage.getBankAccount(name);
         EconomyResponse response = new EconomyResponse(0, account.getBalance(), ResponseType.SUCCESS, "");
         return response;
     }
 
-    @Override
     public EconomyResponse bankHas(String name, double amount) {
         BankAccount account = storage.getBankAccount(name);
         ResponseType result;
@@ -173,7 +146,6 @@ public class SDFEconomyAPI implements Economy {
         return response;
     }
 
-    @Override
     public EconomyResponse bankWithdraw(String name, double amount) {
         BankAccount account = storage.getBankAccount(name);
         account.setBalance(account.getBalance() - amount);
@@ -181,7 +153,6 @@ public class SDFEconomyAPI implements Economy {
         return response;
     }
 
-    @Override
     public EconomyResponse bankDeposit(String name, double amount) {
         BankAccount account = storage.getBankAccount(name);
         account.setBalance(account.getBalance() + amount);
@@ -189,7 +160,6 @@ public class SDFEconomyAPI implements Economy {
         return response;
     }
 
-    @Override
     public EconomyResponse isBankOwner(String name, String playerName) {
         BankAccount account = storage.getBankAccount(name);
         Player playerObj = (Player) server.getOfflinePlayer(playerName);
@@ -205,7 +175,6 @@ public class SDFEconomyAPI implements Economy {
         return response;    
     }
 
-    @Override
     public EconomyResponse isBankMember(String name, String playerName) {
         BankAccount account = storage.getBankAccount(name);
         Player playerObj = (Player) server.getOfflinePlayer(playerName);
@@ -221,12 +190,10 @@ public class SDFEconomyAPI implements Economy {
         return response;   
     }
 
-    @Override
     public List<String> getBanks() {
         return storage.getBankNames();
     }
 
-    @Override
     public boolean createPlayerAccount(String playerName) {
         Player playerObj = (Player) server.getOfflinePlayer(playerName);
         return createPlayerAccount(playerObj);
