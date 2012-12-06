@@ -7,14 +7,28 @@ author: Omwah
 description: ${project.description}
 
 commands:
-  economy:
-    description: Manipulate and query player balances and banks
-    aliases: [econ]
-    usage: |
+    sdfeconomy:
+        description: Manipulate and query player balances and banks
+        aliases: [economy, econ]
+        usage: |
 
 permissions:
-  econ.*:
-    description: All SDFEconomy permissions
-    default: op
-    children:
-      econ.common.*: true
+    sdfeconomy.*:
+        description: Give access to all SDFEconomy commands
+        children:
+          sdfeconomy.use_account: true
+          sdfeconomy.use_bank: true
+          sdfeconomy.pay_players: true
+          sdfeconomy.admin: true 
+    sdfeconomy.use_account:
+        description: Allow usage of a player account
+        default: true
+    sdfeconomy.use_bank:
+        description: Allow usage of bank accounts
+        default: true
+    sdfeconomy.pay_players:
+        description: Allow paying other players
+        default: true
+    sdfeconomy.admin:
+        description: Allow access to administration commands
+        default: op

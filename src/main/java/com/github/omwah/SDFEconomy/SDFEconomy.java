@@ -3,15 +3,21 @@ package com.github.omwah.SDFEconomy;
 import java.io.File;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.RegisteredServiceProvider;
 
+import net.milkbowl.vault.permission.Permission;
+
+import com.github.omwah.SDFEconomy.commands.CommandHandler;
 
 /*
  * Bukkit Plugin class for SDFEconomy
  */
 public class SDFEconomy extends JavaPlugin {
-    SDFEconomyAPI api;
-    EconomyStorage storage;
-    
+    private SDFEconomyAPI api;
+    private EconomyStorage storage;
+    private CommandHandler commandHandler;
+    private Permission permission;
+
     /*
      * Called when the plugin is enabled
      */
@@ -32,11 +38,15 @@ public class SDFEconomy extends JavaPlugin {
         // save the configuration file
         saveDefaultConfig();
         
+        // Set up permissions from Vault
+        setupPermissions();
+        
         // Create the Listener to register players into economy on joining
         new SDFEconomyListener(this);
         
         // set the command executor for economy
-        this.getCommand("economy").setExecutor(new SDFEconomyCommandExecutor(this));
+        this.commandHandler = new CommandHandler(this);
+        this.getCommand("sdfeconomy").setExecutor(new SDFEconomyCommandExecutor(this, this.commandHandler));
     }
     
     /*
@@ -52,5 +62,27 @@ public class SDFEconomy extends JavaPlugin {
      */
     public SDFEconomyAPI getAPI() {
         return this.api;
+    }
+    
+    /*
+     * Return the command handler used for, well handling commands
+     */
+    public CommandHandler getCommandHandler() {
+        return this.commandHandler;
+    }
+
+    /*
+     * Get permissions provider
+     */
+    public Permission getPermission() {
+        return this.permission;
+    }
+
+    private boolean setupPermissions() {
+        RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
+        if (permissionProvider != null) {
+            permission = permissionProvider.getProvider();
+        }
+        return (permission != null);
     }
 }

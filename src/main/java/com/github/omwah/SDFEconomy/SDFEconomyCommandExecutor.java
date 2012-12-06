@@ -4,32 +4,39 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import com.google.common.base.Joiner;
+import com.github.omwah.SDFEconomy.commands.CommandHandler;
+import com.github.omwah.SDFEconomy.commands.HelpCommand;
+import com.github.omwah.SDFEconomy.commands.BalanceCommand;
+
 
 /*
- * This is a sample CommandExectuor
+ * CommandExectuor that dispatches commands to CommandHandler classes
  */
 public class SDFEconomyCommandExecutor implements CommandExecutor {
-    private final SDFEconomy plugin;
+    private CommandHandler commandHandler;
 
     /*
      * This command executor needs to know about its plugin from which it came from
      */
-    public SDFEconomyCommandExecutor(SDFEconomy plugin) {
-        this.plugin = plugin;
+    public SDFEconomyCommandExecutor(SDFEconomy plugin, CommandHandler handler) {
+        this.commandHandler = handler;
+        this.commandHandler.addCommand(new HelpCommand(plugin));
+        this.commandHandler.addCommand(new BalanceCommand(plugin));
     }
 
     /*
-     * On command set the sample message
+     * Dispatch commands through CommandHandler 
      */
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        System.out.println("command = " + command + "args = " + args.toString());
-        if (sender.hasPermission("sample.message") && args.length > 0) {
-            this.plugin.getConfig().set("sample.message", Joiner.on(' ').join(args));
-            return true;
-        } else {
-            return false;
-        }
+        return commandHandler.dispatch(sender, command, label, args);
+    }
+
+    /*
+     * Returns the command handler
+     */
+
+    public CommandHandler getCommandHandler() {
+        return commandHandler;
     }
 
 }
