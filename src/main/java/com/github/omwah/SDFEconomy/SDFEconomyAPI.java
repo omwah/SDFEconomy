@@ -2,13 +2,11 @@
  */
 package com.github.omwah.SDFEconomy;
 
-import java.util.List;
 import java.text.DecimalFormat;
-import org.bukkit.Server;
-import org.bukkit.entity.Player;
-import org.bukkit.configuration.Configuration;
+import java.util.List;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
+import org.bukkit.configuration.Configuration;
 
 /**
  * Provides the interface necessary to implement a Vault Economy.
@@ -17,13 +15,11 @@ import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
  * way in Vault to use this class directly without a proxy class.
  */
 public class SDFEconomyAPI {
-    private Server server;
     private EconomyStorage storage;
     private Configuration config;
     private LocationTranslator locTrans;
     
-    public SDFEconomyAPI(Server server, Configuration config, EconomyStorage storage, LocationTranslator locationTrans) {
-        this.server = server;
+    public SDFEconomyAPI(Configuration config, EconomyStorage storage, LocationTranslator locationTrans) {
         this.config = config;
         this.storage = storage;
         this.locTrans = locationTrans;
@@ -66,21 +62,25 @@ public class SDFEconomyAPI {
     public String currencyNameSingular() {
          return this.config.getString("currency.name.singular");
     }
+    
+    public String getPlayerLocationName(String playerName) {
+        return locTrans.getLocationName(playerName);
+    }
 
     public boolean hasAccount(String playerName) {
-        return hasAccount(server.getPlayer(playerName));
+        return hasAccount(playerName, getPlayerLocationName(playerName));
     }
     
-    public boolean hasAccount(Player playerObj) {
-        return storage.hasPlayerAccount(playerObj.getName(), locTrans.getLocationName(playerObj));
+    public boolean hasAccount(String playerName, String locationName) {
+        return storage.hasPlayerAccount(playerName, locationName);
     }
 
     public double getBalance(String playerName) {
-        return getBalance((Player) server.getOfflinePlayer(playerName));
+        return getBalance(playerName, getPlayerLocationName(playerName));
     }
     
-    public double getBalance(Player playerObj) {
-        PlayerAccount account = storage.getPlayerAccount(playerObj.getName(), locTrans.getLocationName(playerObj));
+    public double getBalance(String playerName, String locationName) {
+        PlayerAccount account = storage.getPlayerAccount(playerName, locationName);
         return account.getBalance();
     }
 
@@ -90,35 +90,31 @@ public class SDFEconomyAPI {
 
 
     public EconomyResponse withdrawPlayer(String playerName, double amount) {
-        return withdrawPlayer((Player) server.getOfflinePlayer(playerName), amount);
-    }
-    
-    public EconomyResponse withdrawPlayer(Player playerObj, double amount) {
-        PlayerAccount account = storage.getPlayerAccount(playerObj.getName(), locTrans.getLocationName(playerObj));
+        PlayerAccount account = storage.getPlayerAccount(playerName, getPlayerLocationName(playerName));
         account.setBalance(account.getBalance() - amount);
         EconomyResponse response = new EconomyResponse(amount, account.getBalance(), ResponseType.SUCCESS, "");
         return response;
     }
 
     public EconomyResponse depositPlayer(String playerName, double amount) {
-        return depositPlayer((Player) server.getOfflinePlayer(playerName), amount);
-    }
-    
-    public EconomyResponse depositPlayer(Player playerObj, double amount) {
-        PlayerAccount account = storage.getPlayerAccount(playerObj.getName(), locTrans.getLocationName(playerObj));
+        PlayerAccount account = storage.getPlayerAccount(playerName, getPlayerLocationName(playerName));
         account.setBalance(account.getBalance() + amount);
         EconomyResponse response = new EconomyResponse(amount, account.getBalance(), ResponseType.SUCCESS, "");
         return response;
     }
     
     public EconomyResponse createBank(String name, String playerName) {
-        return createBank(name, (Player) server.getOfflinePlayer(playerName));
-    }
-    
-    public EconomyResponse createBank(String name, Player playerObj) {
-        double initialBalance = config.getDouble("api.bank.initial_balance");
-        BankAccount account = storage.createBankAccount(name, playerObj.getName(), locTrans.getLocationName(playerObj), initialBalance);
-        EconomyResponse response = new EconomyResponse(initialBalance, account.getBalance(), ResponseType.SUCCESS, "");
+        String locationName = getPlayerLocationName(playerName);
+        
+        // Make sure a bank can not be created without a location
+        EconomyResponse response;
+        if(locationName != null) {
+            double initialBalance = config.getDouble("api.bank.initial_balance");
+            BankAccount account = storage.createBankAccount(name, playerName, locationName, initialBalance);
+            response = new EconomyResponse(initialBalance, account.getBalance(), ResponseType.SUCCESS, "");
+        } else {
+            response = new EconomyResponse(0.0, 0.0, ResponseType.FAILURE, "Can not create a bank with an unknown location");
+        }
         return response;
     }
 
@@ -162,8 +158,7 @@ public class SDFEconomyAPI {
 
     public EconomyResponse isBankOwner(String name, String playerName) {
         BankAccount account = storage.getBankAccount(name);
-        Player playerObj = (Player) server.getOfflinePlayer(playerName);
-        String location = locTrans.getLocationName(playerObj);
+        String location = getPlayerLocationName(playerName);
         
         ResponseType result;
         if(account.getLocation().compareTo(location) == 0 && account.isOwner(playerName)) {
@@ -177,8 +172,7 @@ public class SDFEconomyAPI {
 
     public EconomyResponse isBankMember(String name, String playerName) {
         BankAccount account = storage.getBankAccount(name);
-        Player playerObj = (Player) server.getOfflinePlayer(playerName);
-        String location = locTrans.getLocationName(playerObj);
+        String location = getPlayerLocationName(playerName);
         
         ResponseType result;
         if(account.getLocation().compareTo(location) == 0 && account.isMember(playerName)) {
@@ -195,14 +189,16 @@ public class SDFEconomyAPI {
     }
 
     public boolean createPlayerAccount(String playerName) {
-        Player playerObj = (Player) server.getOfflinePlayer(playerName);
-        return createPlayerAccount(playerObj);
-    }
-
-    public boolean createPlayerAccount(Player playerObj) {
-        double initialBalance = config.getDouble("api.player.initial_balance");
-        PlayerAccount account = storage.createPlayerAccount(playerObj.getName(), locTrans.getLocationName(playerObj), initialBalance);
-        return true;
+        String locationName = getPlayerLocationName(playerName);
+        
+        // Make sure an account can not be created without a location
+        if(locationName != null) {
+            double initialBalance = config.getDouble("api.player.initial_balance");
+            PlayerAccount account = storage.createPlayerAccount(playerName, locationName, initialBalance);
+            return true;
+        } else {
+            return false;
+        }
     }
      
 }

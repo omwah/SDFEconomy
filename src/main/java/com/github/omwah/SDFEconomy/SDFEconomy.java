@@ -31,8 +31,8 @@ public class SDFEconomy extends JavaPlugin {
         this.storage = new EconomyYamlStorage(storageFile, save_on_update);
                                               
                                                  
-        DirectLocationTranslator locationTrans = new DirectLocationTranslator();
-        this.api = new SDFEconomyAPI(this.getServer(), this.getConfig(), this.storage, locationTrans);
+        DirectLocationTranslator locationTrans = new DirectLocationTranslator(this.getServer());
+        this.api = new SDFEconomyAPI(this.getConfig(), this.storage, locationTrans);
 
         // save the configuration file
         saveDefaultConfig();

@@ -11,5 +11,5 @@ import org.bukkit.entity.Player;
  * or some other symbolic representation of where they are located.
  */
 public interface LocationTranslator {
-    public String getLocationName(Player player);
+    public String getLocationName(String playerName);
 }

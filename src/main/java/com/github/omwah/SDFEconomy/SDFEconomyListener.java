@@ -27,8 +27,8 @@ public class SDFEconomyListener implements Listener {
      */
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if(!this.plugin.getAPI().hasAccount(event.getPlayer())) {
-            this.plugin.getAPI().createPlayerAccount(event.getPlayer());
+        if(!this.plugin.getAPI().hasAccount(event.getPlayer().getName())) {
+            this.plugin.getAPI().createPlayerAccount(event.getPlayer().getName());
         }
     }
 }

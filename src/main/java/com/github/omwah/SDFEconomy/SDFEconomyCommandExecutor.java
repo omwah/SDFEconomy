@@ -34,7 +34,7 @@ public class SDFEconomyCommandExecutor implements CommandExecutor {
         }             
         
         this.commandHandler.addCommand(help_cmd);
-        this.commandHandler.addCommand(new BalanceCommand(api));
+        this.commandHandler.addCommand(new BalanceCommand(api, this.commandHandler));
     }
 
     /*
