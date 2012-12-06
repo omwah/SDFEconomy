@@ -12,18 +12,21 @@ public class HelpCommand extends BasicCommand
     private static final int CMDS_PER_PAGE = 8;
     private CommandHandler commandHandler;
 
-    public HelpCommand(SDFEconomy plugin)
+    public HelpCommand(CommandHandler commandHandler)
     {
         super("Help");
-        this.commandHandler = plugin.getCommandHandler();
+        this.commandHandler = commandHandler;
         setDescription("Displays the help menu");
-        setUsage("/sdfeconomy help §8[page#]");
+        setUsage("help §8[page#]");
         setArgumentRange(0, 1);
-        setIdentifiers("sdfeconomy", "help");
+        
+        // Respond to /<label> help
+        // as well as any of the aliases for the plugin commands
+        setIdentifiers("econ", "sdfeconomy", "economy", "help");
     }
 
     @Override
-    public boolean execute(CommandSender sender, String identifier, String[] args)
+    public boolean execute(CommandSender sender, String label, String identifier, String[] args)
     {
         int page = 0;
         if (args.length != 0) {
@@ -34,11 +37,11 @@ public class HelpCommand extends BasicCommand
             }
         }
 
-        List<Command> sortCommands = commandHandler.getCommands();
-        List<Command> commands = new ArrayList<Command>();
+        List<PluginCommand> sortCommands = commandHandler.getCommands();
+        List<PluginCommand> commands = new ArrayList<PluginCommand>();
 
         // Build list of permitted commands
-        for (Command command : sortCommands) {
+        for (PluginCommand command : sortCommands) {
             if (command.isShownOnHelpMenu()) {
                 if (commandHandler.hasPermission(sender, command.getPermission())) {
                     commands.add(command);
@@ -61,8 +64,8 @@ public class HelpCommand extends BasicCommand
             end = commands.size();
         }
         for (int c = start; c < end; c++) {
-            Command cmd = commands.get(c);
-            sender.sendMessage("  §a" + cmd.getUsage());
+            PluginCommand cmd = commands.get(c);
+            sender.sendMessage("  §a" + cmd.getUsage(label));
         }
 
         sender.sendMessage("§cFor more info on a particular command, type §f/<command> ?");

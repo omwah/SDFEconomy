@@ -16,44 +16,43 @@ import java.util.Map;
 
 import net.milkbowl.vault.permission.Permission;
 
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import com.github.omwah.SDFEconomy.SDFEconomy; 
 
 public class CommandHandler
 {
 
     private final Permission permission;
-    protected Map<String, Command> commands;
+    protected Map<String, PluginCommand> commands;
 
-    public CommandHandler(SDFEconomy plugin)
+    public CommandHandler(Permission permission)
     {
-        this.permission = plugin.getPermission();
-        this.commands = new LinkedHashMap<String, Command>();
+        this.permission = permission;
+        this.commands = new LinkedHashMap<String, PluginCommand>();
     }
 
-    public void addCommand(Command command)
+    public void addCommand(PluginCommand command)
     {
         commands.put(command.getName().toLowerCase(), command);
     }
 
-    public void removeCommand(Command command)
+    public void removeCommand(PluginCommand command)
     {
         commands.remove(command.getName().toLowerCase());
     }
 
-    public Command getCommand(String name)
+    public PluginCommand getCommand(String name)
     {
         return commands.get(name.toLowerCase());
     }
 
-    public List<Command> getCommands()
+    public List<PluginCommand> getCommands()
     {
-        return new ArrayList<Command>(commands.values());
+        return new ArrayList<PluginCommand>(commands.values());
     }
 
-    public boolean dispatch(CommandSender sender, org.bukkit.command.Command command, String label, String[] args)
+    public boolean dispatch(CommandSender sender, Command command, String label, String[] args)
     {
 
         String[] arguments;
@@ -71,17 +70,17 @@ public class CommandHandler
             }
 
             String identifier = identifierBuilder.toString().trim();
-            for (Command cmd : commands.values()) {
+            for (PluginCommand cmd : commands.values()) {
                 if (cmd.isIdentifier(sender, identifier)) {
                     String[] realArgs = Arrays.copyOfRange(arguments, argsIncluded, arguments.length);
 
                     if (!cmd.isInProgress(sender)) {
                         if (realArgs.length < cmd.getMinArguments() || realArgs.length > cmd.getMaxArguments()) {
-                            displayCommandHelp(cmd, sender);
+                            displayCommandHelp(label, cmd, sender);
                             return true;
                         }
                         else if (realArgs.length > 0 && "?".equals(realArgs[0])) {
-                            displayCommandHelp(cmd, sender);
+                            displayCommandHelp(label, cmd, sender);
                             return true;
                         }
                     }
@@ -91,7 +90,7 @@ public class CommandHandler
                         return true;
                     }
 
-                    cmd.execute(sender, identifier, realArgs);
+                    cmd.execute(sender, label, identifier, realArgs);
                     return true;
                 }
             }
@@ -100,11 +99,11 @@ public class CommandHandler
         return true;
     }
 
-    private void displayCommandHelp(Command cmd, CommandSender sender)
+    private void displayCommandHelp(String label, PluginCommand cmd, CommandSender sender)
     {
         sender.sendMessage("§cCommand:§e " + cmd.getName());
         sender.sendMessage("§cDescription:§e " + cmd.getDescription());
-        sender.sendMessage("§cUsage:§e " + cmd.getUsage());
+        sender.sendMessage("§cUsage:§e " + cmd.getUsage(label));
         if (cmd.getNotes() != null) {
             for (String note : cmd.getNotes()) {
                 sender.sendMessage("§e" + note);

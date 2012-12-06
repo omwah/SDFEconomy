@@ -10,7 +10,7 @@ commands:
     sdfeconomy:
         description: Manipulate and query player balances and banks
         aliases: [economy, econ]
-        usage: |
+        usage: /sdfeconomy help - For more information
 
 permissions:
     sdfeconomy.*:

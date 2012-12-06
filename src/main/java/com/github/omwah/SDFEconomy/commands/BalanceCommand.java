@@ -3,31 +3,29 @@ package com.github.omwah.SDFEconomy.commands;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.github.omwah.SDFEconomy.SDFEconomy;
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
 
 public class BalanceCommand extends BasicCommand
 {
-    private final SDFEconomy plugin;
+    private final SDFEconomyAPI api;
 
-    public BalanceCommand(SDFEconomy plugin)
+    public BalanceCommand(SDFEconomyAPI api)
     {
         super("Balance");
-        this.plugin = plugin;
+        this.api = api;
         setDescription("Check your player economy account balance");
-        setUsage("/sdfeconomy balance");
+        setUsage("balance");
         setArgumentRange(0, 0);
         setIdentifiers("balance");
         setPermission("sdfeconomy.use_account");
     }
 
     @Override
-    public boolean execute(CommandSender sender, String identifier, String[] args)
+    public boolean execute(CommandSender sender, String label, String identifier, String[] args)
     {
-        SDFEconomyAPI api = plugin.getAPI();
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            double balance = api.getBalance(player);
+            double balance = this.api.getBalance(player);
             sender.sendMessage("Your balance is: " + balance);
         } else {
             sender.sendMessage("Not a player");

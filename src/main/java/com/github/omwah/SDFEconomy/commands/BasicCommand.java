@@ -2,7 +2,7 @@ package com.github.omwah.SDFEconomy.commands;
 
 import org.bukkit.command.CommandSender;
 
-public abstract class BasicCommand implements Command {
+public abstract class BasicCommand implements PluginCommand {
 
     private String name;
     private String description = "";
@@ -56,8 +56,8 @@ public abstract class BasicCommand implements Command {
     }
 
     @Override
-    public String getUsage() {
-        return usage;
+    public String getUsage(String label) {
+        return "/" + label + " " + usage;
     }
 
     @Override

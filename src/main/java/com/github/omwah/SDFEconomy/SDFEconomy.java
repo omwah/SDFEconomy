@@ -7,15 +7,12 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 
 import net.milkbowl.vault.permission.Permission;
 
-import com.github.omwah.SDFEconomy.commands.CommandHandler;
-
 /*
  * Bukkit Plugin class for SDFEconomy
  */
 public class SDFEconomy extends JavaPlugin {
     private SDFEconomyAPI api;
     private EconomyStorage storage;
-    private CommandHandler commandHandler;
     private Permission permission;
 
     /*
@@ -45,8 +42,7 @@ public class SDFEconomy extends JavaPlugin {
         new SDFEconomyListener(this);
         
         // set the command executor for economy
-        this.commandHandler = new CommandHandler(this);
-        this.getCommand("sdfeconomy").setExecutor(new SDFEconomyCommandExecutor(this, this.commandHandler));
+        this.getCommand("sdfeconomy").setExecutor(new SDFEconomyCommandExecutor(this.permission, this.api));
     }
     
     /*
@@ -64,20 +60,6 @@ public class SDFEconomy extends JavaPlugin {
         return this.api;
     }
     
-    /*
-     * Return the command handler used for, well handling commands
-     */
-    public CommandHandler getCommandHandler() {
-        return this.commandHandler;
-    }
-
-    /*
-     * Get permissions provider
-     */
-    public Permission getPermission() {
-        return this.permission;
-    }
-
     private boolean setupPermissions() {
         RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
         if (permissionProvider != null) {

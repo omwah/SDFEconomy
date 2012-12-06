@@ -2,11 +2,16 @@ package com.github.omwah.SDFEconomy.commands;
 
 import org.bukkit.command.CommandSender;
 
-public interface Command {
+/*
+ * Interface that this plugin's commmands implement. 
+ * Named PluginCommand to avoid name clashing with org.bukkit.command.Command
+ */
+
+public interface PluginCommand {
 
     public void cancelInteraction(CommandSender executor);
 
-    public boolean execute(CommandSender executor, String identifier, String[] args);
+    public boolean execute(CommandSender executor, String label, String identifier, String[] args);
 
     public String getDescription();
 
@@ -22,7 +27,7 @@ public interface Command {
 
     public String getPermission();
 
-    public String getUsage();
+    public String getUsage(String identifier);
 
     public boolean isIdentifier(CommandSender executor, String input);
 
