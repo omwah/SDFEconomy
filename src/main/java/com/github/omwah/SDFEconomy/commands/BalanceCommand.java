@@ -17,8 +17,8 @@ public class BalanceCommand extends BasicCommand
         this.api = api;
         this.commandHandler = commandHandler;
         
-        setDescription("Check your player economy account balance");
-        setUsage("balance");
+        setDescription("Check player account balance");
+        setUsage("balance §8[player_name] [location]");
         setArgumentRange(0, 2);
         setIdentifiers("balance");
         setPermission("sdfeconomy.use_account");
@@ -37,7 +37,13 @@ public class BalanceCommand extends BasicCommand
             }
             
             // Make sure we are at console or sender has sufficient privileges
-            if(sender == null || (this.commandHandler.hasPermission(sender, "sdfeconomy.admin") || ((Player)sender).isOp())) {
+            // Also let player query themselves, in case they desire to 
+            // check balances in other location
+            if(sender == null || 
+                    (this.commandHandler.hasPermission(sender, "sdfeconomy.admin") || 
+                    ((Player)sender).isOp() ||
+                    ((Player)sender).getName().equalsIgnoreCase(destPlayer) )) {
+                
                 // If the API can not determine the player's location, ie if they are offline
                 // Then we need a location name specified as an argument
                 if(api.getPlayerLocationName(destPlayer) == null && locationName == null) {
@@ -55,7 +61,7 @@ public class BalanceCommand extends BasicCommand
                     double balance = this.api.getBalance(destPlayer, locationName);
                     sender.sendMessage(destPlayer + "'s balance @ " + locationName + " is: " + balance);
                 } else {
-                    sender.sendMessage("Could not find an account for: " + destPlayer);
+                    sender.sendMessage("Could not find an account for " + destPlayer + " @ " + locationName);
                 }
             } else {
                 sender.sendMessage("Insufficient privileges to check another player's balance");
@@ -63,6 +69,7 @@ public class BalanceCommand extends BasicCommand
            
         } else if (sender instanceof Player) {
             // No arguments and this is a player, check own balance
+            // Player is logged in so location will be known
             Player player = (Player) sender;
             double balance = this.api.getBalance(player.getName());
             sender.sendMessage("Your balance is: " + balance);

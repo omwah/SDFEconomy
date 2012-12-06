@@ -33,9 +33,11 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
     }
     
     private ConfigurationSection getPlayerSection(String playerName, String location, boolean createIfMissing) {
-        ConfigurationSection section = this.storage.getConfigurationSection(location + "." + this.player_prefix + "." + playerName);
+        // Store and search for account names in lower case to make names case insensitive
+        ConfigurationSection section = 
+                this.storage.getConfigurationSection(location + "." + this.player_prefix + "." + playerName.toLowerCase());
         if (section == null && createIfMissing) {
-            section = this.storage.createSection(location + "." + this.player_prefix + "." + playerName);
+            section = this.storage.createSection(location + "." + this.player_prefix + "." + playerName.toLowerCase());
         }
         return section;
     }
@@ -77,9 +79,11 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
     }
     
     private ConfigurationSection getBankSection(String accountName, boolean createIfMissing) {
-        ConfigurationSection section = this.storage.getConfigurationSection(this.bank_prefix + "." + accountName);
+        // Store and search for account names in lower case to make names case insensitive
+        ConfigurationSection section = 
+                this.storage.getConfigurationSection(this.bank_prefix + "." + accountName.toLowerCase());
         if (section == null && createIfMissing) {
-            section = this.storage.createSection(this.bank_prefix + "." + accountName);
+            section = this.storage.createSection(this.bank_prefix + "." + accountName.toLowerCase());
         }
         return section;
     }

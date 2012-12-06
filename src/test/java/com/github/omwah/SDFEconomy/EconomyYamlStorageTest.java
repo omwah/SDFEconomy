@@ -62,6 +62,10 @@ public class EconomyYamlStorageTest {
 
             boolean has_account = stor_read.hasPlayerAccount("Player1", "world1");
             assertTrue("Player1 account was not created", has_account);
+            
+            // Make sure account names are case insensitive
+            has_account = stor_read.hasPlayerAccount("PLAYER1", "world1");
+            assertTrue("Player1 account not found when using difference case", has_account);
 
             has_account = stor_read.hasPlayerAccount("Player2", "world2");
             assertFalse("Player2 account should not exist", has_account);
@@ -111,6 +115,7 @@ public class EconomyYamlStorageTest {
             BankAccount bank2 = stor_save.createBankAccount("bank2", "player2", "world2", 15.0);
              
             assertTrue("bank1 was not created", stor_save.hasBankAccount("bank1", "world1"));
+            assertTrue("bank1 not accessible using different case", stor_save.hasBankAccount("BANK1", "world1"));
             assertTrue("bank2 was not created", stor_save.hasBankAccount("bank2", "world2"));
 
             assertFalse("bank1 should not exist in world2", stor_save.hasBankAccount("bank1", "world2"));
