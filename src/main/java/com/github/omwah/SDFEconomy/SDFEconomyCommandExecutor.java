@@ -1,5 +1,7 @@
 package com.github.omwah.SDFEconomy;
 
+import java.util.Iterator;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,9 +22,18 @@ public class SDFEconomyCommandExecutor implements CommandExecutor {
     /*
      * This command executor needs to know about its plugin from which it came from
      */
-    public SDFEconomyCommandExecutor(Permission permission, SDFEconomyAPI api) {
+    public SDFEconomyCommandExecutor(Command cmd, Permission permission, SDFEconomyAPI api) {
         this.commandHandler = new CommandHandler(permission);
-        this.commandHandler.addCommand(new HelpCommand(this.commandHandler));
+        
+        // Add help commmand along with aliases to make it respond to command and
+        // its aliases when no arguments are supplied
+        HelpCommand help_cmd = new HelpCommand("SDFEconomy", this.commandHandler);
+        help_cmd.addIdentifier(cmd.getName());
+        for (Iterator alias_iter = cmd.getAliases().iterator(); alias_iter.hasNext();) {
+            help_cmd.addIdentifier((String) alias_iter.next());
+        }             
+        
+        this.commandHandler.addCommand(help_cmd);
         this.commandHandler.addCommand(new BalanceCommand(api));
     }
 
@@ -30,7 +41,6 @@ public class SDFEconomyCommandExecutor implements CommandExecutor {
      * Dispatch commands through CommandHandler 
      */
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        System.out.println("sender: " + sender + ", command: " + command + ", args:" + args + " label: " + label);
         return commandHandler.dispatch(sender, command, label, args);
     }
 

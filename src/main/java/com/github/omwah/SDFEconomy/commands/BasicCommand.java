@@ -1,5 +1,8 @@
 package com.github.omwah.SDFEconomy.commands;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.bukkit.command.CommandSender;
 
 public abstract class BasicCommand implements PluginCommand {
@@ -9,12 +12,13 @@ public abstract class BasicCommand implements PluginCommand {
     private String usage = "";
     private String permission = "";
     private String[] notes = new String[0];
-    private String[] identifiers = new String[0];
+    private ArrayList<String> identifiers;
     private int minArguments = 0;
     private int maxArguments = 0;
 
     public BasicCommand(String name) {
         this.name = name;
+        this.identifiers = new ArrayList<String>();
     }
 
     @Override
@@ -27,7 +31,7 @@ public abstract class BasicCommand implements PluginCommand {
 
     @Override
     public String[] getIdentifiers() {
-        return identifiers;
+        return (String[]) identifiers.toArray();
     }
 
     @Override
@@ -63,8 +67,9 @@ public abstract class BasicCommand implements PluginCommand {
     @Override
     public boolean isIdentifier(CommandSender executor, String input) {
         for (String identifier : identifiers) {
-            if (input.equalsIgnoreCase(identifier))
+            if (input.equalsIgnoreCase(identifier)) {
                 return true;
+            }
         }
         return false;
     }
@@ -94,7 +99,11 @@ public abstract class BasicCommand implements PluginCommand {
     }
 
     public void setIdentifiers(String... identifiers) {
-        this.identifiers = identifiers;
+        this.identifiers.addAll(Arrays.asList(identifiers));
+    }
+    
+    public void addIdentifier(String new_identifier) {
+        this.identifiers.add(new_identifier);
     }
 
     public void setNotes(String... notes) {

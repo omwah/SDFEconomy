@@ -1,9 +1,11 @@
 package com.github.omwah.SDFEconomy;
 
 import java.io.File;
+import java.util.Iterator;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
+import org.bukkit.command.PluginCommand;
 
 import net.milkbowl.vault.permission.Permission;
 
@@ -41,8 +43,14 @@ public class SDFEconomy extends JavaPlugin {
         // Create the Listener to register players into economy on joining
         new SDFEconomyListener(this);
         
-        // set the command executor for economy
-        this.getCommand("sdfeconomy").setExecutor(new SDFEconomyCommandExecutor(this.permission, this.api));
+        // Load up the list of commands in the plugin.yml and register each of these
+        // there should one. This makes is simpler to update the command names that
+        // this Plugin responds to just by editing plugin.yml
+        for(Iterator cmd_iter = this.getDescription().getCommands().keySet().iterator(); cmd_iter.hasNext();) {
+            // set the command executor for the Command
+            PluginCommand curr_cmd = this.getCommand((String) cmd_iter.next());
+            curr_cmd.setExecutor(new SDFEconomyCommandExecutor(curr_cmd, this.permission, this.api));
+        }
     }
     
     /*

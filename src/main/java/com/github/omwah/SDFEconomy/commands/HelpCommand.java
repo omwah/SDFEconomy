@@ -9,20 +9,24 @@ import com.github.omwah.SDFEconomy.SDFEconomy;
 
 public class HelpCommand extends BasicCommand
 {
+    private String pluginName;
     private static final int CMDS_PER_PAGE = 8;
     private CommandHandler commandHandler;
 
-    public HelpCommand(CommandHandler commandHandler)
+    public HelpCommand(String pluginName, CommandHandler commandHandler)
     {
         super("Help");
+        
+        this.pluginName = pluginName;
         this.commandHandler = commandHandler;
+        
         setDescription("Displays the help menu");
         setUsage("help §8[page#]");
         setArgumentRange(0, 1);
         
         // Respond to /<label> help
         // as well as any of the aliases for the plugin commands
-        setIdentifiers("econ", "sdfeconomy", "economy", "help");
+        setIdentifiers("help", "?");
     }
 
     @Override
@@ -57,7 +61,7 @@ public class HelpCommand extends BasicCommand
         if (page >= numPages || page < 0) {
             page = 0;
         }
-        sender.sendMessage("§c-----[ " + "§fSDFEconomy Help <" + (page + 1) + "/" + numPages + ">§c ]-----");
+        sender.sendMessage("§c-----[ " + "§f" + this.pluginName + " Help <" + (page + 1) + "/" + numPages + ">§c ]-----");
         int start = page * CMDS_PER_PAGE;
         int end = start + CMDS_PER_PAGE;
         if (end > commands.size()) {
@@ -68,7 +72,7 @@ public class HelpCommand extends BasicCommand
             sender.sendMessage("  §a" + cmd.getUsage(label));
         }
 
-        sender.sendMessage("§cFor more info on a particular command, type §f/<command> ?");
+        sender.sendMessage("§cFor more info on a particular command, type §f/" + label + " <command> ?");
 
         return true;
     }
