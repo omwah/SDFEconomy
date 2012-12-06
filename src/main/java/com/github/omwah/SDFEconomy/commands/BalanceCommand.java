@@ -58,7 +58,7 @@ public class BalanceCommand extends BasicCommand
                     sender.sendMessage("Could not find an account for: " + destPlayer);
                 }
             } else {
-                sender.sendMessage("Insufficient privileges to check another players balance");
+                sender.sendMessage("Insufficient privileges to check another player's balance");
             }
            
         } else if (sender instanceof Player) {
