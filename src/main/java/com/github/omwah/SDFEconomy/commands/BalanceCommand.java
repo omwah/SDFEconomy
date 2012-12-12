@@ -58,7 +58,7 @@ public class BalanceCommand extends BasicCommand
                 }
                 
                 if(api.hasAccount(destPlayer, locationName)) {
-                    double balance = this.api.getBalance(destPlayer, locationName);
+                    String balance = api.format(this.api.getBalance(destPlayer, locationName));
                     sender.sendMessage(destPlayer + "'s balance @ " + locationName + " is: " + balance);
                 } else {
                     sender.sendMessage("Could not find an account for " + destPlayer + " @ " + locationName);

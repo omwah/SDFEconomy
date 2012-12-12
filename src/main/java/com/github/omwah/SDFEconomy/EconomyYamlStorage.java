@@ -45,7 +45,14 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
     private ConfigurationSection getPlayerSection(String playerName, String location) {
         return getPlayerSection(playerName, location, false);
     }
-
+    
+    public List<String> getPlayerNames(String location) {
+        Set<String> namesSet = this.storage.getConfigurationSection(location + "." + this.player_prefix).getKeys(false);
+        List<String> nameList = new ArrayList<String>();
+        nameList.addAll(namesSet);
+        return nameList;
+    }
+    
     public boolean hasPlayerAccount(String playerName, String location) {
         return getPlayerSection(playerName, location) != null;
     }

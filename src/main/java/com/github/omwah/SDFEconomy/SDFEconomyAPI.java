@@ -52,6 +52,11 @@ public class SDFEconomyAPI {
         String pattern = this.config.getString("api.currency.numerical_format");
         DecimalFormat formatter = new DecimalFormat(pattern);
         String formatted = formatter.format(amount);
+        if(amount == 1.0) {
+            formatted += " " + currencyNameSingular();
+        } else {
+            formatted += " " + currencyNamePlural();
+        }
         return formatted;
     }
 
@@ -60,13 +65,17 @@ public class SDFEconomyAPI {
     }
 
     public String currencyNameSingular() {
-         return this.config.getString("currency.name.singular");
+         return this.config.getString("api.currency.name.singular");
     }
     
     public String getPlayerLocationName(String playerName) {
         return locTrans.getLocationName(playerName);
     }
-
+    
+    public List<String> getPlayers(String locationName) {
+        return storage.getPlayerNames(locationName);
+    }
+    
     public boolean hasAccount(String playerName) {
         return hasAccount(playerName, getPlayerLocationName(playerName));
     }
@@ -85,9 +94,12 @@ public class SDFEconomyAPI {
     }
 
     public boolean has(String playerName, double amount) {
-        return getBalance(playerName) >= amount;
+        return has(playerName, getPlayerLocationName(playerName), amount);
     }
 
+    public boolean has(String playerName, String locationName, double amount) {
+        return amount >= 0.0 && getBalance(playerName, locationName) <= amount;
+    }
 
     public EconomyResponse withdrawPlayer(String playerName, double amount) {
         PlayerAccount account = storage.getPlayerAccount(playerName, getPlayerLocationName(playerName));

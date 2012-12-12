@@ -9,6 +9,10 @@ import java.util.List;
  */
 public interface EconomyStorage {
     /*
+     * Get the name of all player accounts in a section
+     */
+    public List<String> getPlayerNames(String location);
+    /*
      * Does the player have an account in a given location
      */
     boolean hasPlayerAccount(String playerName, String location);
