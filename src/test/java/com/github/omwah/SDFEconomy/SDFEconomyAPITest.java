@@ -112,6 +112,17 @@ public class SDFEconomyAPITest {
     }
     
     @Test
+    public void setPlayerBalance() {
+        assertTrue("Player1's blaance should have been set", api.setBalance("Player1", 20.0));
+        assertEquals(20.0, api.getBalance("Player1"), 1e-6);
+
+        assertTrue("Player3's balance should have been set", api.setBalance("Player3", "World1", 60.0));
+        assertEquals(60.0, api.getBalance("Player3", "World1"), 1e-6);
+        
+        assertFalse("Player3's balance should not have been set", api.setBalance("Player3", 100.0));
+    }
+    
+    @Test
     public void playerHasAmount() {
         assertTrue("Player1 should have 15.00", api.has("Player1", 9.0));
         assertFalse("Player1 should not have negative 15.00", api.has("Player1", -9.0));
@@ -124,11 +135,13 @@ public class SDFEconomyAPITest {
     
     @Test
     public void withdrawPlayer() {
-        assertTrue("Withdraw of 10.0 from Player1 should succeeed", api.withdrawPlayer("Player1", 10).type == ResponseType.SUCCESS);
-        assertTrue("Withdraw of 1.0 from Player1 should not succeeed", api.withdrawPlayer("Player1", 1).type == ResponseType.FAILURE);
+        assertTrue("Withdraw of 10.0 from Player1 should succeeed", api.withdrawPlayer("Player1", 5).type == ResponseType.SUCCESS);
+        assertEquals(5.0, api.getBalance("Player1"), 1e-6);
+        assertTrue("Withdraw of 1.0 from Player1 should not succeeed", api.withdrawPlayer("Player1", 6).type == ResponseType.FAILURE);
  
-        assertTrue("Withdraw of 40.0 from Player2 should succeeed", api.withdrawPlayer("Player2", 40).type == ResponseType.SUCCESS);
-        assertTrue("Withdraw of 1.0 from Player2 should not succeeed", api.withdrawPlayer("Player2", 1).type == ResponseType.FAILURE);
+        assertTrue("Withdraw of 40.0 from Player2 should succeeed", api.withdrawPlayer("Player2", 20).type == ResponseType.SUCCESS);
+        assertEquals(20.0, api.getBalance("Player2"), 1e-6);
+        assertTrue("Withdraw of 1.0 from Player2 should not succeeed", api.withdrawPlayer("Player2", 21).type == ResponseType.FAILURE);
  
         assertTrue("Withdraw of 1.0 from NullPlayer should not succeeed", api.withdrawPlayer("NullPlayer", 1).type == ResponseType.FAILURE);
     }
@@ -136,8 +149,10 @@ public class SDFEconomyAPITest {
     @Test
     public void depositPlayer() {
         assertTrue("Deposit of 10.0 to Player1 should succeeed", api.depositPlayer("Player1", 10).type == ResponseType.SUCCESS);
+        assertEquals(20.0, api.getBalance("Player1"), 1e-6);
         assertTrue("Deposit of 40.0 to Player2 should succeeed", api.depositPlayer("Player2", 40).type == ResponseType.SUCCESS);
- 
+        assertEquals(80.0, api.getBalance("Player2"), 1e-6);
+
         assertTrue("Deposit of 1.0 to NullPlayer should not succeeed", api.depositPlayer("NullPlayer", 1).type == ResponseType.FAILURE);
     }
 }

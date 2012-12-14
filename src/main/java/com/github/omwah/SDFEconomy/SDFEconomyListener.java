@@ -47,13 +47,16 @@ public class SDFEconomyListener implements Listener {
     }
     
     /*
-     * Add new players with a default balance
+     * Add new account on join if necessary
      */
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         createPlayerAccount(event.getPlayer());
     }
     
+    /*
+     * Add new account on teleporting if necessary
+     */
     @EventHandler
     public void onPlayerTeleport(PlayerTeleportEvent event) {
         // Player from event will be the "from" location

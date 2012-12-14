@@ -11,7 +11,7 @@ import net.milkbowl.vault.permission.Permission;
 import com.github.omwah.SDFEconomy.commands.CommandHandler;
 import com.github.omwah.SDFEconomy.commands.HelpCommand;
 import com.github.omwah.SDFEconomy.commands.BalanceCommand;
-
+import com.github.omwah.SDFEconomy.commands.SetCommand;
 
 /*
  * CommandExectuor that dispatches commands to CommandHandler classes
@@ -35,6 +35,7 @@ public class SDFEconomyCommandExecutor implements CommandExecutor {
         
         this.commandHandler.addCommand(help_cmd);
         this.commandHandler.addCommand(new BalanceCommand(api, this.commandHandler));
+        this.commandHandler.addCommand(new SetCommand(api, this.commandHandler));
     }
 
     /*

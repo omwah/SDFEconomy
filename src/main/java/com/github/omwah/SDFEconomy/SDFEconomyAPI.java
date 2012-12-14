@@ -115,6 +115,26 @@ public class SDFEconomyAPI {
             balance = account.getBalance();
         }
         return balance;
+    }    
+    
+    /* 
+     * Normally only accessed for adminstrative purposes
+     * @return true if the balance was changed, false otherwise
+     */
+    public boolean setBalance(String playerName, double amount) {
+        return setBalance(playerName, getPlayerLocationName(playerName), amount);
+    }
+
+    /* Normally only accessed for adminstrative purposes
+     * @return true if the balance was changed, false otherwise
+     */
+    public boolean setBalance(String playerName, String locationName, double amount) {
+        if (locationName != null && hasAccount(playerName, locationName)) { 
+            PlayerAccount account = storage.getPlayerAccount(playerName, locationName);
+            account.setBalance(amount);
+            return true;
+        }
+        return false;
     }
 
     public boolean has(String playerName, double amount) {
