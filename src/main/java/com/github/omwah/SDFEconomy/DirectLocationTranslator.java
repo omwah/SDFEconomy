@@ -23,13 +23,14 @@ public class DirectLocationTranslator implements LocationTranslator {
         Player onlinePlayer = offlinePlayer.getPlayer();
         if (onlinePlayer != null) {
             return onlinePlayer.getLocation().getWorld().getName();
-        } else {
+        } else if (offlinePlayer.hasPlayedBefore()) {
+            // Make sure the offline player has played before or the call to
+            // getBedSpawnLocation will cause a null pointer inside of bukkit
             Location bedLocation = offlinePlayer.getBedSpawnLocation();
             if (bedLocation != null) {
                 return bedLocation.getWorld().getName();
-            } else {
-                return null;
             }
         }
+        return null;
     }
 }
