@@ -89,8 +89,12 @@ public class SDFEconomyAPI {
     }
     
     public double getBalance(String playerName, String locationName) {
-        PlayerAccount account = storage.getPlayerAccount(playerName, locationName);
-        return account.getBalance();
+        double balance = 0.0;
+        if (locationName != null && hasAccount(playerName, locationName)) { 
+            PlayerAccount account = storage.getPlayerAccount(playerName, locationName);
+            balance = account.getBalance();
+        }
+        return balance;
     }
 
     public boolean has(String playerName, double amount) {
@@ -98,20 +102,34 @@ public class SDFEconomyAPI {
     }
 
     public boolean has(String playerName, String locationName, double amount) {
-        return amount >= 0.0 && getBalance(playerName, locationName) <= amount;
+        return amount >= 0.0 && amount <= getBalance(playerName, locationName);
     }
 
     public EconomyResponse withdrawPlayer(String playerName, double amount) {
-        PlayerAccount account = storage.getPlayerAccount(playerName, getPlayerLocationName(playerName));
-        account.setBalance(account.getBalance() - amount);
-        EconomyResponse response = new EconomyResponse(amount, account.getBalance(), ResponseType.SUCCESS, "");
+        String locationName = getPlayerLocationName(playerName);
+
+        EconomyResponse response;
+        if (locationName != null && hasAccount(playerName, locationName) && has(playerName, locationName, amount)) {
+            PlayerAccount account = storage.getPlayerAccount(playerName, locationName);
+            account.setBalance(account.getBalance() - amount);
+            response = new EconomyResponse(amount, account.getBalance(), ResponseType.SUCCESS, "");
+        } else {
+            response = new EconomyResponse(0.0, 0.0, ResponseType.FAILURE, "Can not withdraw from player");
+        }
         return response;
     }
 
     public EconomyResponse depositPlayer(String playerName, double amount) {
-        PlayerAccount account = storage.getPlayerAccount(playerName, getPlayerLocationName(playerName));
-        account.setBalance(account.getBalance() + amount);
-        EconomyResponse response = new EconomyResponse(amount, account.getBalance(), ResponseType.SUCCESS, "");
+        String locationName = getPlayerLocationName(playerName);
+
+        EconomyResponse response;
+        if (locationName != null && hasAccount(playerName, locationName)) {
+            PlayerAccount account = storage.getPlayerAccount(playerName, locationName);
+            account.setBalance(account.getBalance() + amount);
+            response = new EconomyResponse(amount, account.getBalance(), ResponseType.SUCCESS, "");
+        } else {
+            response = new EconomyResponse(0.0, 0.0, ResponseType.FAILURE, "Can not deposit to player");
+        }
         return response;
     }
     

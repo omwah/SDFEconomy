@@ -18,6 +18,8 @@ import static org.junit.Assert.*;
 
 import org.bukkit.configuration.MemoryConfiguration;
 
+import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
+
 /**
  * Tests the SDFEconomyAPI class
  */
@@ -63,6 +65,7 @@ public class SDFEconomyAPITest {
         // string from the unit test location translator
         assertEquals("World1", api.getPlayerLocationName("Player1"));
         assertEquals("World2", api.getPlayerLocationName("Player2"));
+        assertEquals(null, api.getPlayerLocationName("NullPlayer"));
     }
     
     @Test
@@ -81,6 +84,8 @@ public class SDFEconomyAPITest {
         
         assertFalse(api.hasAccount("Player3"));
         assertTrue(api.hasAccount("Player3", "World1"));
+        
+        assertFalse(api.hasAccount("NullPlayer"));
     }
     
     @Test
@@ -88,13 +93,39 @@ public class SDFEconomyAPITest {
         assertEquals(10.0, api.getBalance("Player1"), 1e-6);
         assertEquals(40.0, api.getBalance("Player2"), 1e-6);
         assertEquals(50.0, api.getBalance("Player3", "World1"), 1e-6);
+        
+        assertEquals(0.0, api.getBalance("NullPlayer"), 1e-6);
+        assertEquals(0.0, api.getBalance("NullPlayer", "World1"), 1e-6);
+
     }
     
     @Test
     public void has() {
-        assertTrue("Player1 should have 15.00", api.has("Player1", 15.0));
-        assertFalse("Player1 should not have negative 15.00", api.has("Player1", -15.0));
-        assertTrue("Player2 should have 45.00", api.has("Player2", 45.0));
-        assertFalse("Player2 should not have negative 45.00", api.has("Player2", -45.0));
+        assertTrue("Player1 should have 15.00", api.has("Player1", 9.0));
+        assertFalse("Player1 should not have negative 15.00", api.has("Player1", -9.0));
+        assertTrue("Player2 should have 45.00", api.has("Player2", 39.0));
+        assertFalse("Player2 should not have negative 45.00", api.has("Player2", -39.0));
+        
+        assertTrue("NullPlayer should have 0.00", api.has("NullPlayer", 0.0));
+        assertFalse("NullPlayer should not have 1.00", api.has("NullPlayer", 1.0));
+    }
+    
+    @Test
+    public void withdraw() {
+        assertTrue("Withdraw of 10.0 from Player1 should succeeed", api.withdrawPlayer("Player1", 10).type == ResponseType.SUCCESS);
+        assertTrue("Withdraw of 1.0 from Player1 should not succeeed", api.withdrawPlayer("Player1", 1).type == ResponseType.FAILURE);
+ 
+        assertTrue("Withdraw of 40.0 from Player2 should succeeed", api.withdrawPlayer("Player2", 40).type == ResponseType.SUCCESS);
+        assertTrue("Withdraw of 1.0 from Player2 should not succeeed", api.withdrawPlayer("Player2", 1).type == ResponseType.FAILURE);
+ 
+        assertTrue("Withdraw of 1.0 from NullPlayer should not succeeed", api.withdrawPlayer("NullPlayer", 1).type == ResponseType.FAILURE);
+    }
+    
+    @Test
+    public void deposit() {
+        assertTrue("Deposit of 10.0 to Player1 should succeeed", api.depositPlayer("Player1", 10).type == ResponseType.SUCCESS);
+        assertTrue("Deposit of 40.0 to Player2 should succeeed", api.depositPlayer("Player2", 40).type == ResponseType.SUCCESS);
+ 
+        assertTrue("Deposit of 1.0 to NullPlayer should not succeeed", api.depositPlayer("NullPlayer", 1).type == ResponseType.FAILURE);
     }
 }

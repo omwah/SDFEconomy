@@ -8,8 +8,12 @@ package com.github.omwah.SDFEconomy;
 public class TestLocationTranslator implements LocationTranslator {
 
     public String getLocationName(String playerName) {
-        int name_len = playerName.length();
-        return "World" + playerName.substring(name_len-1,name_len);
+        if (playerName == "NullPlayer") {
+            return null;
+        } else {
+            int name_len = playerName.length();
+            return "World" + playerName.substring(name_len-1,name_len);
+        }
     }
     
 }
