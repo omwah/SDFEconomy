@@ -41,6 +41,7 @@ public class SDFEconomy extends JavaPlugin {
         setupPermissions();
         
         // Create the Listener to register players into economy on joining
+        // Or teleporting to a world for the first time
         new SDFEconomyListener(this);
         
         // Load up the list of commands in the plugin.yml and register each of these

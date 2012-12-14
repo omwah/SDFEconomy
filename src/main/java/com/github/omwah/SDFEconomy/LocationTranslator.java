@@ -3,6 +3,7 @@
  */
 package com.github.omwah.SDFEconomy;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 /*
@@ -12,4 +13,6 @@ import org.bukkit.entity.Player;
  */
 public interface LocationTranslator {
     public String getLocationName(String playerName);
+    public String getLocationName(Player player);
+    public String getLocationName(Location location);
 }

@@ -6,6 +6,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
+import org.bukkit.Location;
 import org.bukkit.configuration.Configuration;
 
 /**
@@ -70,6 +71,10 @@ public class SDFEconomyAPI {
     
     public String getPlayerLocationName(String playerName) {
         return locTrans.getLocationName(playerName);
+    }
+    
+    public String getLocationTranslated(Location location) {
+        return locTrans.getLocationName(location);
     }
     
     public List<String> getPlayers(String locationName) {
