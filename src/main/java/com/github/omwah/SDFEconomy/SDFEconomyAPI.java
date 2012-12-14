@@ -76,6 +76,21 @@ public class SDFEconomyAPI {
         return storage.getPlayerNames(locationName);
     }
     
+    public boolean createPlayerAccount(String playerName) {
+        return createPlayerAccount(playerName, getPlayerLocationName(playerName));
+    }
+
+    public boolean createPlayerAccount(String playerName, String locationName) {        
+        // Make sure an account can not be created without a location
+        if(locationName != null && !hasAccount(playerName, locationName)) {
+            double initialBalance = config.getDouble("api.player.initial_balance");
+            PlayerAccount account = storage.createPlayerAccount(playerName, locationName, initialBalance);
+            return true;
+        } else {
+            return false;
+        }
+    }
+        
     public boolean hasAccount(String playerName) {
         return hasAccount(playerName, getPlayerLocationName(playerName));
     }
@@ -133,6 +148,10 @@ public class SDFEconomyAPI {
         return response;
     }
     
+    public List<String> getBanks() {
+        return storage.getBankNames();
+    }
+
     public EconomyResponse createBank(String name, String playerName) {
         String locationName = getPlayerLocationName(playerName);
         
@@ -212,23 +231,6 @@ public class SDFEconomyAPI {
         }
         EconomyResponse response = new EconomyResponse(0, account.getBalance(), result, "");
         return response;   
-    }
-
-    public List<String> getBanks() {
-        return storage.getBankNames();
-    }
-
-    public boolean createPlayerAccount(String playerName) {
-        String locationName = getPlayerLocationName(playerName);
-        
-        // Make sure an account can not be created without a location
-        if(locationName != null) {
-            double initialBalance = config.getDouble("api.player.initial_balance");
-            PlayerAccount account = storage.createPlayerAccount(playerName, locationName, initialBalance);
-            return true;
-        } else {
-            return false;
-        }
     }
      
 }

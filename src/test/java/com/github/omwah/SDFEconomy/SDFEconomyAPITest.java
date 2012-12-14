@@ -78,7 +78,19 @@ public class SDFEconomyAPITest {
     }
     
     @Test
-    public void hasAccount() {
+    public void createPlayerAccount() {
+        assertFalse("Player1 account should not be creatable in World1", api.createPlayerAccount("Player1"));
+        assertFalse("Player2 account should not be creatable in World2", api.createPlayerAccount("Player2"));
+        assertFalse("Player3 account should not be creatable in World1", api.createPlayerAccount("Player3", "World1"));
+        
+        assertFalse("Player1 account should not be creatable with null location", api.createPlayerAccount("Player1", null));
+
+        // Since Player3 has no account in World3 yet
+        assertTrue("Player1 account should be creatable in World3", api.createPlayerAccount("Player3"));
+    }
+    
+    @Test
+    public void hasPlayerAccount() {
         assertTrue(api.hasAccount("Player1"));
         assertTrue(api.hasAccount("Player2"));
         
@@ -89,7 +101,7 @@ public class SDFEconomyAPITest {
     }
     
     @Test
-    public void getBalance() {
+    public void getPlayerBalance() {
         assertEquals(10.0, api.getBalance("Player1"), 1e-6);
         assertEquals(40.0, api.getBalance("Player2"), 1e-6);
         assertEquals(50.0, api.getBalance("Player3", "World1"), 1e-6);
@@ -100,7 +112,7 @@ public class SDFEconomyAPITest {
     }
     
     @Test
-    public void has() {
+    public void playerHasAmount() {
         assertTrue("Player1 should have 15.00", api.has("Player1", 9.0));
         assertFalse("Player1 should not have negative 15.00", api.has("Player1", -9.0));
         assertTrue("Player2 should have 45.00", api.has("Player2", 39.0));
@@ -111,7 +123,7 @@ public class SDFEconomyAPITest {
     }
     
     @Test
-    public void withdraw() {
+    public void withdrawPlayer() {
         assertTrue("Withdraw of 10.0 from Player1 should succeeed", api.withdrawPlayer("Player1", 10).type == ResponseType.SUCCESS);
         assertTrue("Withdraw of 1.0 from Player1 should not succeeed", api.withdrawPlayer("Player1", 1).type == ResponseType.FAILURE);
  
@@ -122,7 +134,7 @@ public class SDFEconomyAPITest {
     }
     
     @Test
-    public void deposit() {
+    public void depositPlayer() {
         assertTrue("Deposit of 10.0 to Player1 should succeeed", api.depositPlayer("Player1", 10).type == ResponseType.SUCCESS);
         assertTrue("Deposit of 40.0 to Player2 should succeeed", api.depositPlayer("Player2", 40).type == ResponseType.SUCCESS);
  
