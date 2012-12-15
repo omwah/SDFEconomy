@@ -17,7 +17,7 @@ public class SetCommand extends BasicCommand
         this.api = api;
         this.commandHandler = commandHandler;
         
-        setDescription("Check player account balance");
+        setDescription("Set the balance for a player, admin only");
         setUsage("set §8<player_name> <amount> [location]");
         setArgumentRange(2, 3);
         setIdentifiers("set");
