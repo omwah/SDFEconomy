@@ -1,4 +1,12 @@
-Commands to implement:
+Features to add
+---------------
+* Bank commands, topN command
+* Selectable location translator method through class
+* Deployment pom.xml configuration
+* Conversion from BOSEconomy utility
+
+Commands to implement
+---------------------
 
 /econ bank create <bank> [owners]
   Creates a new bank account
@@ -29,6 +37,7 @@ Commands to implement:
 
 /econ top
   Displays the top wealthiest players
+  Where number of players displayed comes from the config
 
 admin:
 /econ bank list [page]
