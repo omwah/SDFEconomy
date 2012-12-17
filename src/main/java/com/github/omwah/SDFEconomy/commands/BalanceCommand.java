@@ -8,24 +8,22 @@ import com.github.omwah.SDFEconomy.SDFEconomyAPI;
 public class BalanceCommand extends BasicCommand
 {
     private final SDFEconomyAPI api;
-    private CommandHandler commandHandler;
 
-    public BalanceCommand(SDFEconomyAPI api,  CommandHandler commandHandler)
+    public BalanceCommand(SDFEconomyAPI api)
     {
-        super("Balance");
+        super("balance");
         
         this.api = api;
-        this.commandHandler = commandHandler;
         
         setDescription("Check player account balance");
-        setUsage("balance §8[player_name] [location]");
+        setUsage(this.getName() + " §8[player_name] [location]");
         setArgumentRange(0, 2);
-        setIdentifiers("balance");
+        setIdentifiers(this.getName());
         setPermission("sdfeconomy.use_account");
     }
 
     @Override
-    public boolean execute(CommandSender sender, String label, String identifier, String[] args)
+    public boolean execute(CommandHandler handler, CommandSender sender, String label, String identifier, String[] args)
     {
         // If arguments are supplied then check for another players balance
         if (args.length > 0) {
@@ -40,7 +38,7 @@ public class BalanceCommand extends BasicCommand
             // Also let player query themselves, in case they desire to 
             // check balances in other location
             if(sender == null || 
-                    (this.commandHandler.hasPermission(sender, "sdfeconomy.admin") || 
+                    (handler.hasPermission(sender, "sdfeconomy.admin") || 
                     ((Player)sender).isOp() ||
                     ((Player)sender).getName().equalsIgnoreCase(destPlayer) )) {
                 

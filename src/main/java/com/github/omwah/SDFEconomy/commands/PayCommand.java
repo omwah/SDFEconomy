@@ -10,24 +10,22 @@ import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 public class PayCommand extends BasicCommand
 {
     private final SDFEconomyAPI api;
-    private CommandHandler commandHandler;
 
-    public PayCommand(SDFEconomyAPI api,  CommandHandler commandHandler)
+    public PayCommand(SDFEconomyAPI api)
     {
-        super("Pay");
+        super("pay");
         
         this.api = api;
-        this.commandHandler = commandHandler;
         
         setDescription("Pay another player in your current location");
-        setUsage("pay §8<player_name> <amount>");
+        setUsage(this.getName() + " §8<player_name> <amount>");
         setArgumentRange(2, 2);
-        setIdentifiers("pay");
+        setIdentifiers(this.getName());
         setPermission("sdfeconomy.pay_players");
     }
 
     @Override
-    public boolean execute(CommandSender sender, String label, String identifier, String[] args)
+    public boolean execute(CommandHandler handler, CommandSender sender, String label, String identifier, String[] args)
     {
         // This command only works for Players, it pays the other player in the current world
         if (sender instanceof Player) {

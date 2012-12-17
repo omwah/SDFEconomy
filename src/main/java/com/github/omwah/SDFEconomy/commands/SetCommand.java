@@ -8,29 +8,27 @@ import com.github.omwah.SDFEconomy.SDFEconomyAPI;
 public class SetCommand extends BasicCommand
 {
     private final SDFEconomyAPI api;
-    private CommandHandler commandHandler;
 
-    public SetCommand(SDFEconomyAPI api,  CommandHandler commandHandler)
+    public SetCommand(SDFEconomyAPI api)
     {
-        super("Set");
+        super("set");
         
         this.api = api;
-        this.commandHandler = commandHandler;
         
         setDescription("Set the balance for a player, admin only");
-        setUsage("set §8<player_name> <amount> [location]");
+        setUsage(this.getName() + " §8<player_name> <amount> [location]");
         setArgumentRange(2, 3);
-        setIdentifiers("set");
+        setIdentifiers(this.getName());
         setPermission("sdfeconomy.admin");
     }
 
     @Override
-    public boolean execute(CommandSender sender, String label, String identifier, String[] args)
+    public boolean execute(CommandHandler handler, CommandSender sender, String label, String identifier, String[] args)
     {
         // Make sure we are at console or sender has sufficient privileges
         // CommandHandler should handle making sure we have the number of required arguments
         if(sender == null || 
-                (this.commandHandler.hasPermission(sender, "sdfeconomy.admin") || 
+                (handler.hasPermission(sender, "sdfeconomy.admin") || 
                 ((Player)sender).isOp())) {
             
             String destPlayer = args[0];

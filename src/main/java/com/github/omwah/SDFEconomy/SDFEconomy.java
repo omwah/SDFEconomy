@@ -45,8 +45,8 @@ public class SDFEconomy extends JavaPlugin {
         new SDFEconomyListener(this);
         
         // Load up the list of commands in the plugin.yml and register each of these
-        // there should one. This makes is simpler to update the command names that
-        // this Plugin responds to just by editing plugin.yml
+        // This makes is simpler to update the command names that this Plugin responds
+        // to just by editing plugin.yml
         for(Iterator cmd_iter = this.getDescription().getCommands().keySet().iterator(); cmd_iter.hasNext();) {
             // set the command executor for the Command
             PluginCommand curr_cmd = this.getCommand((String) cmd_iter.next());

@@ -11,7 +11,7 @@ public interface PluginCommand {
 
     public void cancelInteraction(CommandSender executor);
 
-    public boolean execute(CommandSender executor, String label, String identifier, String[] args);
+    public boolean execute(CommandHandler handler, CommandSender executor, String label, String identifier, String[] args);
 
     public String getDescription();
 

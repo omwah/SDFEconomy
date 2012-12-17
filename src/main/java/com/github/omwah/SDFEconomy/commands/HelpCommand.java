@@ -11,26 +11,24 @@ public class HelpCommand extends BasicCommand
 {
     private String pluginName;
     private static final int CMDS_PER_PAGE = 8;
-    private CommandHandler commandHandler;
 
-    public HelpCommand(String pluginName, CommandHandler commandHandler)
+    public HelpCommand(String pluginName)
     {
-        super("Help");
+        super("help");
         
         this.pluginName = pluginName;
-        this.commandHandler = commandHandler;
         
         setDescription("Displays the help menu");
-        setUsage("help §8[page#]");
+        setUsage(this.getName() + " §8[page#]");
         setArgumentRange(0, 1);
         
         // Respond to /<label> help
         // as well as any of the aliases for the plugin commands
-        setIdentifiers("help", "?");
+        setIdentifiers(this.getName(), "?");
     }
 
     @Override
-    public boolean execute(CommandSender sender, String label, String identifier, String[] args)
+    public boolean execute(CommandHandler handler, CommandSender sender, String label, String identifier, String[] args)
     {
         int page = 0;
         if (args.length != 0) {
@@ -41,13 +39,13 @@ public class HelpCommand extends BasicCommand
             }
         }
 
-        List<PluginCommand> sortCommands = commandHandler.getCommands();
+        List<PluginCommand> sortCommands = handler.getCommands();
         List<PluginCommand> commands = new ArrayList<PluginCommand>();
 
         // Build list of permitted commands
         for (PluginCommand command : sortCommands) {
             if (command.isShownOnHelpMenu()) {
-                if (commandHandler.hasPermission(sender, command.getPermission())) {
+                if (handler.hasPermission(sender, command.getPermission())) {
                     commands.add(command);
                 }
             }

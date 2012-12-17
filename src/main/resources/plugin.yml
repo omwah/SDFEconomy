@@ -11,6 +11,12 @@ commands:
         description: Manipulate and query player balances and banks
         aliases: [economy, econ]
         usage: /sdfeconomy help - For more information
+    balance:
+        description: "Retrieve a player's account balance"
+        usage: /balance ? - For more information
+    pay:
+        description: "Pay another player"
+        usage: /pay ? - For more information
 
 permissions:
     sdfeconomy.*:

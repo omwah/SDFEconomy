@@ -61,7 +61,13 @@ public abstract class BasicCommand implements PluginCommand {
 
     @Override
     public String getUsage(String label) {
-        return "/" + label + " " + usage;
+        if (this.name.equalsIgnoreCase(label) ){
+            // Queried as a main command
+            return "/" + usage;
+        } else {
+            // Queried as a sub command
+            return "/" + label + " " + usage;
+        }
     }
 
     @Override
