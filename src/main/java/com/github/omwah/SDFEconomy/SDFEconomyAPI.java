@@ -70,11 +70,19 @@ public class SDFEconomyAPI {
     }
     
     public String getPlayerLocationName(String playerName) {
-        return locTrans.getLocationName(playerName);
+        if (playerName == null) {
+            return null;
+        } else {
+            return locTrans.getLocationName(playerName);
+        }
     }
     
     public String getLocationTranslated(Location location) {
-        return locTrans.getLocationName(location);
+        if(location == null) {
+            return null;
+        } else {
+            return locTrans.getLocationName(location);
+        }
     }
     
     public List<String> getPlayers(String locationName) {
@@ -178,7 +186,10 @@ public class SDFEconomyAPI {
     }
 
     public EconomyResponse createBank(String name, String playerName) {
-        String locationName = getPlayerLocationName(playerName);
+        return createBank(name, playerName, getPlayerLocationName(playerName));
+    }
+
+    public EconomyResponse createBank(String name, String playerName, String locationName) {
         
         // Make sure a bank can not be created without a location
         EconomyResponse response;
@@ -193,8 +204,18 @@ public class SDFEconomyAPI {
     }
 
     public EconomyResponse deleteBank(String name) {
-        storage.deleteBankAccount(name);
-        EconomyResponse response = new EconomyResponse(0, 0, ResponseType.SUCCESS, "");
+        EconomyResponse response;
+        if (storage.hasBankAccount(name)) {
+            double balance = storage.getBankAccount(name).getBalance();
+            storage.deleteBankAccount(name);
+            if(!storage.hasBankAccount(name)) {
+                response = new EconomyResponse(balance, 0, ResponseType.SUCCESS, "");
+            } else {
+                response = new EconomyResponse(0, 0, ResponseType.FAILURE, "Could not delete bank account: " + name);
+            }
+        } else {
+            response = new EconomyResponse(0, 0, ResponseType.FAILURE, "Could find bank account to delete: " + name);
+        }
         return response;
     }
 

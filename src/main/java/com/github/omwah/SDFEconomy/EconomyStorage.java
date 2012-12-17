@@ -29,6 +29,10 @@ public interface EconomyStorage {
      */
     List<String> getBankNames();
     /*
+     * Does the named bank account exist
+     */
+    public boolean hasBankAccount(String name);
+    /*
      * Get a Bank account, account should be unique to a certain location
      */
     BankAccount getBankAccount(String accountName);

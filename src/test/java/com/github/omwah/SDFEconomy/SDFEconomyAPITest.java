@@ -155,4 +155,25 @@ public class SDFEconomyAPITest {
 
         assertTrue("Deposit of 1.0 to NullPlayer should not succeeed", api.depositPlayer("NullPlayer", 1).type == ResponseType.FAILURE);
     }
+    
+    @Test
+    public void bankNames() {
+        ArrayList<String> expected_names = new ArrayList<String>();
+        expected_names.add("bank1");
+        
+        assertEquals(expected_names, api.getBanks());
+    }
+    
+    @Test
+    public void createBank () {
+        assertEquals("Should have success creating Bank2 for Player2", ResponseType.SUCCESS, api.createBank("Bank2", "Player2").type);
+        assertEquals("Should have failure for creating Bank3 for null player", ResponseType.FAILURE, api.createBank("Bank3", null).type);
+        assertEquals("Should have failure for creating Bank3 for null location", ResponseType.FAILURE, api.createBank("Bank3", "Player3", null).type);
+    }
+    
+    @Test
+    public void deleteBank() {
+        assertEquals("Should have success when deleting Bank1", ResponseType.SUCCESS, api.deleteBank("bank1").type);
+        assertEquals("Should have failure when deleting Bank1, which no longer exists", ResponseType.FAILURE, api.deleteBank("bank1").type);
+    }
 }

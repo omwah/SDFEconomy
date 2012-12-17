@@ -99,9 +99,9 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
         return getBankSection(accountName, false);
     }
 
-    public boolean hasBankAccount(String accountName, String location) {
+    public boolean hasBankAccount(String accountName) {
         ConfigurationSection section = getBankSection(accountName);
-        return section != null && section.getString("location").compareTo(location) == 0;
+        return section != null;
     }
 
     public BankAccount getBankAccount(String accountName) {
@@ -118,8 +118,8 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
      }
     
     public BankAccount createBankAccount(String accountName, String owner, String location, double begBalance) {
-        if (this.hasBankAccount(accountName, location)) {
-            this.log.severe("Bank account " + accountName + " @ " + location + " already exists");
+        if (this.hasBankAccount(accountName)) {
+            this.log.severe("Bank account " + accountName + " already exists");
             return null;
         }
         BankAccount account = new BankAccount(accountName, owner, location);

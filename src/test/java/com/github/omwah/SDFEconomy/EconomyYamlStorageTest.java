@@ -114,12 +114,9 @@ public class EconomyYamlStorageTest {
             BankAccount bank1 = stor_save.createBankAccount("bank1", "player1", "world1", 10.0);
             BankAccount bank2 = stor_save.createBankAccount("bank2", "player2", "world2", 15.0);
              
-            assertTrue("bank1 was not created", stor_save.hasBankAccount("bank1", "world1"));
-            assertTrue("bank1 not accessible using different case", stor_save.hasBankAccount("BANK1", "world1"));
-            assertTrue("bank2 was not created", stor_save.hasBankAccount("bank2", "world2"));
-
-            assertFalse("bank1 should not exist in world2", stor_save.hasBankAccount("bank1", "world2"));
-            assertFalse("bank2 should not exist in world1", stor_save.hasBankAccount("bank2", "world1"));
+            assertTrue("bank1 was not created", stor_save.hasBankAccount("bank1"));
+            assertTrue("bank1 not accessible using different case", stor_save.hasBankAccount("BANK1"));
+            assertTrue("bank2 was not created", stor_save.hasBankAccount("bank2"));
 
             bank1.addMember("player3");
             bank2.addMember("player4");
@@ -173,7 +170,7 @@ public class EconomyYamlStorageTest {
             BankAccount bank1 = stor_read.getBankAccount("bank1");
 
             assertFalse("player3 should not a member of bank1", bank1.isMember("player3"));
-            assertFalse("bank2 should no longer exist", stor_read.hasBankAccount("bank2", "world2"));
+            assertFalse("bank2 should no longer exist", stor_read.hasBankAccount("bank2"));
         } 
      }
 }
