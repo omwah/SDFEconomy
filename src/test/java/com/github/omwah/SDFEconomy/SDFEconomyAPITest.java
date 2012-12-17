@@ -5,6 +5,7 @@ package com.github.omwah.SDFEconomy;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import net.milkbowl.vault.economy.EconomyResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Rule;
@@ -49,6 +50,7 @@ public class SDFEconomyAPITest {
         storage.createBankAccount("Bank1", "Player1", "World1", 101.00);
         BankAccount bank = storage.getBankAccount("Bank1");
         bank.addMember("Player2");
+        bank.addMember("Player3");
         
         this.api = new SDFEconomyAPI(new MemoryConfiguration(), storage, new TestLocationTranslator());
     }
@@ -175,5 +177,64 @@ public class SDFEconomyAPITest {
     public void deleteBank() {
         assertEquals("Should have success when deleting Bank1", ResponseType.SUCCESS, api.deleteBank("bank1").type);
         assertEquals("Should have failure when deleting Bank1, which no longer exists", ResponseType.FAILURE, api.deleteBank("bank1").type);
+    }
+    
+    @Test
+    public void getBankBalance() {
+        EconomyResponse bank1 = api.bankBalance("Bank1");
+        assertEquals("Bank balance query should have been successful", ResponseType.SUCCESS, bank1.type);
+        assertEquals("Bank balance should be 101.0", 101.0, bank1.balance, 1e-6);
+        assertEquals("Query for balance of Bank2 should trigger a failure", ResponseType.FAILURE, api.bankBalance("Bank2").type);
+        assertEquals("Query for balance of null should trigger a failure", ResponseType.FAILURE, api.bankBalance(null).type);
+    }
+    
+    @Test
+    public void hasBankAmount() {
+        EconomyResponse bank1 = api.bankHas("Bank1", 100.0);
+        assertEquals("Bank has query should have been a success", ResponseType.SUCCESS, bank1.type);
+        assertEquals("Bank should have a balance of 101.0", 101.0, bank1.balance, 1.0e-6);
+        assertEquals("Bank1 should not have at least 102.00", ResponseType.FAILURE, api.bankHas("Bank1", 102.0).type);
+        assertEquals("Query on null bank should be a failure", ResponseType.FAILURE, api.bankHas(null, 0.0).type);
+    }
+
+    @Test
+    public void bankWithdraw() {
+        EconomyResponse bank1 = api.bankWithdraw("Bank1", 11.0);
+        assertEquals("Bank withdraw should have been a success", ResponseType.SUCCESS, bank1.type);
+        assertEquals("Bank should have a balance of 90.0", 90.0, bank1.balance, 1.0e-6);
+        assertEquals("Transaction should have taken out 11.0", 11.0, bank1.amount, 1.0e-6);   
+        assertEquals("Bank1 withdraw of 102.0 should have failed", ResponseType.FAILURE, api.bankWithdraw("Bank1", 102.0).type);
+        assertEquals("Bank2 withdraw should have failed", ResponseType.FAILURE, api.bankWithdraw("Bank2", 1.0).type);
+        assertEquals("null withdraw should have failed", ResponseType.FAILURE, api.bankWithdraw(null, 1.0).type);
+    }
+    
+    @Test
+    public void bankDeposit() {
+        EconomyResponse bank1 = api.bankDeposit("Bank1", 9.0);
+        assertEquals("Bank deposit should have been a success", ResponseType.SUCCESS, bank1.type);
+        assertEquals("Bank should have a balance of 110.0", 110.0, bank1.balance, 1.0e-6);
+        assertEquals("Transaction should have deposited out 11.0", 9.0, bank1.amount, 1.0e-6);
+        assertEquals("Bank2 deposit should have failed", ResponseType.FAILURE, api.bankDeposit("Bank2", 1.0).type);
+        assertEquals("null deposit should have failed", ResponseType.FAILURE, api.bankDeposit(null, 1.0).type);
+    }
+    
+    @Test
+    public void isBankOwner() {
+        assertEquals("Player1 should be an owner of Bank1", ResponseType.SUCCESS, api.isBankOwner("Bank1", "Player1").type);
+        assertEquals("Player1 should not be an owner of Bank1 @ World2", ResponseType.FAILURE, api.isBankOwner("Bank1", "Player1", "World2").type);
+        assertEquals("Player2 should not be an owner of Bank1", ResponseType.FAILURE, api.isBankOwner("Bank1", "Player2").type);
+        assertEquals("Player3 should not be an owner of Bank1", ResponseType.FAILURE, api.isBankOwner("Bank1", "Player3").type);
+        assertEquals("null should not be an owner of Bank1", ResponseType.FAILURE, api.isBankOwner("Bank1", null).type);
+        assertEquals("null should not be an owner of null", ResponseType.FAILURE, api.isBankOwner(null, null).type);          
+    }
+    
+    @Test
+    public void isBankMember() {
+        assertEquals("Player1 should be a member of Bank1", ResponseType.SUCCESS, api.isBankMember("Bank1", "Player1").type);
+        assertEquals("Player2 should not be an member of Bank1", ResponseType.FAILURE, api.isBankMember("Bank1", "Player2").type);
+        assertEquals("Player3 should not be a member of Bank1 @ World3", ResponseType.FAILURE, api.isBankMember("Bank1", "Player3").type);
+        assertEquals("Player3 should not be a member of Bank1 @ World1", ResponseType.SUCCESS, api.isBankMember("Bank1", "Player3", "World1").type);
+        assertEquals("null should not be an member of Bank1", ResponseType.FAILURE, api.isBankMember("Bank1", null).type);
+        assertEquals("null should not be an member of null", ResponseType.FAILURE, api.isBankMember(null, null).type);          
     }
 }

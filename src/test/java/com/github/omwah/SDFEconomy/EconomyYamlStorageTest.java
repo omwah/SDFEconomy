@@ -171,6 +171,9 @@ public class EconomyYamlStorageTest {
 
             assertFalse("player3 should not a member of bank1", bank1.isMember("player3"));
             assertFalse("bank2 should no longer exist", stor_read.hasBankAccount("bank2"));
+            
+            // Check that a null bank returns false
+            assertFalse("null should not exist", stor_read.hasBankAccount(null));
         } 
      }
 }

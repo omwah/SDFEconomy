@@ -220,63 +220,93 @@ public class SDFEconomyAPI {
     }
 
     public EconomyResponse bankBalance(String name) {
-        BankAccount account = storage.getBankAccount(name);
-        EconomyResponse response = new EconomyResponse(0, account.getBalance(), ResponseType.SUCCESS, "");
+        EconomyResponse response;
+        if (storage.hasBankAccount(name)) {
+            BankAccount account = storage.getBankAccount(name);
+            response = new EconomyResponse(0, account.getBalance(), ResponseType.SUCCESS, "");
+        } else {
+            response = new EconomyResponse(0, 0, ResponseType.FAILURE, "Could not find bank account: " + name);
+        }
         return response;
     }
 
     public EconomyResponse bankHas(String name, double amount) {
-        BankAccount account = storage.getBankAccount(name);
-        ResponseType result;
-        if(account.getBalance() > amount) {
-            result = ResponseType.SUCCESS;
+        EconomyResponse response;
+        if(storage.hasBankAccount(name)) {
+            BankAccount account = storage.getBankAccount(name);
+            if (account.getBalance() > amount) {
+                response = new EconomyResponse(0, account.getBalance(), ResponseType.SUCCESS, "");
+            } else {
+                response = new EconomyResponse(0, account.getBalance(), ResponseType.FAILURE, "Account does not enough money");
+            }
         } else {
-            result = ResponseType.FAILURE;
+            response = new EconomyResponse(0, 0, ResponseType.FAILURE, "Account does not exist");
         }
-        EconomyResponse response = new EconomyResponse(0, account.getBalance(), result, "");
         return response;
     }
 
     public EconomyResponse bankWithdraw(String name, double amount) {
-        BankAccount account = storage.getBankAccount(name);
-        account.setBalance(account.getBalance() - amount);
-        EconomyResponse response = new EconomyResponse(amount, account.getBalance(), ResponseType.SUCCESS, "");
+        EconomyResponse response = bankHas(name, amount);
+        // Only act upon account if it has enough money
+        if(response.type == ResponseType.SUCCESS) {
+            BankAccount account = storage.getBankAccount(name);
+            account.setBalance(account.getBalance() - amount);
+            response = new EconomyResponse(amount, account.getBalance(), ResponseType.SUCCESS, "");
+        }
         return response;
     }
 
     public EconomyResponse bankDeposit(String name, double amount) {
-        BankAccount account = storage.getBankAccount(name);
-        account.setBalance(account.getBalance() + amount);
-        EconomyResponse response = new EconomyResponse(amount, account.getBalance(), ResponseType.SUCCESS, "");
+        EconomyResponse response;
+        if (storage.hasBankAccount(name)) {
+            BankAccount account = storage.getBankAccount(name);
+            account.setBalance(account.getBalance() + amount);
+            response = new EconomyResponse(amount, account.getBalance(), ResponseType.SUCCESS, "");
+        } else {
+            response = new EconomyResponse(0, 0, ResponseType.FAILURE, "Account does not exist");
+        }
         return response;
     }
 
     public EconomyResponse isBankOwner(String name, String playerName) {
-        BankAccount account = storage.getBankAccount(name);
         String location = getPlayerLocationName(playerName);
-        
-        ResponseType result;
-        if(account.getLocation().compareTo(location) == 0 && account.isOwner(playerName)) {
-            result = ResponseType.SUCCESS;
+        return isBankOwner(name, playerName, location);
+    }
+    
+    public EconomyResponse isBankOwner(String name, String playerName, String location) {
+        EconomyResponse response;
+        if(storage.hasBankAccount(name) && location != null) {
+            BankAccount account = storage.getBankAccount(name);
+            if(account.getLocation().compareTo(location) == 0 && account.isOwner(playerName)) {
+                response = new EconomyResponse(0, account.getBalance(), ResponseType.SUCCESS, "");
+            } else {
+                response = new EconomyResponse(0, account.getBalance(), ResponseType.FAILURE, playerName + " is not an owner of " + name);
+            }
         } else {
-            result = ResponseType.FAILURE;
+            response = new EconomyResponse(0, 0, ResponseType.FAILURE, "Bank account: " + name + " does not exist @ " + location);
         }
-        EconomyResponse response = new EconomyResponse(0, account.getBalance(), result, "");
         return response;    
     }
-
+    
     public EconomyResponse isBankMember(String name, String playerName) {
-        BankAccount account = storage.getBankAccount(name);
         String location = getPlayerLocationName(playerName);
-        
-        ResponseType result;
-        if(account.getLocation().compareTo(location) == 0 && account.isMember(playerName)) {
-            result = ResponseType.SUCCESS;
+        return isBankMember(name, playerName, location);
+    }
+
+    public EconomyResponse isBankMember(String name, String playerName, String location) {
+        EconomyResponse response;
+        if(storage.hasBankAccount(name) && location != null) {
+            BankAccount account = storage.getBankAccount(name);
+            // An owner should also be a member
+            if(account.getLocation().compareTo(location) == 0 && (account.isOwner(playerName) || account.isMember(playerName))) {
+                response = new EconomyResponse(0, account.getBalance(), ResponseType.SUCCESS, "");
+            } else {
+                response = new EconomyResponse(0, account.getBalance(), ResponseType.FAILURE, playerName + " is not a member of " + name);
+            }
         } else {
-            result = ResponseType.FAILURE;
+            response = new EconomyResponse(0, 0, ResponseType.FAILURE, "Bank account: " + name + " does not exist @ " + location);
         }
-        EconomyResponse response = new EconomyResponse(0, account.getBalance(), result, "");
-        return response;   
+        return response;
     }
      
 }

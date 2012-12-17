@@ -100,8 +100,12 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
     }
 
     public boolean hasBankAccount(String accountName) {
-        ConfigurationSection section = getBankSection(accountName);
-        return section != null;
+        if(accountName == null) {
+            return false;
+        } else {
+            ConfigurationSection section = getBankSection(accountName);
+            return section != null;
+        }
     }
 
     public BankAccount getBankAccount(String accountName) {
