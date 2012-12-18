@@ -76,7 +76,15 @@ public class SDFEconomyAPI {
             return locTrans.getLocationName(playerName);
         }
     }
-    
+
+    public boolean validLocationName(String locationName) {
+        if (locationName == null) {
+            return false;
+        } else {
+            return locTrans.validLocationName(locationName);
+        }
+    }
+     
     public String getLocationTranslated(Location location) {
         if(location == null) {
             return null;

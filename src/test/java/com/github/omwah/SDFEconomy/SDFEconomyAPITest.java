@@ -71,7 +71,16 @@ public class SDFEconomyAPITest {
         assertEquals("world2", api.getPlayerLocationName("player2"));
         assertEquals(null, api.getPlayerLocationName("NullPlayer"));
     }
-    
+
+    @Test
+    public void validLocationName() {
+        assertTrue("World1 should be valid", api.validLocationName("World1"));
+        assertTrue("WORLD1 should be valid", api.validLocationName("WORLD1"));
+        assertTrue("world2 should be valid", api.validLocationName("world2"));
+        assertFalse("null should be invalid", api.validLocationName(null));
+        assertFalse("World4 should be invalid", api.validLocationName("World4"));
+    }
+     
     @Test
     public void playerNames() {
         // Player names returned as lower case only
