@@ -8,9 +8,6 @@ Features to add
 Commands to implement
 ---------------------
 
-/econ bank create <bank> [owners]
-  Creates a new bank account
-
 /econ bank remove <bank>
   Removes a bank account
 

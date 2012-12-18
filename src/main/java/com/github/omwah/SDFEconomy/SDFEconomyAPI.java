@@ -3,6 +3,7 @@
 package com.github.omwah.SDFEconomy;
 
 import java.text.DecimalFormat;
+import java.util.Collections;
 import java.util.List;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
@@ -94,7 +95,11 @@ public class SDFEconomyAPI {
     }
     
     public List<String> getPlayers(String locationName) {
-        return storage.getPlayerNames(locationName);
+        if (locationName != null) {
+            return storage.getPlayerNames(locationName);
+        } else {
+            return Collections.<String>emptyList();
+        }
     }
     
     public boolean createPlayerAccount(String playerName) {
@@ -103,7 +108,7 @@ public class SDFEconomyAPI {
 
     public boolean createPlayerAccount(String playerName, String locationName) {        
         // Make sure an account can not be created without a location
-        if(locationName != null && !hasAccount(playerName, locationName)) {
+        if(locationName != null && validLocationName(locationName) && !hasAccount(playerName, locationName)) {
             double initialBalance = config.getDouble("api.player.initial_balance");
             PlayerAccount account = storage.createPlayerAccount(playerName, locationName, initialBalance);
             return true;
@@ -203,12 +208,12 @@ public class SDFEconomyAPI {
         EconomyResponse response;
         if(storage.hasBankAccount(name)) {
             response = new EconomyResponse(0.0, 0.0, ResponseType.FAILURE, "Bank account already exists");
-        } else if(locationName != null) {
+        } else if(locationName != null && validLocationName(locationName)) {
             double initialBalance = config.getDouble("api.bank.initial_balance");
             BankAccount account = storage.createBankAccount(name, playerName, locationName, initialBalance);
             response = new EconomyResponse(initialBalance, account.getBalance(), ResponseType.SUCCESS, "");
         } else {
-            response = new EconomyResponse(0.0, 0.0, ResponseType.FAILURE, "Can not create a bank with an unknown location");
+            response = new EconomyResponse(0.0, 0.0, ResponseType.FAILURE, "Can not create a bank with an unknown or invalid location");
         }
         return response;
     }
