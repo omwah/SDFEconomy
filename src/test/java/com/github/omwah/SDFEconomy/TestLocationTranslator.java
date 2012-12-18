@@ -15,7 +15,7 @@ public class TestLocationTranslator implements LocationTranslator {
             return null;
         } else {
             int name_len = playerName.length();
-            return "World" + playerName.substring(name_len-1,name_len);
+            return "world" + playerName.substring(name_len-1,name_len);
         }
     }
 

@@ -109,7 +109,7 @@ public class SDFEconomyAPI {
     }
     
     public boolean hasAccount(String playerName, String locationName) {
-        return storage.hasPlayerAccount(playerName, locationName);
+        return playerName != null && locationName != null && storage.hasPlayerAccount(playerName, locationName);
     }
 
     public double getBalance(String playerName) {
@@ -279,7 +279,7 @@ public class SDFEconomyAPI {
         EconomyResponse response;
         if(storage.hasBankAccount(name) && location != null) {
             BankAccount account = storage.getBankAccount(name);
-            if(account.getLocation().compareTo(location) == 0 && account.isOwner(playerName)) {
+            if(account.getLocation().equalsIgnoreCase(location) && account.isOwner(playerName)) {
                 response = new EconomyResponse(0, account.getBalance(), ResponseType.SUCCESS, "");
             } else {
                 response = new EconomyResponse(0, account.getBalance(), ResponseType.FAILURE, playerName + " is not an owner of " + name);
@@ -300,7 +300,7 @@ public class SDFEconomyAPI {
         if(storage.hasBankAccount(name) && location != null) {
             BankAccount account = storage.getBankAccount(name);
             // An owner should also be a member
-            if(account.getLocation().compareTo(location) == 0 && (account.isOwner(playerName) || account.isMember(playerName))) {
+            if(account.getLocation().equalsIgnoreCase(location) && (account.isOwner(playerName) || account.isMember(playerName))) {
                 response = new EconomyResponse(0, account.getBalance(), ResponseType.SUCCESS, "");
             } else {
                 response = new EconomyResponse(0, account.getBalance(), ResponseType.FAILURE, playerName + " is not a member of " + name);

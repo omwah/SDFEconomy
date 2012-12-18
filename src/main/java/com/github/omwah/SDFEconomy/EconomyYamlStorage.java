@@ -35,9 +35,9 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
     private ConfigurationSection getPlayerSection(String playerName, String location, boolean createIfMissing) {
         // Store and search for account names in lower case to make names case insensitive
         ConfigurationSection section = 
-                this.storage.getConfigurationSection(location + "." + this.player_prefix + "." + playerName.toLowerCase());
+                this.storage.getConfigurationSection(location.toLowerCase() + "." + this.player_prefix + "." + playerName.toLowerCase());
         if (section == null && createIfMissing) {
-            section = this.storage.createSection(location + "." + this.player_prefix + "." + playerName.toLowerCase());
+            section = this.storage.createSection(location.toLowerCase() + "." + this.player_prefix + "." + playerName.toLowerCase());
         }
         return section;
     }
@@ -47,7 +47,7 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
     }
     
     public List<String> getPlayerNames(String location) {
-        Set<String> namesSet = this.storage.getConfigurationSection(location + "." + this.player_prefix).getKeys(false);
+        Set<String> namesSet = this.storage.getConfigurationSection(location.toLowerCase() + "." + this.player_prefix).getKeys(false);
         List<String> nameList = new ArrayList<String>();
         nameList.addAll(namesSet);
         return nameList;

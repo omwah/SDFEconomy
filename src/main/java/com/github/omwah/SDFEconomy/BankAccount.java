@@ -18,8 +18,8 @@ public class BankAccount extends Account {
 
     public BankAccount(String name, String owner, String location) {
         this.name = name;
-        this.owner = owner;
-        this.location = location;
+        this.owner = owner.toLowerCase();
+        this.location = location.toLowerCase();
         this.members = new ArrayList<String>();
     }
     
@@ -54,7 +54,7 @@ public class BankAccount extends Account {
      */
      
     public void addMember(String newMember) {
-        members.add(newMember);
+        members.add(newMember.toLowerCase());
         setChanged();
         notifyObservers();
     }
@@ -65,7 +65,7 @@ public class BankAccount extends Account {
     
     public void removeMember(String oldMember) {
         // ArrayList will use the .equals of String to compare
-        members.remove(oldMember);
+        members.remove(oldMember.toLowerCase());
         setChanged();
         notifyObservers();
     }
@@ -75,7 +75,7 @@ public class BankAccount extends Account {
      */
     
     public boolean isMember(String memberName) {
-       return members.indexOf(memberName) >= 0;
+       return members.indexOf(memberName.toLowerCase()) >= 0;
     }
     
     /*
@@ -83,8 +83,7 @@ public class BankAccount extends Account {
      */
     
     public boolean isOwner(String playerName) {
-       return this.owner.equals(playerName);
+       return this.owner.equalsIgnoreCase(playerName);
     }
-    
     
 }

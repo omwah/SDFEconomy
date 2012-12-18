@@ -65,8 +65,10 @@ public class SDFEconomyAPITest {
     public void getPlayerLocationName() {
         // This really just ends up testing that we can pass the right
         // string from the unit test location translator
-        assertEquals("World1", api.getPlayerLocationName("Player1"));
-        assertEquals("World2", api.getPlayerLocationName("Player2"));
+        assertEquals("world1", api.getPlayerLocationName("Player1"));
+        assertEquals("world1", api.getPlayerLocationName("player1"));
+        assertEquals("world2", api.getPlayerLocationName("Player2"));
+        assertEquals("world2", api.getPlayerLocationName("player2"));
         assertEquals(null, api.getPlayerLocationName("NullPlayer"));
     }
     
@@ -81,9 +83,9 @@ public class SDFEconomyAPITest {
     
     @Test
     public void createPlayerAccount() {
-        assertFalse("Player1 account should not be creatable in World1", api.createPlayerAccount("Player1"));
-        assertFalse("Player2 account should not be creatable in World2", api.createPlayerAccount("Player2"));
-        assertFalse("Player3 account should not be creatable in World1", api.createPlayerAccount("Player3", "World1"));
+        assertFalse("Player1 account should not be creatable in World1, already exists", api.createPlayerAccount("Player1"));
+        assertFalse("Player2 account should not be creatable in World2, already exists", api.createPlayerAccount("Player2"));
+        assertFalse("Player3 account should not be creatable in World1, already exists", api.createPlayerAccount("Player3", "World1"));
         
         assertFalse("Player1 account should not be creatable with null location", api.createPlayerAccount("Player1", null));
 
@@ -105,8 +107,11 @@ public class SDFEconomyAPITest {
     @Test
     public void getPlayerBalance() {
         assertEquals(10.0, api.getBalance("Player1"), 1e-6);
+        assertEquals(10.0, api.getBalance("player1"), 1e-6);
         assertEquals(40.0, api.getBalance("Player2"), 1e-6);
+        assertEquals(40.0, api.getBalance("player2"), 1e-6);
         assertEquals(50.0, api.getBalance("Player3", "World1"), 1e-6);
+        assertEquals(50.0, api.getBalance("player3", "World1"), 1e-6);
         
         assertEquals(0.0, api.getBalance("NullPlayer"), 1e-6);
         assertEquals(0.0, api.getBalance("NullPlayer", "World1"), 1e-6);
@@ -115,7 +120,7 @@ public class SDFEconomyAPITest {
     
     @Test
     public void setPlayerBalance() {
-        assertTrue("Player1's blaance should have been set", api.setBalance("Player1", 20.0));
+        assertTrue("Player1's balance should have been set", api.setBalance("Player1", 20.0));
         assertEquals(20.0, api.getBalance("Player1"), 1e-6);
 
         assertTrue("Player3's balance should have been set", api.setBalance("Player3", "World1", 60.0));
@@ -231,10 +236,10 @@ public class SDFEconomyAPITest {
     
     @Test
     public void isBankMember() {
-        assertEquals("Player1 should be a member of Bank1", ResponseType.SUCCESS, api.isBankMember("Bank1", "Player1").type);
-        assertEquals("Player2 should not be an member of Bank1", ResponseType.FAILURE, api.isBankMember("Bank1", "Player2").type);
+        assertEquals("Player1 should be a member of Bank1", ResponseType.SUCCESS, api.isBankMember("bank1", "Player1").type);
+        assertEquals("Player2 should not be a member of Bank1 @ World1", ResponseType.FAILURE, api.isBankMember("Bank1", "Player2").type);
         assertEquals("Player3 should not be a member of Bank1 @ World3", ResponseType.FAILURE, api.isBankMember("Bank1", "Player3").type);
-        assertEquals("Player3 should not be a member of Bank1 @ World1", ResponseType.SUCCESS, api.isBankMember("Bank1", "Player3", "World1").type);
+        assertEquals("Player3 should not be a member of Bank1 @ World1", ResponseType.SUCCESS, api.isBankMember("bANK1", "Player3", "WORLD1").type);
         assertEquals("null should not be an member of Bank1", ResponseType.FAILURE, api.isBankMember("Bank1", null).type);
         assertEquals("null should not be an member of null", ResponseType.FAILURE, api.isBankMember(null, null).type);          
     }

@@ -64,10 +64,10 @@ public class EconomyYamlStorageTest {
             assertTrue("Player1 account was not created", has_account);
             
             // Make sure account names are case insensitive
-            has_account = stor_read.hasPlayerAccount("PLAYER1", "world1");
+            has_account = stor_read.hasPlayerAccount("PLAYER1", "WORLD1");
             assertTrue("Player1 account not found when using difference case", has_account);
 
-            has_account = stor_read.hasPlayerAccount("Player2", "world2");
+            has_account = stor_read.hasPlayerAccount("Player2", "World2");
             assertFalse("Player2 account should not exist", has_account);
 
             PlayerAccount read_account = stor_read.getPlayerAccount("Player1", "world1");
@@ -99,6 +99,11 @@ public class EconomyYamlStorageTest {
 
             has_account = stor_update.hasPlayerAccount("Player1", "world2");
             assertTrue("Player1 does not exist in world2", has_account);
+
+            ArrayList<String> names_expt = new ArrayList<String>();
+            names_expt.add("player1");
+            names_expt.add("player2");
+            assertEquals(names_expt, stor_update.getPlayerNames("WORLD1"));
         }
     }
 
@@ -146,16 +151,16 @@ public class EconomyYamlStorageTest {
             assertEquals("world1", bank1.getLocation());
             assertEquals(10.0, bank1.getBalance(), 1e-6);
             assertEquals("player1", bank1.getOwner());
-            assertTrue("player1 is not the owner of bank1", bank1.isOwner("player1"));
-            assertTrue("player3 is not a member of bank1", bank1.isMember("player3"));
+            assertTrue("player1 is the owner of bank1", bank1.isOwner("player1"));
+            assertTrue("player3 is a member of bank1", bank1.isMember("player3"));
             assertEquals(mem_expt1, bank1.getMembers());
 
             assertEquals("bank2", bank2.getName());
             assertEquals("world2", bank2.getLocation());
             assertEquals(15.0, bank2.getBalance(), 1e-6);
             assertEquals("player2", bank2.getOwner());
-            assertTrue("player2 is not the owner of bank2", bank2.isOwner("player2"));
-            assertTrue("player4 is not a member of bank2", bank2.isMember("player4"));
+            assertTrue("player2 is the owner of bank2", bank2.isOwner("PLAYER2"));
+            assertTrue("player4 is a member of bank2", bank2.isMember("PLAyeR4"));
             assertEquals(mem_expt2, bank2.getMembers());
 
             // Remove a member and a bank, test save on update in next scope
