@@ -3,6 +3,7 @@ package com.github.omwah.SDFEconomy;
 import com.github.omwah.SDFEconomy.commands.CommandHandler;
 import com.github.omwah.SDFEconomy.commands.PluginCommand;
 import com.github.omwah.SDFEconomy.commands.BalanceCommand;
+import com.github.omwah.SDFEconomy.commands.BankCreateCommand;
 import com.github.omwah.SDFEconomy.commands.HelpCommand;
 import com.github.omwah.SDFEconomy.commands.PayCommand;
 import com.github.omwah.SDFEconomy.commands.SetCommand;
@@ -65,6 +66,7 @@ public class SDFEconomyCommandExecutor implements CommandExecutor {
         sub_cmd_list.add(new BalanceCommand(api));
         sub_cmd_list.add(new SetCommand(api));
         sub_cmd_list.add(new PayCommand(api));
+        sub_cmd_list.add(new BankCreateCommand(api));
         
         Map<String, PluginCommand> sub_cmd_map = new HashMap<String, PluginCommand>();
         for (Iterator sub_cmd_iter = sub_cmd_list.iterator(); sub_cmd_iter.hasNext();) {

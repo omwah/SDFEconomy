@@ -193,7 +193,9 @@ public class SDFEconomyAPI {
         
         // Make sure a bank can not be created without a location
         EconomyResponse response;
-        if(locationName != null) {
+        if(storage.hasBankAccount(name)) {
+            response = new EconomyResponse(0.0, 0.0, ResponseType.FAILURE, "Bank account already exists");
+        } else if(locationName != null) {
             double initialBalance = config.getDouble("api.bank.initial_balance");
             BankAccount account = storage.createBankAccount(name, playerName, locationName, initialBalance);
             response = new EconomyResponse(initialBalance, account.getBalance(), ResponseType.SUCCESS, "");
