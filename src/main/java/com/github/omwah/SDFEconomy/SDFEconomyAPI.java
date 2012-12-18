@@ -310,5 +310,18 @@ public class SDFEconomyAPI {
         }
         return response;
     }
-     
+    
+    /*
+     * Force a reload of the accounts storage
+     */
+    public void forceReload() {
+        storage.reload();
+    }
+
+    /*
+     * Force a commit of the accounts storage
+     */
+     public void forceCommit() {
+        storage.commit();
+    }
 }

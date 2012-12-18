@@ -31,7 +31,7 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
         this.save_on_update = save_on_update;
         this.storage = YamlConfiguration.loadConfiguration(accounts_file);
     }
-    
+
     private ConfigurationSection getPlayerSection(String playerName, String location, boolean createIfMissing) {
         // Store and search for account names in lower case to make names case insensitive
         ConfigurationSection section = 
@@ -166,7 +166,12 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
             this.commit();
         }
     }
-    
+   
+    @Override
+    public void reload() {
+        this.storage = YamlConfiguration.loadConfiguration(this.accounts_file);
+    }
+
     @Override
     public void commit() {
         try {

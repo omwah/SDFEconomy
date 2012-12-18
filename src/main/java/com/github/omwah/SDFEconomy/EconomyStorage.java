@@ -49,6 +49,10 @@ public interface EconomyStorage {
      */
     void updateAccount(Account account);
     /*
+     * Reload account data, purging any pending changes 
+     */
+    public void reload();
+    /*
      * Commits any unsaved changes to the underlying storage
      */
     public void commit();
