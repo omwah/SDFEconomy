@@ -177,7 +177,28 @@ public class SDFEconomyAPITest {
         ArrayList<String> expected_names = new ArrayList<String>();
         expected_names.add("bank1");
         
-        assertEquals(expected_names, api.getBanks());
+        assertEquals(expected_names, api.getBankNames());
+    }
+    
+    @Test
+    public void allBanks() {
+        api.createBank("Bank2", "Player2");
+        List<BankAccount> all_banks = api.getAllBanks();
+        assertEquals("Should have 2 bank accounts", 2, all_banks.size());
+        assertEquals("bank1", all_banks.get(0).getName());
+        assertEquals("bank2", all_banks.get(1).getName());
+    }
+    
+    @Test
+    public void playerBanks() {
+        api.createBank("Bank2", "Player2");
+        List<BankAccount> player_banks = api.getPlayerBanks("Player1", "World1");
+        assertEquals("Should have 1 bank account for Player1", 1, player_banks.size());
+        assertEquals("bank1", player_banks.get(0).getName());
+        
+        player_banks = api.getPlayerBanks("Player2", "World2");
+        assertEquals("Should have 1 bank account for Player2", 1, player_banks.size());
+        assertEquals("bank2", player_banks.get(0).getName());
     }
     
     @Test

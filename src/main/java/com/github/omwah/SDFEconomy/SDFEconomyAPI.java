@@ -3,6 +3,7 @@
 package com.github.omwah.SDFEconomy;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -194,20 +195,28 @@ public class SDFEconomyAPI {
         return response;
     }
     
-    public List<String> getBanks() {
+    public List<String> getBankNames() {
         return storage.getBankNames();
     }
+    
+    public List<BankAccount> getAllBanks() {
+        ArrayList<BankAccount> all_banks = new ArrayList<BankAccount>();
+        for(String bank_name : storage.getBankNames()) {
+            all_banks.add(storage.getBankAccount(bank_name));
+        }
+        return all_banks;
+    }
 
-    public List<String> getBanks(String playerName, String locationName) {
-        ArrayList<String> player_loc_banks = new ArrayList<String>();
+    public List<BankAccount> getPlayerBanks(String playerName, String locationName) {
+        ArrayList<BankAccount> player_banks = new ArrayList<BankAccount>();
         for(String bank_name : storage.getBankNames()) {
             BankAccount account = storage.getBankAccount(bank_name);
-            if(account.getLocationName().equalsIgnoreCase(locationName) && i
-                    (account.isOwner(playerName) || acccount.isMember(playerName))) {
-                player_loc_banks.add(account.getName());
+            if(account.getLocation().equalsIgnoreCase(locationName) &&
+                    (account.isOwner(playerName) || account.isMember(playerName))) {
+                player_banks.add(account);
             }
         }
-        return player_loc_banks;
+        return player_banks;
     }
 
     public EconomyResponse createBank(String name, String playerName) {
