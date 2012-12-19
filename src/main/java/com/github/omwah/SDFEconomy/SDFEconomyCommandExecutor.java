@@ -6,6 +6,7 @@ import com.github.omwah.SDFEconomy.commands.HelpCommand;
 import com.github.omwah.SDFEconomy.commands.BalanceCommand;
 import com.github.omwah.SDFEconomy.commands.PayCommand;
 import com.github.omwah.SDFEconomy.commands.BankCreateCommand;
+import com.github.omwah.SDFEconomy.commands.BankListCommand;
 import com.github.omwah.SDFEconomy.commands.ReloadCommand;
 import com.github.omwah.SDFEconomy.commands.SetCommand;
 
@@ -32,7 +33,7 @@ public class SDFEconomyCommandExecutor implements CommandExecutor {
         // Set up sub commands
         Map<String, PluginCommand> sub_commands = getSubCommands(api);
 
-        this.commandHandler = new CommandHandler(permission);
+        this.commandHandler = new CommandHandler(permission, "sdfeconomy.admin");
         if (sub_commands.containsKey(cmd.getName())) {
             // Set up the command handler with the sole sub command
             // that has been promoted to a top level command
@@ -66,6 +67,8 @@ public class SDFEconomyCommandExecutor implements CommandExecutor {
         ArrayList<PluginCommand> sub_cmd_list = new ArrayList<PluginCommand>();
         sub_cmd_list.add(new BalanceCommand(api));
         sub_cmd_list.add(new PayCommand(api));
+        
+        sub_cmd_list.add(new BankListCommand(api));
         sub_cmd_list.add(new BankCreateCommand(api));
 
         sub_cmd_list.add(new ReloadCommand(api));

@@ -5,16 +5,11 @@ import org.bukkit.entity.Player;
 
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
 
-public class SetCommand extends BasicCommand
-{
-    private final SDFEconomyAPI api;
-
-    public SetCommand(SDFEconomyAPI api)
-    {
-        super("set");
-        
-        this.api = api;
-        
+public class SetCommand extends PlayerSpecificCommand {
+    
+    public SetCommand(SDFEconomyAPI api) {
+        super("set", api);
+   
         setDescription("Set the balance for a player, admin only");
         setUsage(this.getName() + " §8<player_name> <amount> [location]");
         setArgumentRange(2, 3);
@@ -25,42 +20,21 @@ public class SetCommand extends BasicCommand
     @Override
     public boolean execute(CommandHandler handler, CommandSender sender, String label, String identifier, String[] args)
     {
-        // Make sure we are at console or sender has sufficient privileges
-        // CommandHandler should handle making sure we have the number of required arguments
-        if(sender == null || 
-                (handler.hasPermission(sender, "sdfeconomy.admin") || 
-                ((Player)sender).isOp())) {
+        // Command handler, checks permission, but check again just in case
+        if(handler.hasAdminPermission(sender)) {
+            PlayerAndLocation ploc = getPlayerAndLocation(handler, sender, args, 0, 2);
             
-            String destPlayer = args[0];
             double amount = Double.parseDouble(args[1]);
             
-            String locationName = null;
-            if(args.length > 2) {
-                locationName = args[2];
-            }
-
-            // If the API can not determine the player's location, ie if they are offline
-            // Then we need a location name specified as an argument
-            if(api.getPlayerLocationName(destPlayer) == null && locationName == null) {
-                sender.sendMessage("Could not determine player's location, supply location string as third argument");
-                return true;
-            }
-
-            // Use the API's last location for player if none supplied as argument
-            if(locationName == null) {
-                // This will not be executed if the player did not supply a location
-                locationName = api.getPlayerLocationName(destPlayer);
-            }
-
-            if(api.hasAccount(destPlayer, locationName)) {
-                this.api.setBalance(destPlayer, locationName, amount);
-                String balance = api.format(this.api.getBalance(destPlayer, locationName));
-                sender.sendMessage(destPlayer + "'s balance @ " + locationName + " is now: " + balance);
+            if(api.hasAccount(ploc.playerName, ploc.locationName)) {
+                this.api.setBalance(ploc.playerName, ploc.locationName, amount);
+                String balance = api.format(this.api.getBalance(ploc.playerName, ploc.locationName));
+                sender.sendMessage(ploc.playerName + "'s balance @ " + ploc.locationName + " is now: " + balance);
             } else {
-                sender.sendMessage("Could not find an account for " + destPlayer + " @ " + locationName);
+                sender.sendMessage("Could not find an account for " + ploc.playerName + " @ " + ploc.locationName);
             }
         } else {
-            sender.sendMessage("Insufficient privileges to check another player's balance");
+            sender.sendMessage("Insufficient privileges to set another player's balance");
         }
            
         return true;

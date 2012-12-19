@@ -25,11 +25,19 @@ public class CommandHandler
 
     private final Permission permission;
     protected Map<String, PluginCommand> commands;
+    
+    String admin_perm_string = null;
 
     public CommandHandler(Permission permission)
     {
         this.permission = permission;
         this.commands = new LinkedHashMap<String, PluginCommand>();
+    }
+    
+    public CommandHandler(Permission permission, String adminPermString)
+    {
+        this(permission);
+        this.admin_perm_string = adminPermString;
     }
 
     public void addCommand(PluginCommand command)
@@ -129,5 +137,15 @@ public class CommandHandler
             return permission.has(player, permString);
         }
         return player.hasPermission(permString);
+    }
+    
+    public boolean hasAdminPermission(CommandSender sender) {
+        if (sender == null ||
+                (sender instanceof Player && ((Player)sender).isOp()) || 
+                (admin_perm_string != null && hasPermission(sender, admin_perm_string))) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

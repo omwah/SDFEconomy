@@ -8,9 +8,9 @@ import java.util.Observable;
  * Base class that implements common Account behavior.
  */
 public abstract class Account extends Observable {
-    String name;
-    String location;
-    double balance = 0.0;
+    protected String name;
+    protected String location;
+    protected double balance = 0.0;
     
     /*
      * Name of account
@@ -24,7 +24,7 @@ public abstract class Account extends Observable {
      * Where the account is located, i.e. which world
      */
     
-    String getLocation() {
+    public String getLocation() {
         return this.location;
     }
     
@@ -32,7 +32,7 @@ public abstract class Account extends Observable {
      * How much money is in account
      */
         
-    double getBalance() {
+    public double getBalance() {
         return this.balance;
     }
     
@@ -40,7 +40,7 @@ public abstract class Account extends Observable {
      * Set balance of account
      */
     
-    void setBalance(double amount) {
+    public void setBalance(double amount) {
         this.balance = amount;
         setChanged();
         notifyObservers();

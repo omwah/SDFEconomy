@@ -35,9 +35,7 @@ public abstract class PlayerSpecificCommand extends BasicCommand
         // Make sure we are at console or sender has sufficient privileges
         // if a owner name is specified
         String player_name;
-        if (args.length > playerIndex && (sender == null || 
-                (handler.hasPermission(sender, "sdfeconomy.admin") || 
-                ((Player)sender).isOp()))) {
+        if (args.length > playerIndex && handler.hasAdminPermission(sender)) {
             
             // Op or admin creating a bank account for another player
             player_name = args[playerIndex];

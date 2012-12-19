@@ -5,15 +5,10 @@ import org.bukkit.entity.Player;
 
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
 
-public class BalanceCommand extends BasicCommand
-{
-    private final SDFEconomyAPI api;
-
-    public BalanceCommand(SDFEconomyAPI api)
-    {
-        super("balance");
-        
-        this.api = api;
+public class BalanceCommand extends PlayerSpecificCommand {
+    
+    public BalanceCommand(SDFEconomyAPI api) {
+        super("balance", api);
         
         setDescription("Check player account balance");
         setUsage(this.getName() + " §8[player_name] [location]");
@@ -25,56 +20,21 @@ public class BalanceCommand extends BasicCommand
     @Override
     public boolean execute(CommandHandler handler, CommandSender sender, String label, String identifier, String[] args)
     {
+         PlayerAndLocation ploc = getPlayerAndLocation(handler, sender, args, 0, 1);
+         
         // If arguments are supplied then check for another players balance
-        if (args.length > 0) {
-            String destPlayer = args[0];
-            
-            String locationName = null;
-            if(args.length > 1) {
-                locationName = args[1];
-            }
-            
-            // Make sure we are at console or sender has sufficient privileges
-            // Also let player query themselves, in case they desire to 
-            // check balances in other location
-            if(sender == null || 
-                    (handler.hasPermission(sender, "sdfeconomy.admin") || 
-                    ((Player)sender).isOp() ||
-                    ((Player)sender).getName().equalsIgnoreCase(destPlayer) )) {
-                
-                // If the API can not determine the player's location, ie if they are offline
-                // Then we need a location name specified as an argument
-                if(api.getPlayerLocationName(destPlayer) == null && locationName == null) {
-                    sender.sendMessage("Could not determine player's location, supply location string as second argument");
-                    return true;
-                }
-                
-                // Use the API's last location for player if none supplied as argument
-                if(locationName == null) {
-                    // This will not be executed if the player did not supply a location
-                    locationName = api.getPlayerLocationName(destPlayer);
-                }
-                
-                if(api.hasAccount(destPlayer, locationName)) {
-                    String balance = api.format(this.api.getBalance(destPlayer, locationName));
-                    sender.sendMessage(destPlayer + "'s balance @ " + locationName + " is: " + balance);
-                } else {
-                    sender.sendMessage("Could not find an account for " + destPlayer + " @ " + locationName);
-                }
+        if (ploc != null) {
+            if(api.hasAccount(ploc.playerName, ploc.locationName)) {
+                String balance = api.format(this.api.getBalance(ploc.playerName, ploc.locationName));
+                sender.sendMessage(ploc.playerName + "'s balance @ " + ploc.locationName + " is: " + balance);
             } else {
-                sender.sendMessage("Insufficient privileges to check another player's balance");
+                sender.sendMessage("Could not find an account for " + ploc.playerName + " @ " + ploc.locationName);
             }
-           
-        } else if (sender instanceof Player) {
-            // No arguments and this is a player, check own balance
-            // Player is logged in so location will be known
-            Player player = (Player) sender;
-            double balance = this.api.getBalance(player.getName());
-            sender.sendMessage("Your balance is: " + balance);
         } else {
-            // This will only be sent when command issued from console
-            sender.sendMessage("Must supply player name as argument when command is run from console");
+            // Unable to succesfully get player name and or location, helper routine will send appropriate message
+            return false;
         }
+        
         return true;
     }
 }

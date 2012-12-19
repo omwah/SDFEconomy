@@ -1,5 +1,6 @@
 package com.github.omwah.SDFEconomy.commands;
 
+import com.github.omwah.SDFEconomy.BankAccount;
 import java.util.List;
 
 import org.bukkit.command.CommandSender;
@@ -7,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
+import org.bukkit.entity.Player;
 
 public class BankListCommand extends PlayerSpecificCommand
 {
@@ -27,13 +29,24 @@ public class BankListCommand extends PlayerSpecificCommand
         PlayerAndLocation ploc = getPlayerAndLocation(handler, sender, args, 0, 1);
 
         if(ploc != null) {
-            List<String> bank_names;
-            if (sender == null || handler.hasPermission(sender, "sdfeconomy.admin") || ((Player)sender).isOp()) {
+            List<BankAccount> bank_accounts;
+            boolean display_admin = false;
+            if (handler.hasAdminPermission(sender)) {
                 // Get all banks for a location
-                bank_names = api.getBanks();
+                bank_accounts = api.getAllBanks();
+                display_admin = true;
             } else {
                 // Only report those owned by player unless sender is op or console
-                bank_names = api.getBanks(ploc.playerName, ploc.locationName);
+                bank_accounts = api.getPlayerBanks(ploc.playerName, ploc.locationName);
+            }
+            
+            sender.sendMessage("§c-----[ " + "§f Bank Accounts §c ]-----");
+            for(BankAccount account : bank_accounts) {
+                if (display_admin) {
+                    sender.sendMessage(account.getName() + " @ " + account.getLocation() + " : " + account.getOwner());
+                } else {
+                    sender.sendMessage(account.getName());
+                }
             }
         } else {
             // Unable to succesfully get player name and or location, helper routine will send appropriate message
