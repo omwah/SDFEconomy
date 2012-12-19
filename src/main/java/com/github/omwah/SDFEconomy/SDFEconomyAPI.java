@@ -198,6 +198,18 @@ public class SDFEconomyAPI {
         return storage.getBankNames();
     }
 
+    public List<String> getBanks(String playerName, String locationName) {
+        ArrayList<String> player_loc_banks = new ArrayList<String>();
+        for(String bank_name : storage.getBankNames()) {
+            BankAccount account = storage.getBankAccount(bank_name);
+            if(account.getLocationName().equalsIgnoreCase(locationName) && i
+                    (account.isOwner(playerName) || acccount.isMember(playerName))) {
+                player_loc_banks.add(account.getName());
+            }
+        }
+        return player_loc_banks;
+    }
+
     public EconomyResponse createBank(String name, String playerName) {
         return createBank(name, playerName, getPlayerLocationName(playerName));
     }
