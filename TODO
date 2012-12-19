@@ -2,7 +2,7 @@ Features to add
 ---------------
 * Bank commands, topN command
 * Selectable location translator method through class
-* Conversion from BOSEconomy utility
+* Conversion from other economies utility using Vault, but location aware and including banks
 
 Commands to implement
 ---------------------
@@ -12,9 +12,6 @@ Commands to implement
 
 /econ bank rename <bank> <name>
   Renames a bank account
-
-/econ bank info <bank> 
-  Displays bank account balance and information
 
 /econ bank withdraw <bank> <amount>
   Withdraws money from a bank account
