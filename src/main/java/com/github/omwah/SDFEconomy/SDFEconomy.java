@@ -9,6 +9,8 @@ import org.bukkit.command.PluginCommand;
 
 import net.milkbowl.vault.permission.Permission;
 
+import com.github.omwah.SDFEconomy.commands.SDFEconomyCommandExecutor;
+
 /*
  * Bukkit Plugin class for SDFEconomy
  */

@@ -199,6 +199,9 @@ public class SDFEconomyAPI {
         return storage.getBankNames();
     }
     
+    /*
+     * Retrieve all bank accounts
+     */
     public List<BankAccount> getAllBanks() {
         ArrayList<BankAccount> all_banks = new ArrayList<BankAccount>();
         for(String bank_name : storage.getBankNames()) {
@@ -207,6 +210,9 @@ public class SDFEconomyAPI {
         return all_banks;
     }
 
+    /*
+     * Retrieve only those bank accounts for a player in a specific location
+     */
     public List<BankAccount> getPlayerBanks(String playerName, String locationName) {
         ArrayList<BankAccount> player_banks = new ArrayList<BankAccount>();
         for(String bank_name : storage.getBankNames()) {
@@ -217,6 +223,17 @@ public class SDFEconomyAPI {
             }
         }
         return player_banks;
+    }
+
+    /* 
+     * Retrieve a bank account by name
+     */
+    public BankAccount getBankAccount(String accountName) {
+        if (storage.hasBankAccount(accountName)) {
+            return storage.getBankAccount(accountName);
+        } else {
+            return null;
+        }
     }
 
     public EconomyResponse createBank(String name, String playerName) {

@@ -202,6 +202,13 @@ public class SDFEconomyAPITest {
     }
     
     @Test
+    public void getBank() {
+        BankAccount bank = api.getBankAccount("bank1");
+        assertEquals("bank1", bank.getName());
+        assertEquals("player1", bank.getOwner());
+    }
+
+    @Test
     public void createBank () {
         assertEquals("Should have success creating Bank2 for Player2", ResponseType.SUCCESS, api.createBank("Bank2", "Player2").type);
         assertEquals("Should have failure creating Bank2 for Player2, again", ResponseType.FAILURE, api.createBank("Bank2", "Player2").type);

@@ -34,8 +34,8 @@ public abstract class PlayerSpecificCommand extends BasicCommand
 
         // Make sure we are at console or sender has sufficient privileges
         // if a owner name is specified
-        String player_name;
-        if (args.length > playerIndex && handler.hasAdminPermission(sender)) {
+        String player_name = null;
+        if (playerIndex >= 0 && args.length > playerIndex && handler.hasAdminPermission(sender)) {
             
             // Op or admin creating a bank account for another player
             player_name = args[playerIndex];
@@ -45,7 +45,7 @@ public abstract class PlayerSpecificCommand extends BasicCommand
             // is specified
             //
             Player player_obj = (Player) sender;
-            if(args.length > playerIndex && !args[playerIndex].equalsIgnoreCase(player_obj.getName())) {
+            if(playerIndex >= 0 && args.length > playerIndex && !args[playerIndex].equalsIgnoreCase(player_obj.getName())) {
                 // Player tried to specify owner's name without sufficient privileges
                 sender.sendMessage("Insufficient privileges to access another player's account");
                 return null;
@@ -57,17 +57,17 @@ public abstract class PlayerSpecificCommand extends BasicCommand
 
         } else {
             // Sender is not a Player so must be a console access
-            sender.sendMessage("Must specify player name and possibly location when using command from console");
+            sender.sendMessage("Must specify player name when using this command from the console");
             return null;
         }
    
         String location_name = null;
-        if(args.length > locationIndex) {
+        if(locationIndex >= 0 && args.length > locationIndex) {
             location_name = args[locationIndex];
         }
             
         // Use the API's last location for player if none supplied as argument
-        if(location_name == null) {
+        if(location_name == null && player_name != null) {
             // This will not be executed if the player did not supply a location
             location_name = api.getPlayerLocationName(player_name);
         }

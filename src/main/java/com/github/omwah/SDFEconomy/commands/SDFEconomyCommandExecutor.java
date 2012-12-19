@@ -1,14 +1,6 @@
-package com.github.omwah.SDFEconomy;
+package com.github.omwah.SDFEconomy.commands;
 
-import com.github.omwah.SDFEconomy.commands.CommandHandler;
-import com.github.omwah.SDFEconomy.commands.PluginCommand;
-import com.github.omwah.SDFEconomy.commands.HelpCommand;
-import com.github.omwah.SDFEconomy.commands.BalanceCommand;
-import com.github.omwah.SDFEconomy.commands.PayCommand;
-import com.github.omwah.SDFEconomy.commands.BankCreateCommand;
-import com.github.omwah.SDFEconomy.commands.BankListCommand;
-import com.github.omwah.SDFEconomy.commands.ReloadCommand;
-import com.github.omwah.SDFEconomy.commands.SetCommand;
+import com.github.omwah.SDFEconomy.SDFEconomyAPI;
 
 import java.util.Iterator;
 import java.util.ArrayList;
@@ -69,6 +61,7 @@ public class SDFEconomyCommandExecutor implements CommandExecutor {
         sub_cmd_list.add(new PayCommand(api));
         
         sub_cmd_list.add(new BankListCommand(api));
+        sub_cmd_list.add(new BankInfoCommand(api));
         sub_cmd_list.add(new BankCreateCommand(api));
 
         sub_cmd_list.add(new ReloadCommand(api));

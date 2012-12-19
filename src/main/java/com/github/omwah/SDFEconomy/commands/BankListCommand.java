@@ -26,31 +26,31 @@ public class BankListCommand extends PlayerSpecificCommand
     @Override
     public boolean execute(CommandHandler handler, CommandSender sender, String label, String identifier, String[] args)
     {
-        PlayerAndLocation ploc = getPlayerAndLocation(handler, sender, args, 0, 1);
+        List<BankAccount> bank_accounts;
+        boolean display_admin = false;
+        if (handler.hasAdminPermission(sender)) {
+            // Get all banks for a location
+            bank_accounts = api.getAllBanks();
+            display_admin = true;
+        } else {
+            PlayerAndLocation ploc = getPlayerAndLocation(handler, sender, args, 0, 1);
 
-        if(ploc != null) {
-            List<BankAccount> bank_accounts;
-            boolean display_admin = false;
-            if (handler.hasAdminPermission(sender)) {
-                // Get all banks for a location
-                bank_accounts = api.getAllBanks();
-                display_admin = true;
-            } else {
-                // Only report those owned by player unless sender is op or console
-                bank_accounts = api.getPlayerBanks(ploc.playerName, ploc.locationName);
+            if(ploc == null) {
+                // Unable to succesfully get player name and or location, helper routine will send appropriate message
+                return false;
             }
             
-            sender.sendMessage("§c-----[ " + "§f Bank Accounts §c ]-----");
-            for(BankAccount account : bank_accounts) {
-                if (display_admin) {
-                    sender.sendMessage(account.getName() + " @ " + account.getLocation() + " : " + account.getOwner());
-                } else {
-                    sender.sendMessage(account.getName());
-                }
+            // Only report those owned by player unless sender is op or console
+            bank_accounts = api.getPlayerBanks(ploc.playerName, ploc.locationName);
+        }
+            
+        sender.sendMessage("§c-----[ " + "§f Bank Accounts §c ]-----");
+        for(BankAccount account : bank_accounts) {
+            if (display_admin) {
+                sender.sendMessage(account.getName() + " @ " + account.getLocation() + " : " + account.getOwner());
+            } else {
+                sender.sendMessage(account.getName());
             }
-        } else {
-            // Unable to succesfully get player name and or location, helper routine will send appropriate message
-            return false;
         }
             
         return true;
