@@ -2,7 +2,6 @@ Features to add
 ---------------
 * Bank commands, topN command
 * Selectable location translator method through class
-* Deployment pom.xml configuration
 * Conversion from BOSEconomy utility
 
 Commands to implement
@@ -14,11 +13,8 @@ Commands to implement
 /econ bank rename <bank> <name>
   Renames a bank account
 
-/econ bank bank <bank> [page]
-  Displays bank account balance 
-
-/econ bank listmembers <bank> [page]
-  Lists the members of a bank account
+/econ bank info <bank> 
+  Displays bank account balance and information
 
 /econ bank withdraw <bank> <amount>
   Withdraws money from a bank account
@@ -36,9 +32,6 @@ Commands to implement
   Displays the top wealthiest players
   Where number of players displayed comes from the config
 
-admin:
-/econ bank list [page]
-  Lists all bank accounts
-
+admin only:
 /econ player list
   List all player accounts
