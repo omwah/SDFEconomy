@@ -11,6 +11,7 @@ import net.milkbowl.vault.permission.Permission;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.Configuration;
 
 /*
  * CommandExectuor that dispatches commands to CommandHandler classes
@@ -21,9 +22,9 @@ public class SDFEconomyCommandExecutor implements CommandExecutor {
     /*
      * This command executor needs to know about its plugin from which it came from
      */
-    public SDFEconomyCommandExecutor(Command cmd, Permission permission, SDFEconomyAPI api) {
+    public SDFEconomyCommandExecutor(Command cmd, Permission permission, SDFEconomyAPI api, Configuration config) {
         // Set up sub commands
-        Map<String, PluginCommand> sub_commands = getSubCommands(api);
+        Map<String, PluginCommand> sub_commands = getSubCommands(api, config);
 
         this.commandHandler = new CommandHandler(permission, "sdfeconomy.admin");
         if (sub_commands.containsKey(cmd.getName())) {
@@ -54,7 +55,7 @@ public class SDFEconomyCommandExecutor implements CommandExecutor {
      * based on what is present in plugin.yml
      */
 
-    private Map<String, PluginCommand> getSubCommands(SDFEconomyAPI api) {
+    private Map<String, PluginCommand> getSubCommands(SDFEconomyAPI api, Configuration config) {
         // Set up which subcommands of the main command are available
         ArrayList<PluginCommand> sub_cmd_list = new ArrayList<PluginCommand>();
         sub_cmd_list.add(new BalanceCommand(api));
@@ -62,7 +63,19 @@ public class SDFEconomyCommandExecutor implements CommandExecutor {
         
         sub_cmd_list.add(new BankListCommand(api));
         sub_cmd_list.add(new BankInfoCommand(api));
+
+        sub_cmd_list.add(new BankDepositCommand(api));
+        sub_cmd_list.add(new BankWithdrawCommand(api));
+
         sub_cmd_list.add(new BankCreateCommand(api));
+        sub_cmd_list.add(new BankRemoveCommand(api));
+        sub_cmd_list.add(new BankRenameCommand(api));        
+        
+        sub_cmd_list.add(new BankAddMemberCommand(api));
+        sub_cmd_list.add(new BankRemoveMemberCommand(api));
+
+        config.addDefault("commands.topN", 5);
+        sub_cmd_list.add(new TopAccountsCommand(api, config.getInt("commands.topN")));
 
         sub_cmd_list.add(new ReloadCommand(api));
         sub_cmd_list.add(new SetCommand(api));

@@ -71,6 +71,11 @@ public abstract class PlayerSpecificCommand extends BasicCommand
             // This will not be executed if the player did not supply a location
             location_name = api.getPlayerLocationName(player_name);
         }
+        
+        if (location_name == null) {
+            sender.sendMessage("Could not determine player location");
+            return null;
+        }
 
         return new PlayerAndLocation(player_name, location_name);
      }

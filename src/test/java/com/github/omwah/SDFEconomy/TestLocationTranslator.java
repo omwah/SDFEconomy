@@ -30,7 +30,13 @@ public class TestLocationTranslator implements LocationTranslator {
     public boolean validLocationName(String locationName) {
         int name_len = locationName.length();
         String prefix = locationName.substring(0,name_len-1);
-        int world_num = Integer.parseInt(locationName.substring(name_len-1,name_len));
+        
+        int world_num;
+        try {
+            world_num = Integer.parseInt(locationName.substring(name_len-1,name_len));
+        } catch(NumberFormatException e) {
+            return false;
+        }
 
         if(prefix.equalsIgnoreCase("world") && world_num < 4) {
             return true;

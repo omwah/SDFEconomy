@@ -4,6 +4,7 @@ package com.github.omwah.SDFEconomy;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.junit.Before;
@@ -88,6 +89,9 @@ public class SDFEconomyAPITest {
         expected_names.add("player1");
         expected_names.add("player3");
         assertEquals(expected_names, api.getPlayers("World1"));
+
+        assertEquals(Collections.<String>emptyList(), api.getPlayers(null));
+        assertEquals(Collections.<String>emptyList(), api.getPlayers("BadWorldName"));
     }
     
     @Test
@@ -236,6 +240,7 @@ public class SDFEconomyAPITest {
         EconomyResponse bank1 = api.bankHas("Bank1", 100.0);
         assertEquals("Bank has query should have been a success", ResponseType.SUCCESS, bank1.type);
         assertEquals("Bank should have a balance of 101.0", 101.0, bank1.balance, 1.0e-6);
+        assertEquals("Bank1 should have at least 101.00", ResponseType.SUCCESS, api.bankHas("Bank1", 101.0).type);
         assertEquals("Bank1 should not have at least 102.00", ResponseType.FAILURE, api.bankHas("Bank1", 102.0).type);
         assertEquals("Query on null bank should be a failure", ResponseType.FAILURE, api.bankHas(null, 0.0).type);
     }

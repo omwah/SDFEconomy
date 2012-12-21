@@ -26,12 +26,10 @@ public class BankListCommand extends PlayerSpecificCommand
     @Override
     public boolean execute(CommandHandler handler, CommandSender sender, String label, String identifier, String[] args)
     {
-        List<BankAccount> bank_accounts;
-        boolean display_admin = false;
-        if (handler.hasAdminPermission(sender)) {
+        List<BankAccount> bank_accounts;      
+        if (handler.hasAdminPermission(sender) && args.length == 0) {
             // Get all banks for a location
             bank_accounts = api.getAllBanks();
-            display_admin = true;
         } else {
             PlayerAndLocation ploc = getPlayerAndLocation(handler, sender, args, 0, 1);
 
@@ -46,10 +44,11 @@ public class BankListCommand extends PlayerSpecificCommand
             
         sender.sendMessage("§c-----[ " + "§f Bank Accounts §c ]-----");
         for(BankAccount account : bank_accounts) {
-            if (display_admin) {
-                sender.sendMessage(account.getName() + " @ " + account.getLocation() + " : " + account.getOwner());
+            String balance_str = api.format(account.getBalance());
+            if (handler.hasAdminPermission(sender)) {
+                sender.sendMessage(account.getName() + " @ " + account.getLocation() + " : " + balance_str + ", Owner: " + account.getOwner());
             } else {
-                sender.sendMessage(account.getName());
+                sender.sendMessage(account.getName() + " : " + balance_str);
             }
         }
             

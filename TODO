@@ -1,34 +1,5 @@
 Features to add
 ---------------
-* Bank commands, topN command
 * Selectable location translator method through class
 * Conversion from other economies utility using Vault, but location aware and including banks
-
-Commands to implement
----------------------
-
-/econ bank remove <bank>
-  Removes a bank account
-
-/econ bank rename <bank> <name>
-  Renames a bank account
-
-/econ bank withdraw <bank> <amount>
-  Withdraws money from a bank account
-
-/econ bank deposit <bank> <amount>
-  Deposits money into a bank account
-
-/econ bank addmember <bank> <player>
-  Adds a member to a bank account
-
-/econ bank removemember <bank> <player>
-  Removes a member or owner from a bank account
-
-/econ top
-  Displays the top wealthiest players
-  Where number of players displayed comes from the config
-
-admin only:
-/econ player list
-  List all player accounts
+* Add a message to destination player when they get payed

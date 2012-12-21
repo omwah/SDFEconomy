@@ -52,7 +52,7 @@ public class SDFEconomy extends JavaPlugin {
         for(Iterator cmd_iter = this.getDescription().getCommands().keySet().iterator(); cmd_iter.hasNext();) {
             // set the command executor for the Command
             PluginCommand curr_cmd = this.getCommand((String) cmd_iter.next());
-            curr_cmd.setExecutor(new SDFEconomyCommandExecutor(curr_cmd, this.permission, this.api));
+            curr_cmd.setExecutor(new SDFEconomyCommandExecutor(curr_cmd, this.permission, this.api, this.getConfig()));
         }
     }
     

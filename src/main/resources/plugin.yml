@@ -25,6 +25,7 @@ permissions:
           sdfeconomy.use_account: true
           sdfeconomy.use_bank: true
           sdfeconomy.pay_players: true
+          sdfeconomy.see_top_balances: true
           sdfeconomy.admin: true 
     sdfeconomy.use_account:
         description: Allow usage of a player account
@@ -35,6 +36,9 @@ permissions:
     sdfeconomy.pay_players:
         description: Allow paying other players
         default: true
+    sdfeconomy.see_top_balances:
+        description: See other player's balances in the top display
+        default: false
     sdfeconomy.admin:
         description: Allow access to administration commands
         default: op

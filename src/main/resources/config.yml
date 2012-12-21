@@ -1,16 +1,26 @@
+# Settings for API to player and bank accounts
 api:
+    # Bank settings
     bank:
         enabled: true
         initial_balance: 0.0
-api:
+
+    # Player settings
     player:
         initial_balance: 10.00
-api:
+
+    # Currency settings
     currency:
         numerical_format: "#,##0.00"
         name:
             plural: "simoleons"
             singular: "simoleons"
+            
+# Settings for commands            
+commands:   
+    topN: 5
+    
+# Storage settings
 storage:
     yaml:
         filename: "accounts.yaml"

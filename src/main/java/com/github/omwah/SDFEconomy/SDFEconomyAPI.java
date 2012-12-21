@@ -96,7 +96,7 @@ public class SDFEconomyAPI {
     }
     
     public List<String> getPlayers(String locationName) {
-        if (locationName != null) {
+        if (locationName != null && validLocationName(locationName)) {
             return storage.getPlayerNames(locationName);
         } else {
             return Collections.<String>emptyList();
@@ -169,21 +169,33 @@ public class SDFEconomyAPI {
 
     public EconomyResponse withdrawPlayer(String playerName, double amount) {
         String locationName = getPlayerLocationName(playerName);
-
+        return withdrawPlayer(playerName, amount, locationName);
+    }
+        
+    public EconomyResponse withdrawPlayer(String playerName, double amount, String locationName) {
+        
         EconomyResponse response;
-        if (locationName != null && hasAccount(playerName, locationName) && has(playerName, locationName, amount)) {
-            PlayerAccount account = storage.getPlayerAccount(playerName, locationName);
-            account.setBalance(account.getBalance() - amount);
-            response = new EconomyResponse(amount, account.getBalance(), ResponseType.SUCCESS, "");
+        if (locationName != null && hasAccount(playerName, locationName)) {
+            if (has(playerName, locationName, amount)) {
+                PlayerAccount account = storage.getPlayerAccount(playerName, locationName);
+                account.setBalance(account.getBalance() - amount);
+                response = new EconomyResponse(amount, account.getBalance(), ResponseType.SUCCESS, "");
+            } else {
+                response = new EconomyResponse(0.0, 0.0, ResponseType.FAILURE, "Player does not have enough money for transaction");
+            }
         } else {
-            response = new EconomyResponse(0.0, 0.0, ResponseType.FAILURE, "Can not withdraw from player");
+            response = new EconomyResponse(0.0, 0.0, ResponseType.FAILURE, "Location name is invalid or player does not have an account");
         }
         return response;
     }
 
     public EconomyResponse depositPlayer(String playerName, double amount) {
         String locationName = getPlayerLocationName(playerName);
-
+        return depositPlayer(playerName, amount, locationName);
+    }
+    
+    public EconomyResponse depositPlayer(String playerName, double amount, String locationName) {
+        
         EconomyResponse response;
         if (locationName != null && hasAccount(playerName, locationName)) {
             PlayerAccount account = storage.getPlayerAccount(playerName, locationName);
@@ -287,7 +299,7 @@ public class SDFEconomyAPI {
         EconomyResponse response;
         if(storage.hasBankAccount(name)) {
             BankAccount account = storage.getBankAccount(name);
-            if (account.getBalance() > amount) {
+            if (account.getBalance() >= amount) {
                 response = new EconomyResponse(0, account.getBalance(), ResponseType.SUCCESS, "");
             } else {
                 response = new EconomyResponse(0, account.getBalance(), ResponseType.FAILURE, "Account does not enough money");
