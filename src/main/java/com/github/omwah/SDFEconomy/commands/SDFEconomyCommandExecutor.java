@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.LinkedHashMap;
 
 import net.milkbowl.vault.permission.Permission;
+import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -22,9 +23,9 @@ public class SDFEconomyCommandExecutor implements CommandExecutor {
     /*
      * This command executor needs to know about its plugin from which it came from
      */
-    public SDFEconomyCommandExecutor(Command cmd, Permission permission, SDFEconomyAPI api, Configuration config) {
+    public SDFEconomyCommandExecutor(Command cmd, Permission permission, SDFEconomyAPI api, Configuration config, Server server) {
         // Set up sub commands
-        Map<String, PluginCommand> sub_commands = getSubCommands(api, config);
+        Map<String, PluginCommand> sub_commands = getSubCommands(api, config, server);
 
         this.commandHandler = new CommandHandler(permission, "sdfeconomy.admin");
         if (sub_commands.containsKey(cmd.getName())) {
@@ -55,11 +56,11 @@ public class SDFEconomyCommandExecutor implements CommandExecutor {
      * based on what is present in plugin.yml
      */
 
-    private Map<String, PluginCommand> getSubCommands(SDFEconomyAPI api, Configuration config) {
+    private Map<String, PluginCommand> getSubCommands(SDFEconomyAPI api, Configuration config, Server server) {
         // Set up which subcommands of the main command are available
         ArrayList<PluginCommand> sub_cmd_list = new ArrayList<PluginCommand>();
         sub_cmd_list.add(new BalanceCommand(api));
-        sub_cmd_list.add(new PayCommand(api));
+        sub_cmd_list.add(new PayCommand(api, server));
         
         sub_cmd_list.add(new BankListCommand(api));
         sub_cmd_list.add(new BankInfoCommand(api));
@@ -79,6 +80,7 @@ public class SDFEconomyCommandExecutor implements CommandExecutor {
 
         sub_cmd_list.add(new ReloadCommand(api));
         sub_cmd_list.add(new SetCommand(api));
+        sub_cmd_list.add(new ConvertCommand(api, server));
        
         // Use LinkedHashMap so values are in the order they were inserted
         Map<String, PluginCommand> sub_cmd_map = new LinkedHashMap<String, PluginCommand>();

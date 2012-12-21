@@ -6,16 +6,19 @@ import org.bukkit.entity.Player;
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
+import org.bukkit.Server;
 
 public class PayCommand extends BasicCommand
 {
     private final SDFEconomyAPI api;
+    private final Server server;
 
-    public PayCommand(SDFEconomyAPI api)
+    public PayCommand(SDFEconomyAPI api, Server server)
     {
         super("pay");
         
         this.api = api;
+        this.server = server;
         
         setDescription("Pay another player in your current location");
         setUsage(this.getName() + " §8<player_name> <amount>");
@@ -75,6 +78,13 @@ public class PayCommand extends BasicCommand
                     
             String balance = api.format(api.getBalance(payer, location));
             sender.sendMessage("Payment of " + amount_str + " to " + payee + " succeeded, your balance is now " + balance);
+            
+            // Send message to destination player
+            Player dest_player = server.getPlayer(payee);
+            if(dest_player != null && dest_player.isOnline()) {
+                balance = api.format(api.getBalance(payee, location));
+                dest_player.sendMessage(payer + " has sent you " + amount_str + " your balance is now: " + balance);
+            }
         } else {
             // This will only be sent when command issued from console
             sender.sendMessage("Pay command must be used by a player");
