@@ -30,6 +30,14 @@ public class BankAccount extends Account {
     public String getOwner() {
         return owner;
     }
+   
+    /*
+     * Sets the owner of the Bank
+     */
+    
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
     
     /*
      * Get the members of the Bank
