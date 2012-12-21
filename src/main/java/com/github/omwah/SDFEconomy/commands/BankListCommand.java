@@ -1,14 +1,9 @@
 package com.github.omwah.SDFEconomy.commands;
 
 import com.github.omwah.SDFEconomy.BankAccount;
-import java.util.List;
-
-import org.bukkit.command.CommandSender;
-
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
-import net.milkbowl.vault.economy.EconomyResponse;
-import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
-import org.bukkit.entity.Player;
+import java.util.List;
+import org.bukkit.command.CommandSender;
 
 public class BankListCommand extends PlayerSpecificCommand
 {

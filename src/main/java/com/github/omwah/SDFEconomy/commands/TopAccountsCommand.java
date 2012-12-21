@@ -1,11 +1,10 @@
 package com.github.omwah.SDFEconomy.commands;
 
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class TopAccountsCommand extends BasicCommand {
     private SDFEconomyAPI api;

@@ -2,7 +2,6 @@ package com.github.omwah.SDFEconomy.commands;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import org.bukkit.command.CommandSender;
 
 public abstract class BasicCommand implements PluginCommand {

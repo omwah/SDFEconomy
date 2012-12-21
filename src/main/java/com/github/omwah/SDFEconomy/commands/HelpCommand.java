@@ -2,10 +2,7 @@ package com.github.omwah.SDFEconomy.commands;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.bukkit.command.CommandSender;
-
-import com.github.omwah.SDFEconomy.SDFEconomy;
 
 public class HelpCommand extends BasicCommand
 {

@@ -1,11 +1,8 @@
 package com.github.omwah.SDFEconomy.commands;
 
+import com.github.omwah.SDFEconomy.SDFEconomyAPI;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import com.github.omwah.SDFEconomy.SDFEconomyAPI;
-import net.milkbowl.vault.economy.EconomyResponse;
-import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 
 public abstract class PlayerSpecificCommand extends BasicCommand
 {

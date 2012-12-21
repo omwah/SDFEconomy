@@ -1,12 +1,10 @@
 package com.github.omwah.SDFEconomy.commands;
 
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
-
-import java.util.Iterator;
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
-
+import java.util.Map;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
@@ -81,6 +79,8 @@ public class SDFEconomyCommandExecutor implements CommandExecutor {
         sub_cmd_list.add(new ReloadCommand(api));
         sub_cmd_list.add(new SetCommand(api));
         sub_cmd_list.add(new ConvertCommand(api, server));
+        
+        sub_cmd_list.add(new ListLocationsCommand(api, server));
        
         // Use LinkedHashMap so values are in the order they were inserted
         Map<String, PluginCommand> sub_cmd_map = new LinkedHashMap<String, PluginCommand>();

@@ -2,11 +2,10 @@ package com.github.omwah.SDFEconomy.commands;
 
 import com.github.omwah.SDFEconomy.BankAccount;
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
-import com.google.common.base.Joiner;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class BankRenameCommand extends BasicCommand {
 

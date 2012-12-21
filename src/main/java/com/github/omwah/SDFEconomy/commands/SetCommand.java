@@ -1,9 +1,7 @@
 package com.github.omwah.SDFEconomy.commands;
 
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
+import org.bukkit.command.CommandSender;
 
 public class SetCommand extends PlayerSpecificCommand {
     

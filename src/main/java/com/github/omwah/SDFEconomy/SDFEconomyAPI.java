@@ -9,6 +9,7 @@ import java.util.List;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.configuration.Configuration;
 
 /**
