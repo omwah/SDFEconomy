@@ -19,11 +19,11 @@
     </repository>
     <repository>
       <id>vault-repo</id>
-      <url>http://ci.herocraftonline.com/plugin/repository/everything/</url>
+      <url>http://ci.herocraftonline.com/plugin/repository/everything</url>
     </repository>
     <repository>
-        <id>onarandombox</id>
-        <url>http://repo.onarandombox.com/content/groups/public</url>
+      <id>onarandombox</id>
+      <url>http://repo.onarandombox.com/content/groups/public</url>
     </repository>
   </repositories>
 
@@ -48,7 +48,8 @@
     <dependency>
       <groupId>net.milkbowl.vault</groupId>
       <artifactId>Vault</artifactId>
-      <version>1.2.23-SNAPSHOT</version>
+      <version>1.2.22-SNAPSHOT</version>
+      <scope>provided</scope>
     </dependency>
     <!-- Use Multiverse -->
     <dependency>
