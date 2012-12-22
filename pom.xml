@@ -4,7 +4,7 @@
 
   <groupId>com.github.omwah</groupId>
   <artifactId>SDFEconomy</artifactId>
-  <version>0.1.0</version>
+  <version>0.1.0-SNAPSHOT</version>
   <name>SDFEconomy</name>
   <description>CraftBukkit plugin which implements a Multiverse aware Economy.</description>
 
@@ -32,7 +32,7 @@
       <groupId>org.bukkit</groupId>
       <artifactId>bukkit</artifactId>
       <!-- Bukkit API Version, change if out dated -->
-      <version>1.4.5-R0.2</version>
+      <version>1.4.5-R1.0</version>
       <type>jar</type>
       <scope>provided</scope>
     </dependency>
