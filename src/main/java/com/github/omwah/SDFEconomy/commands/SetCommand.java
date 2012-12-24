@@ -21,9 +21,12 @@ public class SetCommand extends PlayerSpecificCommand {
         // Command handler, checks permission, but check again just in case
         if(handler.hasAdminPermission(sender)) {
             PlayerAndLocation ploc = getPlayerAndLocation(handler, sender, args, 0, 2);
+            if(ploc == null) {
+                // getPlayerAndLocation will report to sender the reason why it failed
+                return false;
+            }
             
             double amount = Double.parseDouble(args[1]);
-            
             if(api.hasAccount(ploc.playerName, ploc.locationName)) {
                 this.api.setBalance(ploc.playerName, ploc.locationName, amount);
                 String balance = api.format(this.api.getBalance(ploc.playerName, ploc.locationName));
