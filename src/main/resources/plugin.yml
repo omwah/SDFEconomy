@@ -5,6 +5,8 @@ name: ${project.name}
 version: ${project.version}
 author: Omwah
 description: ${project.description}
+loadbefore: [Vault]
+softdepend: [Multiverse-Inventories]
 
 commands:
     sdfeconomy:
