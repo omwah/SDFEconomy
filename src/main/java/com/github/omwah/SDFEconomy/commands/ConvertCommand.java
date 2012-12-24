@@ -46,12 +46,21 @@ public class ConvertCommand extends BasicCommand {
         for(int arg_idx = 1; arg_idx < args.length; arg_idx++) {
             try {
                 String[] loc_scal_pair = args[arg_idx].split("=", 2);
+                
                 String location_name = loc_scal_pair[0].trim();
                 if(!api.validLocationName(location_name)) {
                     sender.sendMessage("Invalid location name: " + location_name);
+                    return false;
                 }
                 
-                location_scales.put(location_name, new Double(loc_scal_pair[1]));
+                Double scaling;
+                if (loc_scal_pair.length > 1) {
+                    scaling = new Double(loc_scal_pair[1]);
+                } else {
+                    sender.sendMessage("No scaling specified for " + location_name + " using 1.0");
+                    scaling = new Double(1.0);
+                }
+                location_scales.put(location_name, scaling);
             } catch(PatternSyntaxException e) {
                 sender.sendMessage("Could not parse argument #" + arg_idx + " : " + args[arg_idx]);
                 sender.sendMessage("Specify location=scaling pairs where location is a name and scaling a double");
