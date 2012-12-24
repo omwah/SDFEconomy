@@ -11,6 +11,7 @@ import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 public class ConvertCommand extends BasicCommand {
@@ -103,7 +104,9 @@ public class ConvertCommand extends BasicCommand {
                 
                 // Skip existing banks
                 if(api.getBankAccount(dest_bank_name) != null) {
-                    sender.sendMessage(dest_bank_name + " already exists, skipping");
+                    if(!(sender instanceof Player)) {
+                        sender.sendMessage(dest_bank_name + " already exists, skipping");
+                    }
                     continue;
                 }
                 
@@ -134,7 +137,9 @@ public class ConvertCommand extends BasicCommand {
                     }
                 }
                 
-                sender.sendMessage("Created new bank account: " + dest_bank_name);
+                if(!(sender instanceof Player)) {
+                    sender.sendMessage("Created new bank account: " + dest_bank_name);
+                }
             }
         }
         
@@ -148,13 +153,17 @@ public class ConvertCommand extends BasicCommand {
                 double src_balance = src_econ.getBalance(pName);
                 for(String location_player : location_scales.keySet()) {
                     if (api.hasAccount(pName, location_player)) {
-                        sender.sendMessage(pName + " already has an account @ " + location_player + ", skipping.");
+                        if(!(sender instanceof Player)) {
+                            sender.sendMessage(pName + " already has an account @ " + location_player + ", skipping.");
+                        }
                         continue;
                     }
                     api.createPlayerAccount(pName, location_player);
                 
                     double new_balance = src_balance * location_scales.get(location_player).doubleValue();
-                    sender.sendMessage(pName + " @ " + location_player + " -> " + new_balance);
+                    if(!(sender instanceof Player)) {
+                        sender.sendMessage(pName + " @ " + location_player + " -> " + new_balance);
+                    }
                     api.setBalance(pName, location_player, new_balance);
                 }
             }
