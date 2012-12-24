@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.logging.Logger;
 import java.util.Observer;
 import java.util.Observable;
@@ -79,10 +80,15 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
     }
     
     public List<String> getBankNames() {
-        Set<String> namesSet = this.storage.getConfigurationSection(this.bank_prefix).getKeys(false);
-        List<String> nameList = new ArrayList<String>();
-        nameList.addAll(namesSet);
-        return nameList;
+        ConfigurationSection bank_section = this.storage.getConfigurationSection(this.bank_prefix);
+        if (bank_section != null) {
+            Set<String> namesSet = bank_section.getKeys(false);
+            List<String> nameList = new ArrayList<String>();
+            nameList.addAll(namesSet);
+            return nameList;
+        } else {
+            return Collections.<String>emptyList();
+        }
     }
     
     private ConfigurationSection getBankSection(String accountName, boolean createIfMissing) {
