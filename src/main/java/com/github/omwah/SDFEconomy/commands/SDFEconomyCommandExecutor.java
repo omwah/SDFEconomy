@@ -79,6 +79,8 @@ public class SDFEconomyCommandExecutor implements CommandExecutor {
         sub_cmd_list.add(new ReloadCommand(api));
         sub_cmd_list.add(new SetCommand(api));
         sub_cmd_list.add(new ConvertCommand(api, server));
+        sub_cmd_list.add(new PlayerCreateCommand(api));
+        sub_cmd_list.add(new PlayerDeleteCommand(api));
         
         sub_cmd_list.add(new ListLocationsCommand(api, server));
        
