@@ -1,8 +1,11 @@
 package com.github.omwah.SDFEconomy.commands;
 
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
-import java.util.Set;
-import java.util.TreeSet;
+import com.google.common.base.Joiner;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -28,16 +31,22 @@ public class ListLocationsCommand extends BasicCommand
     @Override
     public boolean execute(CommandHandler handler, CommandSender sender, String label, String identifier, String[] args)
     {
-        // Get all unique location names based on worlds
-        Set<String> location_names = new TreeSet<String>();
+        // Get all unique location names based on worlds, store the list of worlds
+        // associated with the locations
+        Map<String, List<String>> location_names = new TreeMap<String, List<String>>();
         for(World world : server.getWorlds()) {
-            location_names.add(api.getLocationTranslated(world.getSpawnLocation()));
+            String world_loc = api.getLocationTranslated(world.getSpawnLocation());
+            if(!location_names.containsKey(world_loc)) {
+                location_names.put(world_loc, new ArrayList<String>());
+            }
+            location_names.get(world_loc).add(world.getName());
         }
         
-        // Display world names
+        // Display locations along with world names
         sender.sendMessage("§c-----[ " + "§f Economy Location Names §c ]-----");
-        for(String curr_name : location_names) {
-            sender.sendMessage(curr_name);
+        for(String curr_loc_name : location_names.keySet()) {
+            Joiner joiner = Joiner.on(", ");
+            sender.sendMessage(curr_loc_name + " : " + joiner.join(location_names.get(curr_loc_name)));
         }
         return true;
     }
