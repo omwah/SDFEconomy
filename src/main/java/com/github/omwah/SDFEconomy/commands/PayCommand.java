@@ -36,7 +36,15 @@ public class PayCommand extends BasicCommand
             String location = api.getPlayerLocationName(payer);
             
             String payee = args[0];
-            double amount = Double.parseDouble(args[1]);
+            // Try and parse amount, fail gracefully
+            double amount;
+            try {
+                amount = Double.parseDouble(args[1]);
+            } catch (NumberFormatException e) {
+                sender.sendMessage("Invalid amount specified: " + args[1]);
+                return false;
+            }
+            
             String amount_str = api.format(amount);
             
             // Be paranoid, check that sender has an account

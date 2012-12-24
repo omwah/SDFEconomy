@@ -25,7 +25,15 @@ public class BankDepositCommand extends PlayerSpecificCommand {
         PlayerAndLocation ploc = getPlayerAndLocation(handler, sender, args, 2, 3);
         
         String bank_name = args[0];
-        double amount = Double.parseDouble(args[1]);
+        
+        // Try and parse amount, fail gracefully
+        double amount;
+        try {
+            amount = Double.parseDouble(args[1]);
+        } catch (NumberFormatException e) {
+            sender.sendMessage("Invalid amount specified: " + args[1]);
+            return false;
+        }
         
         BankAccount bank_account = api.getBankAccount(bank_name);
            

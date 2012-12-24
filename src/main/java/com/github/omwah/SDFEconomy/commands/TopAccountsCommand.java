@@ -75,7 +75,12 @@ public class TopAccountsCommand extends BasicCommand {
 
         int top_count;
         if(args.length > 1 && handler.hasAdminPermission(sender)) {
-            top_count = Integer.parseInt(args[1]);
+            try {
+                top_count = Integer.parseInt(args[1]);
+            } catch (NumberFormatException e) {
+                // Quietly ignore the invalid number
+                top_count = this.topN;
+            }
         } else {
             top_count = this.topN;
         }

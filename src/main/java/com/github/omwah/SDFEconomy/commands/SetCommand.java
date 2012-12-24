@@ -26,7 +26,15 @@ public class SetCommand extends PlayerSpecificCommand {
                 return false;
             }
             
-            double amount = Double.parseDouble(args[1]);
+            // Try and parse amount, fail gracefully
+            double amount;
+            try {
+                amount = Double.parseDouble(args[1]);
+            } catch (NumberFormatException e) {
+                sender.sendMessage("Invalid amount specified: " + args[1]);
+                return false;
+            }
+            
             if(api.hasAccount(ploc.playerName, ploc.locationName)) {
                 this.api.setBalance(ploc.playerName, ploc.locationName, amount);
                 String balance = api.format(this.api.getBalance(ploc.playerName, ploc.locationName));
