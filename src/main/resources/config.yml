@@ -13,8 +13,8 @@ api:
     currency:
         numerical_format: "#,##0.00"
         name:
-            plural: "simoleons"
-            singular: "simoleons"
+            plural: "Simoleons"
+            singular: "Simoleon"
             
 # Settings for commands            
 commands:   

@@ -32,8 +32,8 @@ public class SDFEconomyAPI {
         this.config.addDefault("api.bank.initial_balance", 0.00);
         this.config.addDefault("api.player.initial_balance", 10.00);
         this.config.addDefault("api.currency.numerical_format", "#,##0.00");
-        this.config.addDefault("api.currency.name.plural", "simoleons");
-        this.config.addDefault("api.currency.name.singular", "simoleon");
+        this.config.addDefault("api.currency.name.plural", "Simoleons");
+        this.config.addDefault("api.currency.name.singular", "Simoleon");
     }
     
     /*
