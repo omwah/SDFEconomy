@@ -58,8 +58,8 @@ public class SDFEconomyAPITest {
     
     @Test
     public void format() {
-        assertEquals("1.00 simoleon", api.format(1.0));
-        assertEquals("10.00 simoleons", api.format(10.0));
+        assertEquals("1.00 Simoleon", api.format(1.0));
+        assertEquals("10.00 Simoleons", api.format(10.0));
     }
     
     @Test
