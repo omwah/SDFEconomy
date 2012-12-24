@@ -37,7 +37,7 @@ public class TopAccountsCommand extends BasicCommand {
         
         setDescription("List top account holders for location");
         setUsage(this.getName() + " §8[location]");
-        setArgumentRange(0, 1);
+        setArgumentRange(0, 2);
         setIdentifiers(this.getName());
         setPermission("sdfeconomy.use_account");
     }
@@ -73,21 +73,28 @@ public class TopAccountsCommand extends BasicCommand {
             show_balances = true;
         }
 
+        int top_count;
+        if(args.length > 1 && handler.hasAdminPermission(sender)) {
+            top_count = Integer.parseInt(args[1]);
+        } else {
+            top_count = this.topN;
+        }
+        
         // Loop over all players for a location
-        // Gathering the topN accounts as we go
+        // Gathering the top accounts as we go
         SortedSet<PlayerBalanceComparable> top_players = new TreeSet<PlayerBalanceComparable>();
         for(String player_name : api.getPlayers(location_name)) {
             double balance = api.getBalance(player_name, location_name);
             top_players.add(new PlayerBalanceComparable(player_name, balance));
 
             // Prune from the bottom if too many players
-            if(top_players.size() > this.topN) {
+            if(top_players.size() > top_count) {
                 top_players.remove(top_players.last());
             }
         }
 
         // Now output top players info
-        sender.sendMessage("§c-----[ " + "§f Top " + this.topN + " Richest Players @ " + location_name + " §c ]-----");
+        sender.sendMessage("§c-----[ " + "§f Top " + top_count + " Richest Players @ " + location_name + " §c ]-----");
         for(PlayerBalanceComparable p : top_players) {
             if(show_balances) {
                 sender.sendMessage(p.playerName + " : " + api.format(p.balance));
