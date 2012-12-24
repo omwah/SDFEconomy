@@ -25,6 +25,10 @@ public interface EconomyStorage {
      */
     PlayerAccount createPlayerAccount(String playerName, String location, double begBalance);
     /*
+     * Delete a new Player account in a given location
+     */
+    void deletePlayerAccount(String playerName, String location);
+    /*
      * Get a list of all bank names
      */
     List<String> getBankNames();

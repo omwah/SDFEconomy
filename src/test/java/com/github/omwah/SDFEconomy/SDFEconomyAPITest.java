@@ -105,6 +105,17 @@ public class SDFEconomyAPITest {
         // Since Player3 has no account in World3 yet
         assertTrue("Player1 account should be creatable in World3", api.createPlayerAccount("Player3"));
     }
+
+    @Test
+    public void deletePlayerAccount() {
+        assertTrue("Player1 account be deletable in World1", api.deletePlayerAccount("Player1", "World1"));
+        assertFalse("Player1 account should no longer exist in World1", api.hasAccount("Player1", "World1"));
+        assertFalse("Player1 should have already been deleted", api.deletePlayerAccount("Player1", "World1"));
+        
+        assertFalse("Should fail when deleting null/null", api.deletePlayerAccount(null, null));
+        assertFalse("Should fail when deleting Player2/null", api.deletePlayerAccount("Player2", null));
+        assertFalse("Should fail when deleting Player2/null", api.deletePlayerAccount(null, "World2"));
+    }
     
     @Test
     public void hasPlayerAccount() {

@@ -79,6 +79,15 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
         return newAccount;
     }
     
+    public void deletePlayerAccount(String playerName, String location) {
+        if(hasPlayerAccount(playerName, location)) {
+            this.storage.set(location.toLowerCase() + "." + this.player_prefix + "." + playerName.toLowerCase(), null);
+            if (this.save_on_update) {
+                this.commit();
+            }
+        }
+    }
+    
     public List<String> getBankNames() {
         ConfigurationSection bank_section = this.storage.getConfigurationSection(this.bank_prefix);
         if (bank_section != null) {

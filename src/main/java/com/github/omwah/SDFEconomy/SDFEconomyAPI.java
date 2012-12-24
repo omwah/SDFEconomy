@@ -118,6 +118,15 @@ public class SDFEconomyAPI {
             return false;
         }
     }
+    
+    public boolean deletePlayerAccount(String playerName, String locationName) {
+        if(hasAccount(playerName, locationName)) {
+            storage.deletePlayerAccount(playerName, locationName);
+            return !hasAccount(playerName, locationName);
+        } else {
+            return false;
+        }
+    }
         
     public boolean hasAccount(String playerName) {
         return hasAccount(playerName, getPlayerLocationName(playerName));

@@ -104,6 +104,11 @@ public class EconomyYamlStorageTest {
             names_expt.add("player1");
             names_expt.add("player2");
             assertEquals(names_expt, stor_update.getPlayerNames("WORLD1"));
+            
+            // Check that we can delete Player2
+            stor_update.deletePlayerAccount("Player2", "world1");
+            has_account = stor_update.hasPlayerAccount("Player2", "world1");
+            assertFalse("Player2 should not does not exist in world1 after delete", has_account);
         }
     }
 
