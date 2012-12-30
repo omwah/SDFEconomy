@@ -44,6 +44,9 @@ public class BankRenameCommand extends BasicCommand {
                 BankAccount new_account = api.getBankAccount(new_account_name);
                 new_account.setMembers(old_account.getMembers());
                 
+                // Set balance of new bank account same as old one
+                new_account.setBalance(old_account.getBalance());
+                
                 // Delete old bank account
                 EconomyResponse delete_res = api.deleteBank(old_account_name);
                 if(delete_res.type != ResponseType.SUCCESS) {
