@@ -59,22 +59,22 @@ public class PayCommand extends BasicCommand
                 sender.sendMessage(payee + " does not have an account @ " + location);
                 return true;
             }
-            
+                        
             // Withdraw money from player and make sure this command succeeds
-            EconomyResponse resp_wd = api.withdrawPlayer(payer, amount);
+            EconomyResponse resp_wd = api.withdrawPlayer(payer, amount, location);
            
             if (resp_wd.type != ResponseType.SUCCESS) {
-                sender.sendMessage("You do not have enough money to pay " + amount_str + " to " + payee);
+                sender.sendMessage("You do not have enough money to pay " + amount_str + " to " + payee + " @ " + location);
                 return true;
             }
             
             // Despost in destination account, making sure if this fails to credit
             // back payer
-            EconomyResponse resp_dep = api.depositPlayer(payee, amount);
+            EconomyResponse resp_dep = api.depositPlayer(payee, amount, location);
             
             if (resp_dep.type != ResponseType.SUCCESS) {
-                sender.sendMessage("Could not deposit " + amount_str + " into the account of " + payee + " crediting your account back.");
-                resp_dep = api.depositPlayer(payer, amount);
+                sender.sendMessage("Could not deposit " + amount_str + " into the account of " + payee + " @ " + location + "crediting your account back.");
+                resp_dep = api.depositPlayer(payer, amount, location);
                 
                 // Wow, something is fubar, offer our apologies
                 if (resp_dep.type != ResponseType.SUCCESS) {
@@ -84,13 +84,13 @@ public class PayCommand extends BasicCommand
             }
                     
             String balance = api.format(api.getBalance(payer, location));
-            sender.sendMessage("Payment of " + amount_str + " to " + payee + " succeeded, your balance is now " + balance);
+            sender.sendMessage("Payment of " + amount_str + " to " + payee + " succeeded, your balance @ " + location + " is now " + balance);
             
             // Send message to destination player
             Player dest_player = server.getPlayer(payee);
             if(dest_player != null && dest_player.isOnline()) {
                 balance = api.format(api.getBalance(payee, location));
-                dest_player.sendMessage(payer + " has sent you " + amount_str + " your balance is now: " + balance);
+                dest_player.sendMessage(payer + " has sent you " + amount_str + " your balance @ " + location + " is now: " + balance);
             }
         } else {
             // This will only be sent when command issued from console

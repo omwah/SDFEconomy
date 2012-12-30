@@ -11,7 +11,7 @@ softdepend: [Multiverse-Inventories]
 commands:
     sdfeconomy:
         description: Manipulate and query player balances and banks
-        aliases: [economy, econ]
+        aliases: [economy, econ, ec]
         usage: /sdfeconomy help - For more information
     balance:
         description: "Retrieve a player's account balance"
