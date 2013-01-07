@@ -10,6 +10,8 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- Bukkit API Version, change if out dated -->
+    <bukkit.version>1.4.5-R1.0</bukkit.version>
   </properties>
 
   <repositories>
@@ -21,9 +23,23 @@
       <id>vault-repo</id>
       <url>http://ci.herocraftonline.com/plugin/repository/everything</url>
     </repository>
+    <!-- For Multiverse-Inventories -->
     <repository>
       <id>onarandombox</id>
       <url>http://repo.onarandombox.com/content/groups/public</url>
+    </repository>
+    <!-- For JUnitBenchmarks -->
+    <repository>
+      <id>sonatype-nexus-public</id>
+      <name>SonaType public snapshots and releases repository</name>
+      <url>https://oss.sonatype.org/content/groups/public</url>
+      <releases> 
+          <!-- set to true if you wish to fetch releases from this repo too. -->
+          <enabled>false</enabled>
+      </releases> 
+      <snapshots>
+          <enabled>true</enabled>
+      </snapshots>
     </repository>
   </repositories>
 
@@ -31,8 +47,7 @@
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>bukkit</artifactId>
-      <!-- Bukkit API Version, change if out dated -->
-      <version>1.4.5-R1.0</version>
+      <version>${bukkit.version}</version>
       <type>jar</type>
       <scope>provided</scope>
     </dependency>
@@ -57,12 +72,18 @@
       <artifactId>Multiverse-Inventories</artifactId>
       <version>2.5</version>
     </dependency>
-     <!-- Testing only, remove if not needed -->
+     <!-- Testing only -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.10</version>
       <type>jar</type>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.carrotsearch</groupId>
+      <artifactId>junit-benchmarks</artifactId>
+      <version>0.4.0</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

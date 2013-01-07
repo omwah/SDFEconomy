@@ -186,4 +186,5 @@ public class EconomyYamlStorageTest {
             assertFalse("null should not exist", stor_read.hasBankAccount(null));
         } 
      }
+    
 }
