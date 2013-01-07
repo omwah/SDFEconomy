@@ -15,6 +15,7 @@ commands:
         usage: /sdfeconomy help - For more information
     balance:
         description: "Retrieve a player's account balance"
+        aliases: [bal]
         usage: /balance ? - For more information
     pay:
         description: "Pay another player"
