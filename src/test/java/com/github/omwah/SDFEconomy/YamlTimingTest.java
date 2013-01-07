@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 
 import java.util.ArrayList;
+import java.util.Observer;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -72,12 +73,12 @@ public class YamlTimingTest {
     public void saveOnce() {
         File out_file = new File(folder.getRoot(), test_filename);
         {
-            EconomyYamlStorage store = new EconomyYamlStorage(out_file, false);
+            EconomyYamlStorage store = new EconomyYamlStorage(out_file);
             setBalanceBenchmark(store);
         }
 
         {
-            EconomyYamlStorage store = new EconomyYamlStorage(out_file, true);
+            EconomyYamlStorage store = new EconomyYamlStorage(out_file);
             checkBalanceSaving(store);
         }
     } 
@@ -89,12 +90,13 @@ public class YamlTimingTest {
     public void saveEveryUpdate() {
         File out_file = new File(folder.getRoot(), test_filename);
         {
-            EconomyYamlStorage store = new EconomyYamlStorage(out_file, true);
+            EconomyYamlStorage store = new EconomyYamlStorage(out_file);
+            store.addObserver((Observer) new StorageCommitEveryUpdate());
             setBalanceBenchmark(store);
         }
 
         {
-            EconomyYamlStorage store = new EconomyYamlStorage(out_file, true);
+            EconomyYamlStorage store = new EconomyYamlStorage(out_file);
             checkBalanceSaving(store);
         }
     } 

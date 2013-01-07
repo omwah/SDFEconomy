@@ -17,19 +17,17 @@ import org.bukkit.configuration.ConfigurationSection;
 /**
  * Implements an Economy storage through a YAML file
  */
-public class EconomyYamlStorage implements EconomyStorage, Observer {
+public class EconomyYamlStorage extends Observable implements EconomyStorage, Observer {
     private final String player_prefix = "player_account";
     private final String bank_prefix = "bank_account";
     
     private final File accounts_file;
-    private final boolean save_on_update;
     YamlConfiguration storage;
 
     private static final Logger log = Logger.getLogger(EconomyYamlStorage.class.getName());
 
-    public EconomyYamlStorage(File accounts_file, boolean save_on_update) {
+    public EconomyYamlStorage(File accounts_file) {
         this.accounts_file = accounts_file;
-        this.save_on_update = save_on_update;
         this.storage = YamlConfiguration.loadConfiguration(accounts_file);
     }
 
@@ -82,9 +80,10 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
     public void deletePlayerAccount(String playerName, String location) {
         if(hasPlayerAccount(playerName, location)) {
             this.storage.set(location.toLowerCase() + "." + this.player_prefix + "." + playerName.toLowerCase(), null);
-            if (this.save_on_update) {
-                this.commit();
-            }
+
+            // Notify observers that accounts have changed
+            setChanged();
+            notifyObservers();
         }
     }
     
@@ -150,9 +149,9 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
     
     public void deleteBankAccount(String accountName) {
         this.storage.set(this.bank_prefix + "." + accountName, null);
-        if (this.save_on_update) {
-            this.commit();
-        }
+        // Notify observers that accounts have changed
+        setChanged();
+        notifyObservers();
     }
     
     public void update(Observable o, Object arg) {
@@ -177,9 +176,9 @@ public class EconomyYamlStorage implements EconomyStorage, Observer {
             section.set("members", ((BankAccount) account).getMembers());
             section.set("owner", ((BankAccount) account).getOwner());
         }
-        if (this.save_on_update) {
-            this.commit();
-        }
+        // Notify observers that accounts have changed
+        setChanged();
+        notifyObservers();
     }
    
     @Override

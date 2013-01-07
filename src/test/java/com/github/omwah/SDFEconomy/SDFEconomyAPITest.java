@@ -6,6 +6,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Observer;
+
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,7 +41,8 @@ public class SDFEconomyAPITest {
         File storage_file = new File(folder.getRoot(), "api_test_accounts.yml");
         
         // Add test date using storage, not API
-        EconomyYamlStorage storage = new EconomyYamlStorage(storage_file, false);
+        EconomyYamlStorage storage = new EconomyYamlStorage(storage_file);
+        storage.addObserver((Observer) new StorageCommitEveryUpdate());
         
         // These will both match up, w/o specifying world name
         storage.createPlayerAccount("Player1", "World1", 10.0);

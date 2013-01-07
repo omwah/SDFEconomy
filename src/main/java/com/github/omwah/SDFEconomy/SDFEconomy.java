@@ -2,6 +2,7 @@ package com.github.omwah.SDFEconomy;
 
 import java.io.File;
 import java.util.Iterator;
+import java.util.Observer;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -28,10 +29,14 @@ public class SDFEconomy extends JavaPlugin {
         this.getConfig().addDefault("storage.yaml.save_on_update", true);
 
         File storageFile = new File(this.getDataFolder(), this.getConfig().getString("storage.yaml.filename"));
-        boolean save_on_update = this.getConfig().getBoolean("storage.yaml.save_on_update");
 
-        this.storage = new EconomyYamlStorage(storageFile, save_on_update);
-                                              
+        EconomyYamlStorage yaml_storage = new EconomyYamlStorage(storageFile);
+        this.storage = yaml_storage;
+
+        boolean save_on_update = this.getConfig().getBoolean("storage.yaml.save_on_update");
+        if(save_on_update) {
+            yaml_storage.addObserver((Observer) new StorageCommitEveryUpdate());
+        }
                                                  
         MultiverseInvLocationTranslator locationTrans = new MultiverseInvLocationTranslator(this);
         this.api = new SDFEconomyAPI(this.getConfig(), this.storage, locationTrans);
