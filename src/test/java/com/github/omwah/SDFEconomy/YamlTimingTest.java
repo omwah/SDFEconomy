@@ -13,6 +13,7 @@ import java.util.Observer;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Rule;
+import org.junit.Ignore;
 
 import org.junit.rules.MethodRule;
 import org.junit.rules.TemporaryFolder;
@@ -29,6 +30,9 @@ import com.carrotsearch.junitbenchmarks.BenchmarkRule;
  * Grinders + ecoCreature can queue up a large number of writes and cause
  * excessive disk i/o if not handled properly
  */
+
+// Ignore for now since these tests only need for benchmarking, not testing persay 
+@Ignore
 @RunWith(JUnit4.class)
 public class YamlTimingTest {
     @Rule
@@ -101,4 +105,23 @@ public class YamlTimingTest {
         }
     } 
 
+    /*
+     * Benchmark saving every N updates.
+     * Included to illustrate the performance gain from not 
+     * saving on every update
+     */
+    @Test
+    public void saveEveryN() {
+        File out_file = new File(folder.getRoot(), test_filename);
+        {
+            EconomyYamlStorage store = new EconomyYamlStorage(out_file);
+            store.addObserver((Observer) new StorageCommitEveryN(100));
+            setBalanceBenchmark(store);
+        }
+
+        {
+            EconomyYamlStorage store = new EconomyYamlStorage(out_file);
+            checkBalanceSaving(store);
+        }
+    }
 }

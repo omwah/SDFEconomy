@@ -7,3 +7,4 @@ Features to add
 * Make a bank set owner admin command
 * Add a periodic save to make it safer to turn off save on update
 * Add shorter /balance alias
+* Disable bank commands when disabled in configuration

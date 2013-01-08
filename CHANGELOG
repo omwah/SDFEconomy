@@ -1,0 +1,10 @@
+0.2.0
+-----
+* Added /bal alias for /balance command
+* Instead of saving accounts on every update when using the Yaml storage method,
+  accounts are saved after a configurable number of ticks after the first of
+  a series of updates occurs.
+
+0.1.0
+-----
+Initial version

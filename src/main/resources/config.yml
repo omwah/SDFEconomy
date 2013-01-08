@@ -2,14 +2,21 @@
 api:
     # Bank settings
     bank:
+        # All bank support can be disabled if desired
         enabled: true
+
+        # No real reason to set anything but 0.0 here, as players would
+        # abuse it. Included for completeness
         initial_balance: 0.0
 
     # Player settings
     player:
+        # Amount of money a player gets when logging in or going
+        # to a location for the first time
         initial_balance: 10.00
 
-    # Currency settings
+    # Currency settings for controlling how amounts are printed
+    # in response to commands
     currency:
         numerical_format: "#,##0.00"
         name:
@@ -17,11 +24,21 @@ api:
             singular: "Simoleon"
             
 # Settings for commands            
-commands:   
+commands:
+    # Number of wealthies players to show when the /top command is used
     topN: 5
     
 # Storage settings
 storage:
+    # Settings that only apply if the YAML storage method is being used
     yaml:
+        # Name of the file in the plugins/SDFEconomy where accounts are stored 
         filename: "accounts.yaml"
-        save_on_update: true
+
+        # Commit delay is the number of ticks to wait till commiting updates
+        # A commit delay of 0 means the file is saved on every update
+        # If the delay is negative then no commits are done till the plugin
+        # is disabled
+        # There are 20 ticks per second, so the default delay is 60/20 = 3 seconds.
+        commit_delay: 60
+ 

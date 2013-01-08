@@ -25,20 +25,31 @@ public class SDFEconomy extends JavaPlugin {
      */
     @Override
     public void onEnable() {
+        // So far only one storage method is implemented: YAML Storage
         this.getConfig().addDefault("storage.yaml.filename", "accounts.yaml");
-        this.getConfig().addDefault("storage.yaml.save_on_update", true);
+        this.getConfig().addDefault("storage.yaml.commit_delay", 60L);
 
         File storageFile = new File(this.getDataFolder(), this.getConfig().getString("storage.yaml.filename"));
 
         EconomyYamlStorage yaml_storage = new EconomyYamlStorage(storageFile);
         this.storage = yaml_storage;
 
-        boolean save_on_update = this.getConfig().getBoolean("storage.yaml.save_on_update");
-        if(save_on_update) {
+        // Commit delay is the number of ticks to wait till commiting updates
+        // A commit delay of 0 means the file is saved on every update
+        // If the delay is negative then no commits are done till the plugin
+        // is disabled
+        long commit_delay = this.getConfig().getLong("storage.yaml.commit_delay");
+        if(commit_delay == 0) {
             yaml_storage.addObserver((Observer) new StorageCommitEveryUpdate());
+        } else if(commit_delay > 0) {
+            yaml_storage.addObserver((Observer) new StorageCommitDelayed(this, commit_delay)); 
         }
                                                  
+        // So far only one type of Location Translator enabled:
+        // Multiverse-Inventories based location translation
         MultiverseInvLocationTranslator locationTrans = new MultiverseInvLocationTranslator(this);
+
+        // Create the API used both by Vault and the Plugin commands
         this.api = new SDFEconomyAPI(this.getConfig(), this.storage, locationTrans);
 
         // save the configuration file
@@ -63,6 +74,7 @@ public class SDFEconomy extends JavaPlugin {
     
     /*
      * Called when the plug-in shuts down
+     * One final commit
      */
     @Override
     public void onDisable() {
