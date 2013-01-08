@@ -4,6 +4,7 @@
 * Instead of saving accounts on every update when using the Yaml storage method,
   accounts are saved after a configurable number of ticks after the first of
   a series of updates occurs.
+* Enable bank commands only when support is enabled in the configuration
 
 0.1.0
 -----
