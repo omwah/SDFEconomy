@@ -60,18 +60,21 @@ public class SDFEconomyCommandExecutor implements CommandExecutor {
         sub_cmd_list.add(new BalanceCommand(api));
         sub_cmd_list.add(new PayCommand(api, server));
         
-        sub_cmd_list.add(new BankListCommand(api));
-        sub_cmd_list.add(new BankInfoCommand(api));
+        // Enable bank commands only if enabled
+        if(api.hasBankSupport()) {
+            sub_cmd_list.add(new BankListCommand(api));
+            sub_cmd_list.add(new BankInfoCommand(api));
 
-        sub_cmd_list.add(new BankDepositCommand(api));
-        sub_cmd_list.add(new BankWithdrawCommand(api));
+            sub_cmd_list.add(new BankDepositCommand(api));
+            sub_cmd_list.add(new BankWithdrawCommand(api));
 
-        sub_cmd_list.add(new BankCreateCommand(api));
-        sub_cmd_list.add(new BankRemoveCommand(api));
-        sub_cmd_list.add(new BankRenameCommand(api));        
-        
-        sub_cmd_list.add(new BankAddMemberCommand(api));
-        sub_cmd_list.add(new BankRemoveMemberCommand(api));
+            sub_cmd_list.add(new BankCreateCommand(api));
+            sub_cmd_list.add(new BankRemoveCommand(api));
+            sub_cmd_list.add(new BankRenameCommand(api));        
+            
+            sub_cmd_list.add(new BankAddMemberCommand(api));
+            sub_cmd_list.add(new BankRemoveMemberCommand(api));
+        }
 
         config.addDefault("commands.topN", 5);
         sub_cmd_list.add(new TopAccountsCommand(api, config.getInt("commands.topN")));
