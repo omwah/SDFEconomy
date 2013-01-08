@@ -6,3 +6,4 @@ Features to add
 * Make bank remove deposit balance into player's account
 * Make a bank set owner admin command
 * Add a periodic save to make it safer to turn off save on update
+* Add shorter /balance alias
