@@ -74,6 +74,8 @@ public class YamlStorage extends Observable implements EconomyStorage, Observer 
         newAccount.setBalance(begBalance);
         newAccount.setLocation(location);
         newAccount.addObserver(this);
+        setChanged();
+        notifyObservers();
         return newAccount;
     }
     
@@ -144,6 +146,8 @@ public class YamlStorage extends Observable implements EconomyStorage, Observer 
         account.setLocation(location);
         account.setOwner(owner);
         account.addObserver(this);
+        setChanged();
+        notifyObservers();
         return account;
     }
     
