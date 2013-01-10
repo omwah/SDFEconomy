@@ -26,6 +26,13 @@ public abstract class YamlAccount extends Observable implements PlayerAccount {
     }
     
     @Override
+    public void setLocation(String location) {
+        section.set("location", location.toLowerCase());
+        setChanged();
+        notifyObservers();
+    }
+    
+    @Override
     public double getBalance() {
         return section.getDouble("balance");
     }

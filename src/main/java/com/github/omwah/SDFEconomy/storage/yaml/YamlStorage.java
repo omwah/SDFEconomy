@@ -72,6 +72,7 @@ public class YamlStorage extends Observable implements EconomyStorage, Observer 
         ConfigurationSection section = getPlayerSection(playerName, location, true);
         YamlPlayerAccount newAccount = new YamlPlayerAccount(section);
         newAccount.setBalance(begBalance);
+        newAccount.setLocation(location);
         newAccount.addObserver(this);
         return newAccount;
     }
@@ -140,6 +141,8 @@ public class YamlStorage extends Observable implements EconomyStorage, Observer 
         ConfigurationSection section = getBankSection(accountName, true);
         YamlBankAccount account = new YamlBankAccount(section);
         account.setBalance(begBalance);
+        account.setLocation(location);
+        account.setOwner(owner);
         account.addObserver(this);
         return account;
     }

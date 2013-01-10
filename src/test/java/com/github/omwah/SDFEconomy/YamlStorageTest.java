@@ -52,7 +52,7 @@ public class YamlStorageTest {
             PlayerAccount saved_account = stor_save.createPlayerAccount("Player1", "world1", 10.0);
             stor_save.commit();
 
-            assertEquals("Player1", saved_account.getName());
+            assertEquals("player1", saved_account.getName());
             assertEquals("world1", saved_account.getLocation());
             assertEquals(10.0, saved_account.getBalance(), 1e-6);
         }
@@ -73,7 +73,7 @@ public class YamlStorageTest {
             assertFalse("Player2 account should not exist", has_account);
 
             PlayerAccount read_account = stor_read.getPlayerAccount("Player1", "world1");
-            assertEquals("Player1", read_account.getName());
+            assertEquals("player1", read_account.getName());
             assertEquals("world1", read_account.getLocation());
             assertEquals(10.0, read_account.getBalance(), 1e-6);
             

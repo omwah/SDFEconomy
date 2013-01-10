@@ -15,7 +15,6 @@ public class YamlBankAccount extends YamlAccount implements BankAccount {
     /*
      * Create a new BankAccount
      */
-
     public YamlBankAccount(ConfigurationSection section) {
         super(section);
     }
@@ -30,7 +29,7 @@ public class YamlBankAccount extends YamlAccount implements BankAccount {
      */
     @Override 
     public void setOwner(String owner) {
-        section.set("owner", owner);
+        section.set("owner", owner.toLowerCase());
         setChanged();
         notifyObservers();
     }
@@ -68,7 +67,7 @@ public class YamlBankAccount extends YamlAccount implements BankAccount {
     /*
      * Remove a Bank member
      */
-    
+    @Override
     public void removeMember(String oldMember) {
         // List will use the .equals of String to compare
         List<String> members = getMembers();
@@ -81,7 +80,7 @@ public class YamlBankAccount extends YamlAccount implements BankAccount {
     /*
      * Determine if someone is a member of the Bank
      */
-    
+    @Override
     public boolean isMember(String memberName) {
        return getMembers().indexOf(memberName.toLowerCase()) >= 0;
     }
@@ -89,7 +88,7 @@ public class YamlBankAccount extends YamlAccount implements BankAccount {
     /*
      * Determine if someone the owner of the bank
      */
-    
+    @Override
     public boolean isOwner(String playerName) {
        return getOwner().equalsIgnoreCase(playerName);
     }

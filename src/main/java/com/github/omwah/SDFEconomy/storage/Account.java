@@ -17,6 +17,11 @@ public interface Account {
     public String getLocation();
     
     /*
+     * Set where the account is located, i.e. which world
+     */
+    public void setLocation(String location);
+    
+    /*
      * How much money is in account
      */
     public double getBalance();
