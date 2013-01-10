@@ -54,7 +54,7 @@ public class YamlTimingTest {
      * Just iteratively sets a balance on a YamlStorage object
      * commits at the end to save all changes
      */
-    public void setBalanceBenchmark(EconomyYamlStorage storage) {
+    public void setBalanceBenchmark(YamlStorage storage) {
         PlayerAccount account = storage.createPlayerAccount("Player1", "world1", 0.0);
         for(int idx = 0; idx < this.numAccountAccess; idx++) {
             account.setBalance(account.getBalance() + this.accountIncrement);
@@ -65,7 +65,7 @@ public class YamlTimingTest {
     /*
      * Checks that the balance set through the benchmark was actually saved to disk
      */
-    public void checkBalanceSaving(EconomyYamlStorage storage) {
+    public void checkBalanceSaving(YamlStorage storage) {
         PlayerAccount account = storage.getPlayerAccount("Player1", "world1");            
         assertEquals(this.numAccountAccess * this.accountIncrement, account.getBalance(), 1e-6);
     }
@@ -77,12 +77,12 @@ public class YamlTimingTest {
     public void saveOnce() {
         File out_file = new File(folder.getRoot(), test_filename);
         {
-            EconomyYamlStorage store = new EconomyYamlStorage(out_file);
+            YamlStorage store = new YamlStorage(out_file);
             setBalanceBenchmark(store);
         }
 
         {
-            EconomyYamlStorage store = new EconomyYamlStorage(out_file);
+            YamlStorage store = new YamlStorage(out_file);
             checkBalanceSaving(store);
         }
     } 
@@ -94,13 +94,13 @@ public class YamlTimingTest {
     public void saveEveryUpdate() {
         File out_file = new File(folder.getRoot(), test_filename);
         {
-            EconomyYamlStorage store = new EconomyYamlStorage(out_file);
+            YamlStorage store = new YamlStorage(out_file);
             store.addObserver((Observer) new StorageCommitEveryUpdate());
             setBalanceBenchmark(store);
         }
 
         {
-            EconomyYamlStorage store = new EconomyYamlStorage(out_file);
+            YamlStorage store = new YamlStorage(out_file);
             checkBalanceSaving(store);
         }
     } 
@@ -114,13 +114,13 @@ public class YamlTimingTest {
     public void saveEveryN() {
         File out_file = new File(folder.getRoot(), test_filename);
         {
-            EconomyYamlStorage store = new EconomyYamlStorage(out_file);
+            YamlStorage store = new YamlStorage(out_file);
             store.addObserver((Observer) new StorageCommitEveryN(100));
             setBalanceBenchmark(store);
         }
 
         {
-            EconomyYamlStorage store = new EconomyYamlStorage(out_file);
+            YamlStorage store = new YamlStorage(out_file);
             checkBalanceSaving(store);
         }
     }

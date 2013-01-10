@@ -24,7 +24,7 @@ import static org.junit.Assert.*;
  *
  */
 @RunWith(JUnit4.class)
-public class EconomyYamlStorageTest {
+public class YamlStorageTest {
     @Rule
     public TemporaryFolder folder = new TemporaryFolder();
 
@@ -34,7 +34,7 @@ public class EconomyYamlStorageTest {
     public void testWrite() {
         File out_file = new File(folder.getRoot(), test_filename);
 
-        EconomyYamlStorage storage = new EconomyYamlStorage(out_file);
+        YamlStorage storage = new YamlStorage(out_file);
         storage.commit();
 
         assertTrue("Accounts file was not written", out_file.exists());
@@ -48,7 +48,7 @@ public class EconomyYamlStorageTest {
         
         // Test creation of new player account
         {
-            EconomyYamlStorage stor_save = new EconomyYamlStorage(out_file);
+            YamlStorage stor_save = new YamlStorage(out_file);
             PlayerAccount saved_account = stor_save.createPlayerAccount("Player1", "world1", 10.0);
             stor_save.commit();
 
@@ -59,7 +59,7 @@ public class EconomyYamlStorageTest {
 
         // Test can be read back in, turn save on update on to test
         {
-            EconomyYamlStorage stor_read = new EconomyYamlStorage(out_file);
+            YamlStorage stor_read = new YamlStorage(out_file);
             stor_read.addObserver((Observer) new StorageCommitEveryUpdate());
 
             boolean has_account = stor_read.hasPlayerAccount("Player1", "world1");
@@ -83,7 +83,7 @@ public class EconomyYamlStorageTest {
 
         // Check that updated balance was written
         {
-            EconomyYamlStorage stor_update = new EconomyYamlStorage(out_file);
+            YamlStorage stor_update = new YamlStorage(out_file);
             stor_update.addObserver((Observer) new StorageCommitEveryUpdate());
 
             PlayerAccount updated_account = stor_update.getPlayerAccount("Player1", "world1");
@@ -96,7 +96,7 @@ public class EconomyYamlStorageTest {
         
         // Check that Player2 now exists
         {
-            EconomyYamlStorage stor_update = new EconomyYamlStorage(out_file);
+            YamlStorage stor_update = new YamlStorage(out_file);
             stor_update.addObserver((Observer) new StorageCommitEveryUpdate());
 
             boolean has_account = stor_update.hasPlayerAccount("Player2", "world1");
@@ -125,7 +125,7 @@ public class EconomyYamlStorageTest {
         
         // Test creation of new bank account
         {
-            EconomyYamlStorage stor_save = new EconomyYamlStorage(out_file);
+            YamlStorage stor_save = new YamlStorage(out_file);
             BankAccount bank1 = stor_save.createBankAccount("bank1", "player1", "world1", 10.0);
             BankAccount bank2 = stor_save.createBankAccount("bank2", "player2", "world2", 15.0);
              
@@ -141,7 +141,7 @@ public class EconomyYamlStorageTest {
 
         // Test reading bank accounts and updating
         {
-            EconomyYamlStorage stor_read = new EconomyYamlStorage(out_file);
+            YamlStorage stor_read = new YamlStorage(out_file);
             stor_read.addObserver((Observer) new StorageCommitEveryUpdate());
 
             BankAccount bank1 = stor_read.getBankAccount("bank1");
@@ -181,7 +181,7 @@ public class EconomyYamlStorageTest {
 
         // Test that member and bank removal worked
         {
-            EconomyYamlStorage stor_read = new EconomyYamlStorage(out_file);
+            YamlStorage stor_read = new YamlStorage(out_file);
 
             BankAccount bank1 = stor_read.getBankAccount("bank1");
 

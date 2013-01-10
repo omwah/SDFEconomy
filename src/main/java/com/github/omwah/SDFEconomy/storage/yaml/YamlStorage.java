@@ -17,16 +17,16 @@ import org.bukkit.configuration.ConfigurationSection;
 /**
  * Implements an Economy storage through a YAML file
  */
-public class EconomyYamlStorage extends Observable implements EconomyStorage, Observer {
+public class YamlStorage extends Observable implements EconomyStorage, Observer {
     private final String player_prefix = "player_account";
     private final String bank_prefix = "bank_account";
     
     private final File accounts_file;
     YamlConfiguration storage;
 
-    private static final Logger log = Logger.getLogger(EconomyYamlStorage.class.getName());
+    private static final Logger log = Logger.getLogger("Minecraft");
 
-    public EconomyYamlStorage(File accounts_file) {
+    public YamlStorage(File accounts_file) {
         this.accounts_file = accounts_file;
         this.storage = YamlConfiguration.loadConfiguration(accounts_file);
     }
@@ -62,18 +62,17 @@ public class EconomyYamlStorage extends Observable implements EconomyStorage, Ob
             return null; 
         } else {
             ConfigurationSection section = getPlayerSection(playerName, location);
-            PlayerAccount account = new PlayerAccount(playerName, location);
-            account.setBalance(section.getDouble("balance"));
-            account.addObserver((Observer) this);
+            YamlPlayerAccount account = new YamlPlayerAccount(section);
+            account.addObserver(this);
             return account;
         }
     }
     
     public PlayerAccount createPlayerAccount(String playerName, String location, double begBalance) {
-        PlayerAccount newAccount = new PlayerAccount(playerName, location);
+        ConfigurationSection section = getPlayerSection(playerName, location, true);
+        YamlPlayerAccount newAccount = new YamlPlayerAccount(section);
         newAccount.setBalance(begBalance);
-        updateAccount(newAccount);
-        newAccount.addObserver((Observer) this);
+        newAccount.addObserver(this);
         return newAccount;
     }
     
@@ -128,10 +127,8 @@ public class EconomyYamlStorage extends Observable implements EconomyStorage, Ob
             this.log.severe("Bank account " + accountName + " does not exist");
             return null;
         }
-        BankAccount account = new BankAccount(accountName, section.getString("owner"), section.getString("location"));
-        account.setBalance(section.getDouble("balance"));
-        account.setMembers(section.getStringList("members"));
-        account.addObserver((Observer) this);
+        YamlBankAccount account = new YamlBankAccount(section);
+        account.addObserver(this);
         return account;
      }
     
@@ -140,10 +137,10 @@ public class EconomyYamlStorage extends Observable implements EconomyStorage, Ob
             this.log.severe("Bank account " + accountName + " already exists");
             return null;
         }
-        BankAccount account = new BankAccount(accountName, owner, location);
+        ConfigurationSection section = getBankSection(accountName, true);
+        YamlBankAccount account = new YamlBankAccount(section);
         account.setBalance(begBalance);
-        account.addObserver((Observer) this);
-        updateAccount(account);
+        account.addObserver(this);
         return account;
     }
     
@@ -156,38 +153,19 @@ public class EconomyYamlStorage extends Observable implements EconomyStorage, Ob
     
     public void update(Observable o, Object arg) {
         if (o instanceof Account) {
-            updateAccount((Account) o);
-        }
+            // Notify observers that accounts have changed
+            setChanged();
+            notifyObservers();
+         }
     }
-            
+  
     @Override
-    public void updateAccount(Account account) {
-        ConfigurationSection section;
-        if(account instanceof PlayerAccount) {
-            section = getPlayerSection(account.getName(), account.getLocation(), true);
-        } else if (account instanceof BankAccount) {
-            section = getBankSection(account.getName(), true);
-        } else {
-            throw new IllegalArgumentException("Account passed was not an instance of PlayerAccount or BankAccount");
-        }
-        section.set("balance", account.getBalance());
-        section.set("location", account.getLocation());
-        if (account instanceof BankAccount) {
-            section.set("members", ((BankAccount) account).getMembers());
-            section.set("owner", ((BankAccount) account).getOwner());
-        }
-        // Notify observers that accounts have changed
-        setChanged();
-        notifyObservers();
-    }
-   
-    @Override
-    public void reload() {
+    public synchronized void reload() {
         this.storage = YamlConfiguration.loadConfiguration(this.accounts_file);
     }
 
     @Override
-    public void commit() {
+    public synchronized void commit() {
         try {
             this.storage.save(this.accounts_file);
         } catch(IOException e) {

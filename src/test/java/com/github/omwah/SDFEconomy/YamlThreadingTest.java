@@ -38,9 +38,9 @@ public class YamlThreadingTest {
     
     // Does account access in a seperate thread
     private class AccessStorageRunnable implements Runnable {
-        private EconomyYamlStorage storage;
+        private YamlStorage storage;
 
-        public AccessStorageRunnable(EconomyYamlStorage storage) {
+        public AccessStorageRunnable(YamlStorage storage) {
             this.storage = storage;
         }
 
@@ -66,7 +66,7 @@ public class YamlThreadingTest {
     public void multiThreadAccess() {
         File out_file = new File(folder.getRoot(), test_filename);
         {
-            EconomyYamlStorage store = new EconomyYamlStorage(out_file);
+            YamlStorage store = new YamlStorage(out_file);
             store.addObserver((Observer) new StorageCommitEveryN(100));
 
             ThreadGroup accessGroup = new ThreadGroup("YamlAccess");
@@ -85,7 +85,7 @@ public class YamlThreadingTest {
         }
 
         {
-            EconomyYamlStorage store = new EconomyYamlStorage(out_file);
+            YamlStorage store = new YamlStorage(out_file);
             PlayerAccount account = store.getPlayerAccount("Player1", "world1");
             assertEquals(this.numAccountAccess * this.accountIncrement * this.numThreads, account.getBalance(), 1e-6);
         }

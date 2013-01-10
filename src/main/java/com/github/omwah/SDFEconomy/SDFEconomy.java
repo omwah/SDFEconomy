@@ -31,7 +31,7 @@ public class SDFEconomy extends JavaPlugin {
 
         File storageFile = new File(this.getDataFolder(), this.getConfig().getString("storage.yaml.filename"));
 
-        EconomyYamlStorage yaml_storage = new EconomyYamlStorage(storageFile);
+        YamlStorage yaml_storage = new YamlStorage(storageFile);
         this.storage = yaml_storage;
 
         // Commit delay is the number of ticks to wait till commiting updates

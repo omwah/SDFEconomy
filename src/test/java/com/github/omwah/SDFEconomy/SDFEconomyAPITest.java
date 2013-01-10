@@ -41,7 +41,7 @@ public class SDFEconomyAPITest {
         File storage_file = new File(folder.getRoot(), "api_test_accounts.yml");
         
         // Add test date using storage, not API
-        EconomyYamlStorage storage = new EconomyYamlStorage(storage_file);
+        YamlStorage storage = new YamlStorage(storage_file);
         storage.addObserver((Observer) new StorageCommitEveryUpdate());
         
         // These will both match up, w/o specifying world name

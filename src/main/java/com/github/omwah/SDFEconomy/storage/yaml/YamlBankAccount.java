@@ -5,54 +5,50 @@ package com.github.omwah.SDFEconomy;
 import java.util.List;
 import java.util.ArrayList;
 
+import org.bukkit.configuration.ConfigurationSection;
+
 /**
  * Specialization of Account for Bank Accounts.
  */
-public class BankAccount extends Account {
-    private String owner;
-    private ArrayList<String> members;
+public class YamlBankAccount extends YamlAccount implements BankAccount {
     
     /*
      * Create a new BankAccount
      */
 
-    public BankAccount(String name, String owner, String location) {
-        this.name = name;
-        this.owner = owner.toLowerCase();
-        this.location = location.toLowerCase();
-        this.members = new ArrayList<String>();
+    public YamlBankAccount(ConfigurationSection section) {
+        super(section);
     }
-    
-    /*
-     * Get the owner of the Bank
-     */
-    
+
+    @Override 
     public String getOwner() {
-        return owner;
+        return section.getString("owner");
     }
    
     /*
      * Sets the owner of the Bank
      */
-    
+    @Override 
     public void setOwner(String owner) {
-        this.owner = owner;
+        section.set("owner", owner);
+        setChanged();
+        notifyObservers();
     }
     
     /*
      * Get the members of the Bank
      */
-    
-    public ArrayList<String> getMembers() {
-        return members;
+    @Override    
+    public List<String> getMembers() {
+        return section.getStringList("members");
     }
     
     /*
      * Set all the members of the Bank
      */
-
+    @Override
     public void setMembers(List<String> memberList) {
-        members.addAll(memberList);
+        section.set("members", memberList);
         setChanged();
         notifyObservers();
     }
@@ -60,9 +56,11 @@ public class BankAccount extends Account {
     /*
      * Add a new Bank member
      */
-     
+    @Override
     public void addMember(String newMember) {
+        List<String> members = getMembers();
         members.add(newMember.toLowerCase());
+        setMembers(members);
         setChanged();
         notifyObservers();
     }
@@ -72,8 +70,10 @@ public class BankAccount extends Account {
      */
     
     public void removeMember(String oldMember) {
-        // ArrayList will use the .equals of String to compare
+        // List will use the .equals of String to compare
+        List<String> members = getMembers();
         members.remove(oldMember.toLowerCase());
+        setMembers(members);
         setChanged();
         notifyObservers();
     }
@@ -83,7 +83,7 @@ public class BankAccount extends Account {
      */
     
     public boolean isMember(String memberName) {
-       return members.indexOf(memberName.toLowerCase()) >= 0;
+       return getMembers().indexOf(memberName.toLowerCase()) >= 0;
     }
     
     /*
@@ -91,7 +91,7 @@ public class BankAccount extends Account {
      */
     
     public boolean isOwner(String playerName) {
-       return this.owner.equalsIgnoreCase(playerName);
+       return getOwner().equalsIgnoreCase(playerName);
     }
     
 }
