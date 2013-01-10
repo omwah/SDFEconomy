@@ -126,6 +126,8 @@ public class YamlStorageTest {
         // Test creation of new bank account
         {
             YamlStorage stor_save = new YamlStorage(out_file);
+            stor_save.addObserver((Observer) new StorageCommitEveryUpdate());
+
             BankAccount bank1 = stor_save.createBankAccount("bank1", "player1", "world1", 10.0);
             BankAccount bank2 = stor_save.createBankAccount("bank2", "player2", "world2", 15.0);
              
@@ -135,8 +137,6 @@ public class YamlStorageTest {
 
             bank1.addMember("player3");
             bank2.addMember("player4");
-
-            stor_save.commit();
         }
 
         // Test reading bank accounts and updating
