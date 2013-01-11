@@ -30,5 +30,19 @@ public interface Account {
      * Set balance of account
      */
     public void setBalance(double amount);
+    
+    /*
+     * Deposit money into the account and return the new balance.
+     * Use this method instead of get/setBalance for deposits
+     * as its more thread safe
+     */
+    public double deposit(double amount);
+    
+    /*
+     * Withdraw money from the account and return the new balance.
+     * Use this method instead of get/setBalance for withdrawls
+     * as its more thread safe
+     */
+    public double withdraw(double amount);
 
 }

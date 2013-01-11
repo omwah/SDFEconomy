@@ -9,7 +9,7 @@ import org.bukkit.configuration.ConfigurationSection;
  * Implementation of Account that utilizes the YamlFileConfiguration backend
  */
 public abstract class YamlAccount extends Observable implements PlayerAccount {
-    protected ConfigurationSection section;
+    protected final ConfigurationSection section;
 
     public YamlAccount(ConfigurationSection section) {
         this.section = section;
@@ -34,13 +34,39 @@ public abstract class YamlAccount extends Observable implements PlayerAccount {
     
     @Override
     public double getBalance() {
-        return section.getDouble("balance");
+        synchronized(section) {
+            return section.getDouble("balance");
+        }
     }
    
     @Override
     public void setBalance(double amount) {
-        section.set("balance", amount);
+        synchronized(section) {
+            section.set("balance", amount);
+        }
         setChanged();
         notifyObservers();
      }
+    
+    @Override
+    public double deposit(double amount) {
+         synchronized(section) {
+            double newBalance = section.getDouble("balance") + amount;
+            section.set("balance", newBalance);
+            setChanged();
+            notifyObservers(); 
+            return newBalance;
+        }
+    }
+    
+    @Override
+    public double withdraw(double amount) {
+        synchronized(section) {
+            double newBalance = section.getDouble("balance") - amount;
+            section.set("balance", newBalance);
+            setChanged();
+            notifyObservers();        
+            return newBalance;
+        }
+    }
 }

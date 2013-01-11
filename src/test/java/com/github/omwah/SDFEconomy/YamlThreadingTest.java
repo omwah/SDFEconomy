@@ -2,26 +2,14 @@
  */
 package com.github.omwah.SDFEconomy;
 
-import static org.junit.Assert.assertEquals;
-
 import java.io.File;
-import java.io.IOException;
-
-import java.util.ArrayList;
 import java.util.Observer;
-
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 import org.junit.Rule;
-import org.junit.Ignore;
-
-import org.junit.rules.MethodRule;
+import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-
-import static org.junit.Assert.*;
 
 /**
  */
@@ -36,11 +24,13 @@ public class YamlThreadingTest {
     private final double accountIncrement = 10.0;
     private final int numThreads = 2;
     
-    // Does account access in a seperate thread
-    private class AccessStorageRunnable implements Runnable {
+    // Does balance access in a seperate thread
+    private class StorageDepositRunnable implements Runnable {
         private YamlStorage storage;
+        private String name;
 
-        public AccessStorageRunnable(YamlStorage storage) {
+        public StorageDepositRunnable(YamlStorage storage, String name) {
+            this.name = name;
             this.storage = storage;
         }
 
@@ -48,30 +38,28 @@ public class YamlThreadingTest {
          * Just iteratively sets a balance on a YamlStorage object
          */
         public void run() { 
-            PlayerAccount account;
-            if(storage.hasPlayerAccount("Player1", "world")) {
-                account = storage.getPlayerAccount("Player1", "world1");
-            } else {
-                account = storage.createPlayerAccount("Player1", "world1", 0.0);
-            }
+            PlayerAccount account = storage.getPlayerAccount("Player1", "world1");
             for(int idx = 0; idx < numAccountAccess; idx++) {
-                account.setBalance(account.getBalance() + accountIncrement);
+                account.deposit(accountIncrement);
             }
         }
     }
-
+    
     /*
+     * Tests multiple threads all hitting the same player's account for desposits
      */
     @Test
-    public void multiThreadAccess() {
+    public void balanceDeposit() {
         File out_file = new File(folder.getRoot(), test_filename);
         {
             YamlStorage store = new YamlStorage(out_file);
             store.addObserver((Observer) new StorageCommitEveryN(100));
+            store.createPlayerAccount("Player1", "world1", 0.0);
 
             ThreadGroup accessGroup = new ThreadGroup("YamlAccess");
             for(int tcount = 0; tcount < this.numThreads; tcount++) {
-                (new Thread(accessGroup, new AccessStorageRunnable(store))).start();
+                String tname = "Thread" + (tcount+1);
+                (new Thread(accessGroup, new StorageDepositRunnable(store, tname))).start();
             }
 
             while(accessGroup.activeCount() > 0) {
@@ -91,4 +79,62 @@ public class YamlThreadingTest {
         }
     } 
 
+    private class StorageWithdrawRunnable implements Runnable {
+        private YamlStorage storage;
+        private String name;
+
+        public StorageWithdrawRunnable(YamlStorage storage, String name) {
+            this.storage = storage;
+            this.name = name;
+        }
+
+        /*
+         * Just iteratively sets a balance on a YamlStorage object
+         */
+        public void run() { 
+            PlayerAccount account = storage.getPlayerAccount("Player1", "world1");
+            for(int idx = 0; idx < numAccountAccess; idx++) {
+                account.withdraw(accountIncrement);
+            }
+        }
+    }
+        
+    /*
+     * Tests multiple threads all hitting the same player's account for withdraws
+     */
+    @Test
+    public void balanceWithdraw() {
+        File out_file = new File(folder.getRoot(), test_filename);
+        {
+            YamlStorage store = new YamlStorage(out_file);
+            store.addObserver((Observer) new StorageCommitEveryN(100));
+            
+            // Create a player with a large amount of money which will be
+            // reduced to 0 by the threads
+            store.createPlayerAccount("Player1", "world1", 
+                    this.numAccountAccess * this.accountIncrement * this.numThreads);
+        
+            ThreadGroup accessGroup = new ThreadGroup("YamlAccess");
+            for(int tcount = 0; tcount < this.numThreads; tcount++) {
+                String tname = "Thread" + (tcount + 1); 
+                (new Thread(accessGroup, new StorageWithdrawRunnable(store, tname))).start();
+            }
+
+            while(accessGroup.activeCount() > 0) {
+                try {
+                    Thread.sleep(100);
+                } catch(InterruptedException e) {
+                    break;
+                }
+            }
+            store.commit();
+        }
+
+        {
+            YamlStorage store = new YamlStorage(out_file);
+            PlayerAccount account = store.getPlayerAccount("Player1", "world1");
+            assertEquals(0.0, account.getBalance(), 1e-6);
+        }
+    } 
+    
 }
