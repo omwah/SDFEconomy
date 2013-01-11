@@ -9,7 +9,6 @@ import java.util.List;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.configuration.Configuration;
 
 /**
@@ -188,8 +187,8 @@ public class SDFEconomyAPI {
         if (locationName != null && hasAccount(playerName, locationName)) {
             if (has(playerName, locationName, amount)) {
                 PlayerAccount account = storage.getPlayerAccount(playerName, locationName);
-                account.setBalance(account.getBalance() - amount);
-                response = new EconomyResponse(amount, account.getBalance(), ResponseType.SUCCESS, "");
+                double new_balance = account.withdraw(amount);
+                response = new EconomyResponse(amount, new_balance, ResponseType.SUCCESS, "");
             } else {
                 response = new EconomyResponse(0.0, 0.0, ResponseType.FAILURE, "Player does not have enough money for transaction");
             }
@@ -209,8 +208,8 @@ public class SDFEconomyAPI {
         EconomyResponse response;
         if (locationName != null && hasAccount(playerName, locationName)) {
             PlayerAccount account = storage.getPlayerAccount(playerName, locationName);
-            account.setBalance(account.getBalance() + amount);
-            response = new EconomyResponse(amount, account.getBalance(), ResponseType.SUCCESS, "");
+            double new_balance = account.deposit(amount);
+            response = new EconomyResponse(amount, new_balance, ResponseType.SUCCESS, "");
         } else {
             response = new EconomyResponse(0.0, 0.0, ResponseType.FAILURE, "Can not deposit to player");
         }
@@ -325,8 +324,8 @@ public class SDFEconomyAPI {
         // Only act upon account if it has enough money
         if(response.type == ResponseType.SUCCESS) {
             BankAccount account = storage.getBankAccount(name);
-            account.setBalance(account.getBalance() - amount);
-            response = new EconomyResponse(amount, account.getBalance(), ResponseType.SUCCESS, "");
+            double new_balance = account.withdraw(amount);
+            response = new EconomyResponse(amount, new_balance, ResponseType.SUCCESS, "");
         }
         return response;
     }
@@ -335,8 +334,8 @@ public class SDFEconomyAPI {
         EconomyResponse response;
         if (storage.hasBankAccount(name)) {
             BankAccount account = storage.getBankAccount(name);
-            account.setBalance(account.getBalance() + amount);
-            response = new EconomyResponse(amount, account.getBalance(), ResponseType.SUCCESS, "");
+            double new_balance = account.deposit(amount);
+            response = new EconomyResponse(amount, new_balance, ResponseType.SUCCESS, "");
         } else {
             response = new EconomyResponse(0, 0, ResponseType.FAILURE, "Account does not exist");
         }
