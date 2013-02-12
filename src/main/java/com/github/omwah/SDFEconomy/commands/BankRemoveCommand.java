@@ -32,12 +32,23 @@ public class BankRemoveCommand extends BasicCommand {
         if (account != null) {
             if(handler.hasAdminPermission(sender) || 
                     sender instanceof Player && account.isOwner(((Player)sender).getName())) {
+                String owner = account.getOwner();
+                String location = account.getLocation();
+                double bank_balance = account.getBalance();
 
                 EconomyResponse result = api.deleteBank(account_name);
                 if (result.type == ResponseType.SUCCESS) {
-                    sender.sendMessage("Succesfully remove bank: " + account_name);
+                    sender.sendMessage("Succesfully removed bank: " + account_name);
                 } else {
                     sender.sendMessage("Failed to remove bank: " + account_name);
+                    return false;
+                }
+
+                result = api.depositPlayer(owner, bank_balance, location);
+                if (result.type == ResponseType.SUCCESS) {
+                    sender.sendMessage("Deposited bank balance of: " + api.format(bank_balance) + " into player account for: " + owner);
+                } else {
+                    sender.sendMessage("Failed to deposited bank balance of: " + api.format(bank_balance) + " into player account for: " + owner);
                     return false;
                 }
             } else {

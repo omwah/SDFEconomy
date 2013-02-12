@@ -8,6 +8,7 @@
 * Enable bank commands only when support is enabled in the configuration
 * Added the bank setowner command that can be used for a player to give
 an account away or by an admin/op
+* Made bank remove command deposit remaining balance into owner's player account
 
 0.1.0
 -----
