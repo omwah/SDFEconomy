@@ -4,5 +4,4 @@ Features to add
 * Add command to scale every player together
 * Make reload command also reread configuration
 * Make bank remove deposit balance into player's account
-* Make a bank set owner admin command
 * More storage options

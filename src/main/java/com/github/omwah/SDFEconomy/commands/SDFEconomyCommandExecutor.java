@@ -74,6 +74,8 @@ public class SDFEconomyCommandExecutor implements CommandExecutor {
             
             sub_cmd_list.add(new BankAddMemberCommand(api));
             sub_cmd_list.add(new BankRemoveMemberCommand(api));
+
+            sub_cmd_list.add(new BankSetOwnerCommand(api));
         }
 
         config.addDefault("commands.topN", 5);
