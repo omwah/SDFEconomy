@@ -11,6 +11,7 @@
 * Added the bank setowner command that can be used for a player to give
   an account away or by an admin/op
 * Made bank remove command deposit remaining balance into owner's player account
+* Added scale command so all player's account balances can be scaled at once
 
 0.1.0
 -----
