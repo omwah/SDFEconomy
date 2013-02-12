@@ -4,10 +4,12 @@
 * Instead of saving accounts on every update when using the Yaml storage method,
   accounts are saved after a configurable number of ticks after the first of
   a series of updates occurs.
+* Updated default config file with more comments and changing options 
+  available to YamlStorage
 * Added unit test checking on thread safety of Yaml balance operations
 * Enable bank commands only when support is enabled in the configuration
 * Added the bank setowner command that can be used for a player to give
-an account away or by an admin/op
+  an account away or by an admin/op
 * Made bank remove command deposit remaining balance into owner's player account
 
 0.1.0
