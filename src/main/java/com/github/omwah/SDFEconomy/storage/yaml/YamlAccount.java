@@ -9,6 +9,9 @@ import org.bukkit.configuration.ConfigurationSection;
  * Implementation of Account that utilizes the YamlFileConfiguration backend
  */
 public abstract class YamlAccount extends Observable implements PlayerAccount {
+    /**
+     *
+     */
     protected final ConfigurationSection section;
 
     public YamlAccount(ConfigurationSection section) {

@@ -3,8 +3,6 @@
 package com.github.omwah.SDFEconomy;
 
 import java.util.List;
-import java.util.ArrayList;
-
 import org.bukkit.configuration.ConfigurationSection;
 
 /**

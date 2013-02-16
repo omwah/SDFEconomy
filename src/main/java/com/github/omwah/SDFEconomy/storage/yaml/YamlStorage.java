@@ -4,15 +4,15 @@ package com.github.omwah.SDFEconomy;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.Set;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.logging.Logger;
-import java.util.Observer;
+import java.util.List;
 import java.util.Observable;
-import org.bukkit.configuration.file.YamlConfiguration;
+import java.util.Observer;
+import java.util.Set;
+import java.util.logging.Logger;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 /**
  * Implements an Economy storage through a YAML file
