@@ -1,8 +1,5 @@
-/*
- */
 package com.github.omwah.SDFEconomy.location;
 
-import java.util.HashMap;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
@@ -10,41 +7,21 @@ import org.bukkit.entity.Player;
 
 /**
  * Abstract base class for translators that use the Bukkit server to
- * translate world names
+ * determine location of players based on their location
  */
 public abstract class ServerLocationTranslator implements LocationTranslator {
     protected Server server;
     
-    // Helps address transaction between players
-    // when one might not be in the same location
-    private final HashMap<String, Location> destination_helper;
-    
     public ServerLocationTranslator(Server server) {
         this.server = server;
-        this.destination_helper = new HashMap<String, Location>();
     }
     
     /*
-     * Adds a temporary destination to use instead for a player for all
-     * subsequent transactions
+     * Retrieves the location of the named player based on their
+     * current location or their bed location when they are offline.
+     * This should be a last resort to finding a location for an operation.
      */
-    public void addDestination(String playerName, Location destLocation) {
-        destination_helper.put(playerName, destLocation);
-    }
-    
-    /*
-     * Removes a temporary destination
-     */    
-    public void removeDestination(String playerName, Location destLocation) {
-        destination_helper.remove(playerName);
-    }
-    
     public String getLocationName(String playerName) {
-        // Use specific destination if set
-        if(destination_helper.containsKey(playerName)) {
-            return getLocationName(destination_helper.get(playerName));
-        }
-        
         // If no specific destination try and determine player's location
         // whether online or off
         OfflinePlayer offlinePlayer = server.getOfflinePlayer(playerName);
