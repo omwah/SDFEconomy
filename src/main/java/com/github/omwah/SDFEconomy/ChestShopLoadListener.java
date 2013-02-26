@@ -22,6 +22,7 @@ public class ChestShopLoadListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPluginEnable(PluginEnableEvent event) {
         if (event.getPlugin().getDescription().getName().equals("ChestShop")) {
+            plugin.getLogger().info("Enabling ChestShop support");
             new ChestShopEventListener(plugin);
         }
     }
