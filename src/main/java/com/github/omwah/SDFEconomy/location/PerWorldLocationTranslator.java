@@ -1,13 +1,10 @@
 /*
  */
-package com.github.omwah.SDFEconomy;
+package com.github.omwah.SDFEconomy.location;
 
 import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
-
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * Returns the location of the Player based on their

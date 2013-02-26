@@ -1,7 +1,7 @@
 /*
  * 
  */
-package com.github.omwah.SDFEconomy;
+package com.github.omwah.SDFEconomy.location;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

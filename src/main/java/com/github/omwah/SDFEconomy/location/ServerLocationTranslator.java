@@ -1,11 +1,11 @@
 /*
  */
-package com.github.omwah.SDFEconomy;
+package com.github.omwah.SDFEconomy.location;
 
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
+import org.bukkit.entity.Player;
 
 /**
  * Abstract base class for translators that use the Bukkit server to

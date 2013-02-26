@@ -2,6 +2,7 @@
  */
 package com.github.omwah.SDFEconomy;
 
+import com.github.omwah.SDFEconomy.location.LocationTranslator;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 

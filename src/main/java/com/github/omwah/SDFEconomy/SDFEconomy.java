@@ -1,5 +1,6 @@
 package com.github.omwah.SDFEconomy;
 
+import com.github.omwah.SDFEconomy.location.MultiverseInvLocationTranslator;
 import java.io.File;
 import java.util.Iterator;
 import java.util.Observer;

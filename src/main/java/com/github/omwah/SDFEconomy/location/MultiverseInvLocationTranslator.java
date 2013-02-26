@@ -1,24 +1,21 @@
 /*
  */
-package com.github.omwah.SDFEconomy;
+package com.github.omwah.SDFEconomy.location;
 
 import com.google.common.base.Joiner;
-import org.bukkit.Location;
-import org.bukkit.Server;
-import org.bukkit.World;
-
 import com.onarandombox.multiverseinventories.MultiverseInventories;
 import com.onarandombox.multiverseinventories.api.GroupManager;
 import com.onarandombox.multiverseinventories.api.profile.WorldGroupProfile;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.bukkit.plugin.Plugin;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
+import org.bukkit.plugin.Plugin;
 
 /**
  * Returns the location of a player based on MultiverseInventories world

@@ -2,6 +2,7 @@
  */
 package com.github.omwah.SDFEconomy;
 
+import com.github.omwah.SDFEconomy.location.LocationTranslator;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
