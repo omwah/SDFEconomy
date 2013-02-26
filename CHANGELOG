@@ -1,3 +1,8 @@
+0.2.1
+-----
+* Added ChestShop awareness so that when a sign is clicked on the location
+  for transactions with the owner is the same as the sign itself.
+
 0.2.0
 -----
 * Added /bal alias for /balance command
