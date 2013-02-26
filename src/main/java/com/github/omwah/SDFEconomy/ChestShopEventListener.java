@@ -2,6 +2,7 @@ package com.github.omwah.SDFEconomy;
 
 import com.Acrobot.ChestShop.Events.PreTransactionEvent;
 import com.Acrobot.ChestShop.Events.TransactionEvent;
+import com.github.omwah.SDFEconomy.location.ServerLocationTranslator;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -12,31 +13,31 @@ import org.bukkit.event.Listener;
  */
 public class ChestShopEventListener implements Listener {
     private final SDFEconomy plugin;
-    private final SDFEconomyAPI api;
-
+    private final ServerLocationTranslator translator;
+    
     /*
      * This listener needs to know about the plugin which it came from
      */
-    public ChestShopEventListener(SDFEconomy plugin) {
+    public ChestShopEventListener(SDFEconomy plugin, ServerLocationTranslator translator) {
         // Register the listener
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         
         this.plugin = plugin;
-        this.api = plugin.getAPI();
+        this.translator = translator;
     }
     
     /*
      */
     @EventHandler
     public void onPreTransactionEvent(PreTransactionEvent event) {
-
+        translator.addDestination(event.getOwner().getName(), event.getSign().getLocation());
     }
     
     /*
      */
     @EventHandler
     public void onTransactionEvent(TransactionEvent event) {
-
+        translator.removeDestination(event.getOwner().getName(), event.getSign().getLocation());
     }
     
 }
