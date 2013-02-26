@@ -9,7 +9,7 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 
 
 /*
- * Watches for any server events that affect the economy
+ * Watches for player events that affect the economy
  */
 public class PlayerEventListener implements Listener {
     private final SDFEconomy plugin;

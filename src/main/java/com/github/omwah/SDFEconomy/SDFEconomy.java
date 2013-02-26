@@ -63,6 +63,10 @@ public class SDFEconomy extends JavaPlugin {
         // Or teleporting to a world for the first time
         new PlayerEventListener(this);
         
+        // Waits for ChestShop to be loaded and if so it loads a listener
+        // to use events from that plugin
+        new ChestShopLoadListener(this);
+        
         // Load up the list of commands in the plugin.yml and register each of these
         // This makes is simpler to update the command names that this Plugin responds
         // to just by editing plugin.yml
