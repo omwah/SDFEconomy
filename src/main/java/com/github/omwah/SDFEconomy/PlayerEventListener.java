@@ -11,14 +11,14 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 /*
  * Watches for any server events that affect the economy
  */
-public class SDFEconomyListener implements Listener {
+public class PlayerEventListener implements Listener {
     private final SDFEconomy plugin;
     private final SDFEconomyAPI api;
 
     /*
      * This listener needs to know about the plugin which it came from
      */
-    public SDFEconomyListener(SDFEconomy plugin) {
+    public PlayerEventListener(SDFEconomy plugin) {
         // Register the listener
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         
@@ -63,4 +63,5 @@ public class SDFEconomyListener implements Listener {
         // not the "to" location
         createPlayerAccount(event.getPlayer(), event.getTo());
     }
+    
 }
