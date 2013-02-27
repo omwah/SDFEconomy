@@ -39,6 +39,7 @@ public abstract class SetDestinationLocationTranslator extends PlayerLocationTra
     public void removeDestination(String playerName, Location destLocation) {
         Queue locations = destinations.get(playerName);
         locations.remove(destLocation);
+
         if (locations.isEmpty()) {
             destinations.remove(playerName);
         }

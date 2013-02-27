@@ -1,6 +1,7 @@
 package com.github.omwah.SDFEconomy;
 
 import com.Acrobot.ChestShop.Events.PreTransactionEvent;
+import com.Acrobot.ChestShop.Events.PreTransactionEvent.TransactionOutcome;
 import com.Acrobot.ChestShop.Events.TransactionEvent;
 import com.github.omwah.SDFEconomy.location.SetDestinationLocationTranslator;
 import org.bukkit.event.EventHandler;
@@ -30,7 +31,11 @@ public class ChestShopEventListener implements Listener {
      */
     @EventHandler
     public void onPreTransactionEvent(PreTransactionEvent event) {
-        translator.addDestination(event.getOwner().getName(), event.getSign().getLocation());
+        // Only add destinations for succesful transactions, otherwise
+        // SPAM clicking or failures would break queue length
+        if(event.getTransactionOutcome() == TransactionOutcome.TRANSACTION_SUCCESFUL) {
+            translator.addDestination(event.getOwner().getName(), event.getSign().getLocation());
+        }
     }
     
     /*
