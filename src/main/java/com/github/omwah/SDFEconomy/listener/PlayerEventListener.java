@@ -1,5 +1,7 @@
-package com.github.omwah.SDFEconomy;
+package com.github.omwah.SDFEconomy.listener;
 
+import com.github.omwah.SDFEconomy.SDFEconomy;
+import com.github.omwah.SDFEconomy.SDFEconomyAPI;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

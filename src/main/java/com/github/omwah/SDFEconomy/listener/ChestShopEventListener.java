@@ -1,8 +1,9 @@
-package com.github.omwah.SDFEconomy;
+package com.github.omwah.SDFEconomy.listener;
 
 import com.Acrobot.ChestShop.Events.PreTransactionEvent;
 import com.Acrobot.ChestShop.Events.PreTransactionEvent.TransactionOutcome;
 import com.Acrobot.ChestShop.Events.TransactionEvent;
+import com.github.omwah.SDFEconomy.SDFEconomy;
 import com.github.omwah.SDFEconomy.location.SetDestinationLocationTranslator;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
