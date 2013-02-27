@@ -1,8 +1,10 @@
-package com.github.omwah.SDFEconomy;
+package com.github.omwah.SDFEconomy.listener;
 
 import com.Acrobot.ChestShop.Events.PreTransactionEvent;
+import com.Acrobot.ChestShop.Events.PreTransactionEvent.TransactionOutcome;
 import com.Acrobot.ChestShop.Events.TransactionEvent;
-import com.github.omwah.SDFEconomy.location.BlockingLocationTranslator;
+import com.github.omwah.SDFEconomy.SDFEconomy;
+import com.github.omwah.SDFEconomy.location.SetDestinationLocationTranslator;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -13,12 +15,12 @@ import org.bukkit.event.Listener;
  */
 public class ChestShopEventListener implements Listener {
     private final SDFEconomy plugin;
-    private final BlockingLocationTranslator translator;
+    private final SetDestinationLocationTranslator translator;
     
     /*
      * This listener needs to know about the plugin which it came from
      */
-    public ChestShopEventListener(SDFEconomy plugin, BlockingLocationTranslator translator) {
+    public ChestShopEventListener(SDFEconomy plugin, SetDestinationLocationTranslator translator) {
         // Register the listener
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         
@@ -30,7 +32,11 @@ public class ChestShopEventListener implements Listener {
      */
     @EventHandler
     public void onPreTransactionEvent(PreTransactionEvent event) {
-        translator.addDestination(event.getOwner().getName(), event.getSign().getLocation());
+        // Only add destinations for succesful transactions, otherwise
+        // SPAM clicking or failures would break queue length
+        if(event.getTransactionOutcome() == TransactionOutcome.TRANSACTION_SUCCESFUL) {
+            translator.addDestination(event.getOwner().getName(), event.getSign().getLocation());
+        }
     }
     
     /*

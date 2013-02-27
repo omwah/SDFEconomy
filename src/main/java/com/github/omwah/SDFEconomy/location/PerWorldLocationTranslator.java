@@ -10,7 +10,7 @@ import org.bukkit.World;
  * Returns the location of the Player based on their
  * current World
  */
-public class PerWorldLocationTranslator extends ServerLocationTranslator {
+public class PerWorldLocationTranslator extends PlayerLocationTranslator {
     
     public PerWorldLocationTranslator(Server server) {
         super(server);
