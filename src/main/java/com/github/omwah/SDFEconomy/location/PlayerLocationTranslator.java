@@ -9,10 +9,10 @@ import org.bukkit.entity.Player;
  * Abstract base class for translators that use the Bukkit server to
  * determine location of players based on their location
  */
-public abstract class ServerLocationTranslator implements LocationTranslator {
+public abstract class PlayerLocationTranslator implements LocationTranslator {
     protected Server server;
     
-    public ServerLocationTranslator(Server server) {
+    public PlayerLocationTranslator(Server server) {
         this.server = server;
     }
     

@@ -1,6 +1,6 @@
 package com.github.omwah.SDFEconomy;
 
-import com.github.omwah.SDFEconomy.location.BlockingLocationTranslator;
+import com.github.omwah.SDFEconomy.location.SetDestinationLocationTranslator;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -12,9 +12,9 @@ import org.bukkit.event.server.PluginEnableEvent;
  */
 public class ChestShopLoadListener implements Listener {
     private final SDFEconomy plugin;
-    private final BlockingLocationTranslator translator;
+    private final SetDestinationLocationTranslator translator;
 
-    public ChestShopLoadListener(SDFEconomy plugin, BlockingLocationTranslator translator) {
+    public ChestShopLoadListener(SDFEconomy plugin, SetDestinationLocationTranslator translator) {
         // Register the listener
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         

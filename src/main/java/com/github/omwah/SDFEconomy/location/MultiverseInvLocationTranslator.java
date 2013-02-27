@@ -21,7 +21,7 @@ import org.bukkit.plugin.Plugin;
  * Returns the location of a player based on MultiverseInventories world
  * groupings
  */
-public class MultiverseInvLocationTranslator extends BlockingLocationTranslator {
+public class MultiverseInvLocationTranslator extends SetDestinationLocationTranslator {
     private MultiverseInventories multiInv = null;
 
     public MultiverseInvLocationTranslator(Plugin plugin) {
