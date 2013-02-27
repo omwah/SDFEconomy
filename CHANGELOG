@@ -1,3 +1,9 @@
+0.2.2
+-----
+* Made ChestShop destination tracking more fault tolerant and usable
+  from multiple MV groups at the same time.
+* Reorganized classes some more
+
 0.2.1
 -----
 * Added ChestShop awareness so that when a sign is clicked on the location
