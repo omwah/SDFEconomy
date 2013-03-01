@@ -82,6 +82,7 @@ public class ConvertCommand extends BasicCommand {
         Economy src_econ = null;
         for (RegisteredServiceProvider<Economy> econ : econs) {
             String econName = econ.getProvider().getName().replace(" ", "");
+            sender.sendMessage("Considering loaded economy for conversion: " + econName);
             if (econName.equalsIgnoreCase(economy_name)) {
                 src_econ = econ.getProvider();
             }
@@ -125,11 +126,16 @@ public class ConvertCommand extends BasicCommand {
                 // Check for membership, ownership of new bank
                 for (OfflinePlayer op : server.getOfflinePlayers()) {
                     String pName = op.getName();
-                    
+                   
+                    // Set new owner as first owner found of old bank
+                    // all other owners become members
                     EconomyResponse owner_res = src_econ.isBankOwner(src_bank_name, pName);
-                    if(!new_bank.getOwner().equals(dest_bank_name) && owner_res.type == ResponseType.SUCCESS) {
+                    if(new_bank.isOwner(dest_bank_name) && owner_res.type == ResponseType.SUCCESS) {
                         new_bank.setOwner(pName);
+                    } else {
+                        new_bank.addMember(pName);
                     }
+
                     
                     EconomyResponse member_res = src_econ.isBankMember(src_bank_name, pName);
                     if(member_res.type == ResponseType.SUCCESS && !new_bank.isMember(pName)) {
