@@ -98,7 +98,7 @@ public class MultiverseInvLocationTranslator extends SetDestinationLocationTrans
         }
         
         // If all else fails fall back to direct world name
-        if (locationName == null) {
+        if (locationName == null || locationName.length() == 0) {
             locationName = world.getName();
         }
         return locationName;

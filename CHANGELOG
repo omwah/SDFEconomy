@@ -1,6 +1,9 @@
 0.2.3
 -----
 * Fixed setting bank owner when converted from another economy
+* Fixed multiverse locations where a world not in a group used
+  to result in an empty location name. Now non grouped worlds
+  result in the location the same as their name.
 
 0.2.2
 -----
