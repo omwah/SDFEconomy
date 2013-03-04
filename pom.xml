@@ -4,7 +4,7 @@
 
   <groupId>com.github.omwah</groupId>
   <artifactId>SDFEconomy</artifactId>
-  <version>0.2.3-SNAPSHOT</version>
+  <version>0.2.4-SNAPSHOT</version>
   <name>SDFEconomy</name>
   <description>CraftBukkit plugin which implements a Multiverse aware Economy.</description>
 
