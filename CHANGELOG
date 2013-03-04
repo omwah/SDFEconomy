@@ -5,6 +5,8 @@
   to result in an empty location name. Now non grouped worlds
   result in the location the same as their name.
 * Added selection of location translator method through config
+* Made /ec top command optionally take into account money in banks
+  NOTE: This change renames the option commands.topN to commands.top.number
 
 0.2.2
 -----

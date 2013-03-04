@@ -1,14 +1,17 @@
 package com.github.omwah.SDFEconomy.commands;
 
+import com.github.omwah.SDFEconomy.BankAccount;
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
+import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class TopAccountsCommand extends BasicCommand {
-    private SDFEconomyAPI api;
-    private int topN;
+    private final SDFEconomyAPI api;
+    private final int topN;
+    private final boolean includeBanks;
     
     /*
      * Helper class for sorting players
@@ -24,16 +27,17 @@ public class TopAccountsCommand extends BasicCommand {
             if(!(t instanceof PlayerBalanceComparable)) {
                 throw new UnsupportedOperationException("Can only compare to other PlayerBalanceComparable objects");
             }       
-            // Return such that sort is in decreasing balance
+            // Return such that sort is in decreasing wealth
             return -(new Double(balance)).compareTo(((PlayerBalanceComparable) t).balance);
         }        
     }
     
-    public TopAccountsCommand(SDFEconomyAPI api, int topN) {
+    public TopAccountsCommand(SDFEconomyAPI api, int topN, boolean includeBanks) {
         super("top");
         
         this.api = api;
         this.topN = topN;
+        this.includeBanks = includeBanks;
         
         setDescription("List top account holders for location");
         setUsage(this.getName() + " §8[location]");
@@ -57,7 +61,7 @@ public class TopAccountsCommand extends BasicCommand {
             location_name = api.getPlayerLocationName(((Player) sender).getName());
         }
         
-        // If arguments are supplied then check for another players balance
+        // If arguments are supplied then check for another players wealth
         if (location_name == null) {
             sender.sendMessage("Must specify location name when using this command from the console");
             return false;
@@ -89,8 +93,14 @@ public class TopAccountsCommand extends BasicCommand {
         // Gathering the top accounts as we go
         SortedSet<PlayerBalanceComparable> top_players = new TreeSet<PlayerBalanceComparable>();
         for(String player_name : api.getPlayers(location_name)) {
-            double balance = api.getBalance(player_name, location_name);
-            top_players.add(new PlayerBalanceComparable(player_name, balance));
+            double wealth = api.getBalance(player_name, location_name);
+            if(includeBanks) {
+                List<BankAccount> player_banks = api.getPlayerBanks(player_name, location_name);
+                for(BankAccount bank : player_banks) {
+                    wealth += bank.getBalance();
+                }
+            }
+            top_players.add(new PlayerBalanceComparable(player_name, wealth));
 
             // Prune from the bottom if too many players
             if(top_players.size() > top_count) {

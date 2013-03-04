@@ -48,8 +48,13 @@ location:
             
 # Settings for commands            
 commands:
-    # Number of wealthies players to show when the /top command is used
-    topN: 5
+    # Settings for /top command
+    top:
+      # Number of wealthiest players to show when the /top command is used
+      number: 5
+    
+      # Whether to include banks in player wealth
+      include_banks: true 
     
 # Storage settings
 storage:

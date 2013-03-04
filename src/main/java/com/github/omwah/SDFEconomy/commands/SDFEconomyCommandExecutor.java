@@ -78,8 +78,12 @@ public class SDFEconomyCommandExecutor implements CommandExecutor {
             sub_cmd_list.add(new BankSetOwnerCommand(api));
         }
 
-        config.addDefault("commands.topN", 5);
-        sub_cmd_list.add(new TopAccountsCommand(api, config.getInt("commands.topN")));
+        if(config.contains("commands.topN")) {
+            server.getLogger().info("[SDFEconomy] Config option commands.topN deprecated, use commands.top.number");
+        }
+        int top_number = config.getInt("commands.top.number", 5);
+        boolean top_include_banks = config.getBoolean("commands.top.include_banks", true);
+        sub_cmd_list.add(new TopAccountsCommand(api, top_number, top_include_banks));
 
         sub_cmd_list.add(new ReloadCommand(api));
         sub_cmd_list.add(new SetCommand(api));
