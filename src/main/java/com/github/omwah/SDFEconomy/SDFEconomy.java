@@ -14,6 +14,10 @@ import org.bukkit.command.PluginCommand;
 import net.milkbowl.vault.permission.Permission;
 
 import com.github.omwah.SDFEconomy.commands.SDFEconomyCommandExecutor;
+import com.github.omwah.SDFEconomy.location.GlobalLocationTranslator;
+import com.github.omwah.SDFEconomy.location.LocationTranslator;
+import com.github.omwah.SDFEconomy.location.PerWorldLocationTranslator;
+import com.github.omwah.SDFEconomy.location.SetDestinationLocationTranslator;
 
 /*
  * Bukkit Plugin class for SDFEconomy
@@ -31,6 +35,7 @@ public class SDFEconomy extends JavaPlugin {
         // So far only one storage method is implemented: YAML Storage
         this.getConfig().addDefault("storage.yaml.filename", "accounts.yaml");
         this.getConfig().addDefault("storage.yaml.commit_delay", 60L);
+        this.getConfig().addDefault("location.translator", "multiverse");
 
         File storageFile = new File(this.getDataFolder(), this.getConfig().getString("storage.yaml.filename"));
 
@@ -48,9 +53,23 @@ public class SDFEconomy extends JavaPlugin {
             yaml_storage.addObserver((Observer) new StorageCommitDelayed(this, commit_delay)); 
         }
                                                  
-        // So far only one type of Location Translator enabled:
-        // Multiverse-Inventories based location translation
-        MultiverseInvLocationTranslator locationTrans = new MultiverseInvLocationTranslator(this);
+        // Load the location translator specified in the config file
+        String translator_str = this.getConfig().getString("location.translator");
+        LocationTranslator locationTrans = null;
+        if(translator_str.equalsIgnoreCase("multiverse")) {
+            getLogger().info("Using Multiverse-Inventories location translator");
+            locationTrans = new MultiverseInvLocationTranslator(this);
+        } else if (translator_str.equalsIgnoreCase("per_world")) {
+            getLogger().info("Using Per World location translator");
+            locationTrans = new PerWorldLocationTranslator(this.getServer());
+        } else if (translator_str.equalsIgnoreCase("global")) {
+            String global_name = this.getConfig().getString("location.global.name", "global");
+            getLogger().info("Using Global location translator with location name: " + global_name);
+            locationTrans = new GlobalLocationTranslator(global_name);
+        } else {
+            getLogger().info("Invalid value for config value location.translator, defaulting to multiverse translator");
+            locationTrans = new MultiverseInvLocationTranslator(this);
+        }
 
         // Create the API used both by Vault and the Plugin commands
         this.api = new SDFEconomyAPI(this.getConfig(), this.storage, locationTrans);
@@ -67,7 +86,9 @@ public class SDFEconomy extends JavaPlugin {
         
         // Waits for ChestShop to be loaded and if so it optionally loads a listener
         // to use events from that plugin
-        new ChestShopLoadListener(this, locationTrans);
+        if(locationTrans instanceof SetDestinationLocationTranslator) {
+            new ChestShopLoadListener(this, (SetDestinationLocationTranslator) locationTrans);
+        }
         
         // Load up the list of commands in the plugin.yml and register each of these
         // This makes is simpler to update the command names that this Plugin responds

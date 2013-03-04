@@ -23,6 +23,29 @@ api:
             plural: "Simoleons"
             singular: "Simoleon"
             
+# Sets the location translator used for mapping player location into 
+# account location
+# Options include:
+# * multiverse - Uses Multiverse-Inventories plugin groups for locations
+#   Without Multiverse-Inventories plugin loaded the behavior is the same
+#   as the per_world translator
+# * per_world - One accounts location per world
+# * global - One location per server, ie one global account location
+
+location:
+  translator: multiverse
+  
+  # Translator options: not all translators have options yet, but sections
+  # are included for completeness
+  
+  # global has the option of setting the name for the global location
+  global:
+    name: "global"
+    
+  # No options for these translators
+  multiverse: null
+  per_world: null
+            
 # Settings for commands            
 commands:
     # Number of wealthies players to show when the /top command is used

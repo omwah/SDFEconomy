@@ -4,6 +4,7 @@
 * Fixed multiverse locations where a world not in a group used
   to result in an empty location name. Now non grouped worlds
   result in the location the same as their name.
+* Added selection of location translator method through config
 
 0.2.2
 -----

@@ -1,7 +1,6 @@
 Features to add
 ---------------
 * Make /ec top command take into account money in banks
-* Selectable location translator method through class
 * More storage options
 
 Known caveats
