@@ -15,19 +15,30 @@
   </properties>
 
   <repositories>
+    <!-- Bukkit -->
     <repository>
       <id>bukkit-repo</id>
       <url>http://repo.bukkit.org/content/groups/public/</url>
     </repository>
+
+    <!-- Vault -->
     <repository>
       <id>vault-repo</id>
       <url>http://ci.herocraftonline.com/plugin/repository/everything</url>
     </repository>
-    <!-- For Multiverse-Inventories -->
+
+    <!-- Multiverse-Inventories -->
     <repository>
       <id>onarandombox</id>
       <url>http://repo.onarandombox.com/content/groups/public</url>
     </repository>
+
+    <!-- For anything else without its own repo -->
+    <repository>
+      <id>omwah-repo</id>
+      <url>http://omwah.sdf.org/maven/repo/releases/</url>
+    </repository>
+
     <!-- For JUnitBenchmarks -->
     <repository>
       <id>sonatype-nexus-public</id>
@@ -51,6 +62,7 @@
       <type>jar</type>
       <scope>provided</scope>
     </dependency>
+
     <!-- Following dependency is provided by CraftBukkit -->
     <dependency>
       <groupId>com.google.guava</groupId>
@@ -59,6 +71,7 @@
       <type>jar</type>
       <scope>provided</scope>
     </dependency>
+
     <!-- Use Vault Economy API interface -->
     <dependency>
       <groupId>net.milkbowl.vault</groupId>
@@ -66,13 +79,23 @@
       <version>1.2.22-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
-    <!-- Use Multiverse -->
+
+    <!-- MultiverseInventories -->
     <dependency>
       <groupId>com.onarandombox.multiverseinventories</groupId>
       <artifactId>Multiverse-Inventories</artifactId>
       <version>2.5</version>
       <scope>provided</scope>
     </dependency>
+
+    <!-- MultiInv -->
+    <dependency>
+      <groupId>uk.co</groupId>
+      <artifactId>MultiInv</artifactId>
+      <version>3.2.5</version>
+      <scope>provided</scope>
+    </dependency>
+
     <!-- ChestShop-3 -->
     <dependency>
       <groupId>com.acrobot.chestshop</groupId>
@@ -80,6 +103,7 @@
       <version>3.50</version>
       <scope>provided</scope>
     </dependency>
+
     <!-- Testing only -->
     <dependency>
       <groupId>junit</groupId>

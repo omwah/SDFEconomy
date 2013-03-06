@@ -29,6 +29,7 @@ api:
 # * multiverse - Uses Multiverse-Inventories plugin groups for locations
 #   Without Multiverse-Inventories plugin loaded the behavior is the same
 #   as the per_world translator
+# * multiinv - Uses the MultiInv plugin, similar to Multiverse-Inventories
 # * per_world - One accounts location per world
 # * global - One location per server, ie one global account location
 
