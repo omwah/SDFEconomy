@@ -16,6 +16,7 @@ import net.milkbowl.vault.permission.Permission;
 import com.github.omwah.SDFEconomy.commands.SDFEconomyCommandExecutor;
 import com.github.omwah.SDFEconomy.location.GlobalLocationTranslator;
 import com.github.omwah.SDFEconomy.location.LocationTranslator;
+import com.github.omwah.SDFEconomy.location.MultiInvLocationTranslator;
 import com.github.omwah.SDFEconomy.location.PerWorldLocationTranslator;
 import com.github.omwah.SDFEconomy.location.SetDestinationLocationTranslator;
 
@@ -59,6 +60,9 @@ public class SDFEconomy extends JavaPlugin {
         if(translator_str.equalsIgnoreCase("multiverse")) {
             getLogger().info("Using Multiverse-Inventories location translator");
             locationTrans = new MultiverseInvLocationTranslator(this);
+        } else if (translator_str.equalsIgnoreCase("multiinv")) {
+            getLogger().info("Using MultInv location translator");
+            locationTrans = new MultiInvLocationTranslator(this);
         } else if (translator_str.equalsIgnoreCase("per_world")) {
             getLogger().info("Using Per World location translator");
             locationTrans = new PerWorldLocationTranslator(this.getServer());
