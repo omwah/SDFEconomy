@@ -6,6 +6,9 @@ import com.github.omwah.SDFEconomy.location.MultiverseInvLocationTranslator;
 import java.io.File;
 import java.util.Iterator;
 import java.util.Observer;
+import java.io.IOException;
+import java.util.logging.Level;
+import org.mcstats.Metrics;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -101,6 +104,14 @@ public class SDFEconomy extends JavaPlugin {
             // set the command executor for the Command
             PluginCommand curr_cmd = this.getCommand((String) cmd_iter.next());
             curr_cmd.setExecutor(new SDFEconomyCommandExecutor(curr_cmd, this.permission, this.api, this.getConfig(), this.getServer()));
+        }
+        
+        // Try and send metrics to MCStats
+        try {
+            Metrics metrics = new Metrics(this);
+            metrics.start();
+        } catch (IOException e) {
+            getLogger().log(Level.SEVERE, "Could not send data to MCStats!");
         }
     }
     

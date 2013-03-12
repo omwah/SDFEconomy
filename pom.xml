@@ -39,6 +39,12 @@
       <url>http://omwah.sdf.org/maven/repo/releases/</url>
     </repository>
 
+    <!-- MCStats -->
+    <repository>
+        <id>Plugin Metrics</id>
+        <url>http://repo.mcstats.org/content/repositories/public</url>
+    </repository>
+    
     <!-- For JUnitBenchmarks -->
     <repository>
       <id>sonatype-nexus-public</id>
@@ -104,6 +110,14 @@
       <scope>provided</scope>
     </dependency>
 
+    <!-- McStats -->
+    <dependency>
+        <groupId>org.mcstats.bukkit</groupId>
+        <artifactId>metrics</artifactId>
+        <version>R6</version>
+        <scope>compile</scope>
+    </dependency>
+    
     <!-- Testing only -->
     <dependency>
       <groupId>junit</groupId>
@@ -138,6 +152,7 @@
         </excludes>
       </resource>
     </resources>
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -149,6 +164,37 @@
           <target>1.5</target>
         </configuration>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>2.0</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <minimizeJar>true</minimizeJar>
+              <artifactSet>
+                <includes>
+                  <include>org.mcstats.bukkit</include>
+                </includes>
+              </artifactSet>
+              <filters>
+              </filters>
+              <relocations>
+                <relocation>
+                  <pattern>org.mcstats</pattern>
+                  <shadedPattern>com.github.omwah.SDFEconomy.mcstats</shadedPattern>
+                </relocation>
+              </relocations>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+ 
     </plugins>
   </build>
 
