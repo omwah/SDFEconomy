@@ -87,6 +87,8 @@ public class SDFEconomyCommandExecutor implements CommandExecutor {
 
         sub_cmd_list.add(new ReloadCommand(api));
         sub_cmd_list.add(new SetCommand(api));
+        sub_cmd_list.add(new DepositAdminCommand(api));
+        sub_cmd_list.add(new WithdrawAdminCommand(api));
         sub_cmd_list.add(new ScaleCommand(api));
         sub_cmd_list.add(new ConvertCommand(api, server));
         sub_cmd_list.add(new PlayerCreateCommand(api));
