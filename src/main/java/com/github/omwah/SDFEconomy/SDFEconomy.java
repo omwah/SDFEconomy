@@ -22,6 +22,8 @@ import com.github.omwah.SDFEconomy.location.LocationTranslator;
 import com.github.omwah.SDFEconomy.location.MultiInvLocationTranslator;
 import com.github.omwah.SDFEconomy.location.PerWorldLocationTranslator;
 import com.github.omwah.SDFEconomy.location.SetDestinationLocationTranslator;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 
 /*
  * Bukkit Plugin class for SDFEconomy
@@ -36,6 +38,11 @@ public class SDFEconomy extends JavaPlugin {
      */
     @Override
     public void onEnable() {
+        if (!checkForVault()) {
+            getLogger().log(Level.SEVERE, "This plugin requires Vault. Please download the latest: http://dev.bukkit.org/server-mods/vault/");
+            Bukkit.getServer().getPluginManager().disablePlugin(this);
+            return;
+        } 
         // So far only one storage method is implemented: YAML Storage
         this.getConfig().addDefault("storage.yaml.filename", "accounts.yaml");
         this.getConfig().addDefault("storage.yaml.commit_delay", 60L);
@@ -59,12 +66,15 @@ public class SDFEconomy extends JavaPlugin {
                                                  
         // Load the location translator specified in the config file
         String translator_str = this.getConfig().getString("location.translator");
-        LocationTranslator locationTrans = null;
+        LocationTranslator locationTrans;
         if(translator_str.equalsIgnoreCase("multiverse")) {
             getLogger().info("Using Multiverse-Inventories location translator");
             locationTrans = new MultiverseInvLocationTranslator(this);
         } else if (translator_str.equalsIgnoreCase("multiinv")) {
             getLogger().info("Using MultInv location translator");
+            locationTrans = new MultiInvLocationTranslator(this);
+        } else if (translator_str.equalsIgnoreCase("worldinventories")) {
+            getLogger().info("Using WorldInventories location translator");
             locationTrans = new MultiInvLocationTranslator(this);
         } else if (translator_str.equalsIgnoreCase("per_world")) {
             getLogger().info("Using Per World location translator");
@@ -115,13 +125,24 @@ public class SDFEconomy extends JavaPlugin {
         }
     }
     
+    private boolean checkForVault() {
+        Plugin plugin = getServer().getPluginManager().getPlugin("Vault");
+        if (plugin == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
     /*
      * Called when the plug-in shuts down
      * One final commit
      */
     @Override
-    public void onDisable() {
-        storage.commit();
+    public void onDisable() { 
+        if (storage != null) {
+            storage.commit();
+        }
     }
 
     /*
