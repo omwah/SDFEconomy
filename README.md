@@ -1,8 +1,21 @@
 SDFEconomy
-======
+==========
 
-A Minecraft Bukkit server plugin implementing a simple Multiverse aware
-economy.
+SDFEconomy is a multiverse/location aware Vault based economy plugin used on the [SDF Minecraft Server](http://sdf.org/?minecraft). The plugin can configured to have separate economies corresponding to the separate inventory locations from any of these plugins:
+
+* [Multiverse-Inventories](http://dev.bukkit.org/server-mods/multiverse-inventories/)
+* [MultiInv](http://dev.bukkit.org/server-mods/multiinv/) 
+* [WorldInventories](http://dev.bukkit.org/server-mods/world-inventories/)
+
+In addition to multiverse support there are options for having an economy per world or a single economy for all worlds.
+
+As Vault is not itself multiverse aware, we sometimes need to add specific support for other Vault plugins so money is placed in the correct location. So far we support:  
+
+* [ChestShop](http://dev.bukkit.org/server-mods/chestshop/)
+
+You will need at least [Vault version 1.2.3](http://dev.bukkit.org/server-mods/vault/files/37-vault-1-2-23/) or higher to use this plugin.
+
+Builds can be found on the [Bukkit Page](http://dev.bukkit.org/server-mods/sdfeconomy/).
 
 License
 -------

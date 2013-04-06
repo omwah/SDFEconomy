@@ -1,3 +1,7 @@
+0.2.7
+-----
+* Add support for WorldInventories
+
 0.2.6
 -----
 * Add deposit and withdraw admin commands
