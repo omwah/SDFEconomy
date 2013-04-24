@@ -1,3 +1,8 @@
+0.2.8
+-----
+* Add more logging of failures to API calls
+* Add basic support for Factions accounts 
+
 0.2.7
 -----
 * Add support for WorldInventories

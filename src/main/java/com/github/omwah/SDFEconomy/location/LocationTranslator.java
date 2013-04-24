@@ -1,6 +1,3 @@
-/*
- * 
- */
 package com.github.omwah.SDFEconomy.location;
 
 import org.bukkit.Location;

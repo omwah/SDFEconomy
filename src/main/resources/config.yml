@@ -14,7 +14,7 @@ api:
         # Amount of money a player gets when logging in or going
         # to a location for the first time
         initial_balance: 10.00
-
+        
     # Currency settings for controlling how amounts are printed
     # in response to commands
     currency:
@@ -47,6 +47,13 @@ location:
   # No options for these translators
   multiverse: null
   per_world: null
+  
+  # Support for Factions accounts. Name is the location name
+  # to apply to the factions account. This should be different
+  # than all other location names to avoid possible conflicts.
+  factions_support:
+    enabled: False
+    name: "factions"
             
 # Settings for commands            
 commands:

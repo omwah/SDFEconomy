@@ -17,6 +17,7 @@ import org.bukkit.command.PluginCommand;
 import net.milkbowl.vault.permission.Permission;
 
 import com.github.omwah.SDFEconomy.commands.SDFEconomyCommandExecutor;
+import com.github.omwah.SDFEconomy.location.FactionsLocationSupport;
 import com.github.omwah.SDFEconomy.location.GlobalLocationTranslator;
 import com.github.omwah.SDFEconomy.location.LocationTranslator;
 import com.github.omwah.SDFEconomy.location.MultiInvLocationTranslator;
@@ -47,7 +48,9 @@ public class SDFEconomy extends JavaPlugin {
         this.getConfig().addDefault("storage.yaml.filename", "accounts.yaml");
         this.getConfig().addDefault("storage.yaml.commit_delay", 60L);
         this.getConfig().addDefault("location.translator", "multiverse");
-
+        this.getConfig().addDefault("location.factions_support.enabled", false);
+        this.getConfig().addDefault("location.factions_support.name", "factions");
+                
         File storageFile = new File(this.getDataFolder(), this.getConfig().getString("storage.yaml.filename"));
 
         YamlStorage yaml_storage = new YamlStorage(storageFile);
@@ -88,6 +91,12 @@ public class SDFEconomy extends JavaPlugin {
             locationTrans = new MultiverseInvLocationTranslator(this);
         }
 
+        // Enable support for Factions accounts
+        if(this.getConfig().getBoolean("location.factions_support.enabled")) {
+            getLogger().info("Enabling Factions account support");
+            locationTrans = new FactionsLocationSupport(locationTrans, getConfig().getString("location.factions_support.name"));
+        }
+        
         // Create the API used both by Vault and the Plugin commands
         this.api = new SDFEconomyAPI(this.getConfig(), this.storage, locationTrans, getLogger());
 

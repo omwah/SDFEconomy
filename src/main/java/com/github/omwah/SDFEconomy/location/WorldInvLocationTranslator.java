@@ -1,5 +1,3 @@
-/*
- */
 package com.github.omwah.SDFEconomy.location;
 
 import me.drayshak.WorldInventories.api.WorldInventoriesAPI;

@@ -215,7 +215,15 @@ public class SDFEconomyAPI {
     public EconomyResponse depositPlayer(String playerName, double amount, String locationName) {
         
         EconomyResponse response;
-        if (locationName != null && hasAccount(playerName, locationName)) {
+        if (locationName != null) {
+            if (!hasAccount(playerName, locationName)) {
+                // Try and create account if it does not already exist, this supports plugins like
+                // Factions which use bogus player accounts as banks
+                boolean success = this.createPlayerAccount(playerName, locationName);
+                if (!success) {
+                    return new EconomyResponse(0.0, 0.0, ResponseType.FAILURE, "Can not deposit to player");
+                }
+            }
             PlayerAccount account = storage.getPlayerAccount(playerName, locationName);
             double new_balance = account.deposit(amount);
             response = new EconomyResponse(amount, new_balance, ResponseType.SUCCESS, "");
