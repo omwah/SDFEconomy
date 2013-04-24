@@ -89,7 +89,7 @@ public class SDFEconomy extends JavaPlugin {
         }
 
         // Create the API used both by Vault and the Plugin commands
-        this.api = new SDFEconomyAPI(this.getConfig(), this.storage, locationTrans);
+        this.api = new SDFEconomyAPI(this.getConfig(), this.storage, locationTrans, getLogger());
 
         // save the configuration file
         saveDefaultConfig();

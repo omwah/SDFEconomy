@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 import org.bukkit.Location;
@@ -20,11 +21,13 @@ public class SDFEconomyAPI {
     private EconomyStorage storage;
     private Configuration config;
     private LocationTranslator locTrans;
+    private Logger logger;
     
-    public SDFEconomyAPI(Configuration config, EconomyStorage storage, LocationTranslator locationTrans) {
+    public SDFEconomyAPI(Configuration config, EconomyStorage storage, LocationTranslator locationTrans, Logger logger) {
         this.config = config;
         this.storage = storage;
         this.locTrans = locationTrans;
+        this.logger = logger;
         
         this.config.addDefault("api.bank.enabled", true);
         this.config.addDefault("api.bank.initial_balance", 0.00);
@@ -113,6 +116,7 @@ public class SDFEconomyAPI {
             PlayerAccount account = storage.createPlayerAccount(playerName, locationName, initialBalance);
             return true;
         } else {
+            logger.info("Failed to createPlayerAccount for player: " + playerName + " @ " + locationName);
             return false;
         }
     }
@@ -122,6 +126,7 @@ public class SDFEconomyAPI {
             storage.deletePlayerAccount(playerName, locationName);
             return !hasAccount(playerName, locationName);
         } else {
+            logger.info("Failed to deletePlayerAccount for player: " + playerName + " @ " + locationName);
             return false;
         }
     }
@@ -143,6 +148,8 @@ public class SDFEconomyAPI {
         if (locationName != null && hasAccount(playerName, locationName)) { 
             PlayerAccount account = storage.getPlayerAccount(playerName, locationName);
             balance = account.getBalance();
+        } else {
+            logger.info("Failed to getBalance for player: " + playerName + " @ " + locationName);
         }
         return balance;
     }    
@@ -163,6 +170,8 @@ public class SDFEconomyAPI {
             PlayerAccount account = storage.getPlayerAccount(playerName, locationName);
             account.setBalance(amount);
             return true;
+        } else {
+            logger.info("Failed to setBalance for player: " + playerName + " @ " + locationName);
         }
         return false;
     }
@@ -189,6 +198,7 @@ public class SDFEconomyAPI {
                 double new_balance = account.withdraw(amount);
                 response = new EconomyResponse(amount, new_balance, ResponseType.SUCCESS, "");
             } else {
+                logger.info("Failed to withdrawPlayer for player: " + playerName + " @ " + locationName + " amount: " + amount);
                 response = new EconomyResponse(0.0, 0.0, ResponseType.FAILURE, "Player does not have enough money for transaction");
             }
         } else {
@@ -210,6 +220,7 @@ public class SDFEconomyAPI {
             double new_balance = account.deposit(amount);
             response = new EconomyResponse(amount, new_balance, ResponseType.SUCCESS, "");
         } else {
+            logger.info("Failed to depositPlayer for player: " + playerName + " @ " + locationName + " amount: " + amount);
             response = new EconomyResponse(0.0, 0.0, ResponseType.FAILURE, "Can not deposit to player");
         }
         return response;
@@ -252,6 +263,7 @@ public class SDFEconomyAPI {
         if (storage.hasBankAccount(accountName)) {
             return storage.getBankAccount(accountName);
         } else {
+            logger.info("getBankAccount could not find: " + accountName);
             return null;
         }
     }
@@ -271,6 +283,7 @@ public class SDFEconomyAPI {
             BankAccount account = storage.createBankAccount(name, playerName, locationName, initialBalance);
             response = new EconomyResponse(initialBalance, account.getBalance(), ResponseType.SUCCESS, "");
         } else {
+            logger.info("Failed to createBank for player: " + playerName + " @ " + locationName + " name: " + name);
             response = new EconomyResponse(0.0, 0.0, ResponseType.FAILURE, "Can not create a bank with an unknown or invalid location");
         }
         return response;
@@ -284,6 +297,7 @@ public class SDFEconomyAPI {
             if(!storage.hasBankAccount(name)) {
                 response = new EconomyResponse(balance, 0, ResponseType.SUCCESS, "");
             } else {
+                logger.info("Failed to deleteBank for name: " + name);
                 response = new EconomyResponse(0, 0, ResponseType.FAILURE, "Could not delete bank account: " + name);
             }
         } else {
@@ -298,6 +312,7 @@ public class SDFEconomyAPI {
             BankAccount account = storage.getBankAccount(name);
             response = new EconomyResponse(0, account.getBalance(), ResponseType.SUCCESS, "");
         } else {
+            logger.info("Failed to get bankBalance for: " + name);
             response = new EconomyResponse(0, 0, ResponseType.FAILURE, "Could not find bank account: " + name);
         }
         return response;
@@ -310,6 +325,7 @@ public class SDFEconomyAPI {
             if (account.getBalance() >= amount) {
                 response = new EconomyResponse(0, account.getBalance(), ResponseType.SUCCESS, "");
             } else {
+                logger.info("Failed to check bankHas " + amount + " for: " + name);
                 response = new EconomyResponse(0, account.getBalance(), ResponseType.FAILURE, "Account does not enough money");
             }
         } else {
@@ -325,6 +341,8 @@ public class SDFEconomyAPI {
             BankAccount account = storage.getBankAccount(name);
             double new_balance = account.withdraw(amount);
             response = new EconomyResponse(amount, new_balance, ResponseType.SUCCESS, "");
+        } else {
+            logger.info("Failed to bankWithdraw " + amount + " for: " + name);
         }
         return response;
     }
@@ -336,6 +354,7 @@ public class SDFEconomyAPI {
             double new_balance = account.deposit(amount);
             response = new EconomyResponse(amount, new_balance, ResponseType.SUCCESS, "");
         } else {
+            logger.info("Failed to bankDeposit " + amount + " for: " + name);
             response = new EconomyResponse(0, 0, ResponseType.FAILURE, "Account does not exist");
         }
         return response;
@@ -356,6 +375,7 @@ public class SDFEconomyAPI {
                 response = new EconomyResponse(0, account.getBalance(), ResponseType.FAILURE, playerName + " is not an owner of " + name);
             }
         } else {
+            logger.info("Failed to find bank for isBankOwner, player: " + playerName + " @ " + location + " name: " + name);
             response = new EconomyResponse(0, 0, ResponseType.FAILURE, "Bank account: " + name + " does not exist @ " + location);
         }
         return response;    
@@ -377,6 +397,7 @@ public class SDFEconomyAPI {
                 response = new EconomyResponse(0, account.getBalance(), ResponseType.FAILURE, playerName + " is not a member of " + name);
             }
         } else {
+            logger.info("Failed to find bank for isBankMember, player: " + playerName + " @ " + location + " name: " + name);
             response = new EconomyResponse(0, 0, ResponseType.FAILURE, "Bank account: " + name + " does not exist @ " + location);
         }
         return response;

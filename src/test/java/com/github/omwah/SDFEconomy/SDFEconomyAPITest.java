@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Observer;
+import java.util.logging.Logger;
 
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.junit.Before;
@@ -56,7 +57,7 @@ public class SDFEconomyAPITest {
         bank.addMember("Player2");
         bank.addMember("Player3");
         
-        this.api = new SDFEconomyAPI(new MemoryConfiguration(), storage, new TestLocationTranslator());
+        this.api = new SDFEconomyAPI(new MemoryConfiguration(), storage, new TestLocationTranslator(), Logger.getAnonymousLogger());
     }
     
     @Test
