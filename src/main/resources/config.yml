@@ -52,7 +52,7 @@ location:
   # to apply to the factions account. This should be different
   # than all other location names to avoid possible conflicts.
   factions_support:
-    enabled: False
+    enabled: True
     name: "factions"
             
 # Settings for commands            

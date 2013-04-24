@@ -48,7 +48,7 @@ public class SDFEconomy extends JavaPlugin {
         this.getConfig().addDefault("storage.yaml.filename", "accounts.yaml");
         this.getConfig().addDefault("storage.yaml.commit_delay", 60L);
         this.getConfig().addDefault("location.translator", "multiverse");
-        this.getConfig().addDefault("location.factions_support.enabled", false);
+        this.getConfig().addDefault("location.factions_support.enabled", true);
         this.getConfig().addDefault("location.factions_support.name", "factions");
                 
         File storageFile = new File(this.getDataFolder(), this.getConfig().getString("storage.yaml.filename"));

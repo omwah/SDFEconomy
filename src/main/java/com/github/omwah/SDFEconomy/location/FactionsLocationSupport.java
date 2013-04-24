@@ -19,10 +19,11 @@ public class FactionsLocationSupport implements LocationTranslator {
     }
 
     public String getLocationName(String playerName) {
-        if (playerName.matches("faction-\\d+")) {
+        String proxied_name = translator.getLocationName(playerName);
+        if (proxied_name == null && playerName.matches("faction-\\d+")) {
             return this.locationName;
         } else {
-            return translator.getLocationName(playerName);
+            return proxied_name;
         }
     }
 
