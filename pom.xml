@@ -4,14 +4,14 @@
 
   <groupId>com.github.omwah</groupId>
   <artifactId>SDFEconomy</artifactId>
-  <version>0.2.8-SNAPSHOT</version>
+  <version>0.2.9-SNAPSHOT</version>
   <name>SDFEconomy</name>
   <description>CraftBukkit plugin which implements a Multiverse aware Economy.</description>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <!-- Bukkit API Version, change if out dated -->
-    <bukkit.version>1.4.7-R1.0</bukkit.version>
+    <bukkit.version>1.5.1-R0.2</bukkit.version>
   </properties>
 
   <repositories>
