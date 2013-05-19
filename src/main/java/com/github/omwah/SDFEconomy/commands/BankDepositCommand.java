@@ -2,15 +2,17 @@ package com.github.omwah.SDFEconomy.commands;
 
 import com.github.omwah.SDFEconomy.BankAccount;
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
+import com.github.omwah.omcommands.CommandHandler;
+import java.util.ResourceBundle;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class BankDepositCommand extends PlayerSpecificCommand {
+public class BankDepositCommand extends PlayerAndLocationSpecificCommand {
     
-    public BankDepositCommand(SDFEconomyAPI api) {
-        super("bank deposit", api);
+    public BankDepositCommand(SDFEconomyAPI api, ResourceBundle translation) {
+        super("bank deposit", api, translation);
         
         setDescription("Deposit money to a bank from a player account");
         setUsage(this.getName() + " §8<bank_account> <amount> [player_name] [location]");

@@ -2,14 +2,16 @@ package com.github.omwah.SDFEconomy.commands;
 
 import com.github.omwah.SDFEconomy.BankAccount;
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
+import com.github.omwah.omcommands.CommandHandler;
 import java.util.List;
+import java.util.ResourceBundle;
 import org.bukkit.command.CommandSender;
 
-public class BankListCommand extends PlayerSpecificCommand
+public class BankListCommand extends PlayerAndLocationSpecificCommand
 {
-    public BankListCommand(SDFEconomyAPI api)
+    public BankListCommand(SDFEconomyAPI api, ResourceBundle translation)
     {
-        super("bank list", api);
+        super("bank list", api, translation);
         
         setDescription("List bank accounts");
         setUsage(this.getName() + " §8[owner] [location]");

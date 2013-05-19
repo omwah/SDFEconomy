@@ -1,13 +1,15 @@
 package com.github.omwah.SDFEconomy.commands;
 
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
+import com.github.omwah.omcommands.CommandHandler;
+import com.github.omwah.omcommands.TranslatedCommand;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class PayCommand extends BasicCommand
+public class PayCommand extends TranslatedCommand
 {
     private final SDFEconomyAPI api;
     private final Server server;

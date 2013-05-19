@@ -1,13 +1,15 @@
 package com.github.omwah.SDFEconomy.commands;
 
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
+import com.github.omwah.omcommands.CommandHandler;
+import java.util.ResourceBundle;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.command.CommandSender;
 
-public class WithdrawAdminCommand extends PlayerSpecificCommand {
+public class WithdrawAdminCommand extends PlayerAndLocationSpecificCommand {
     
-    public WithdrawAdminCommand(SDFEconomyAPI api) {
-        super("withdraw", api);
+    public WithdrawAdminCommand(SDFEconomyAPI api, ResourceBundle translation) {
+        super("withdraw", api, translation);
    
         setDescription("Withdraw money from a player account, admin only");
         setUsage(this.getName() + " §8<player_name> <amount> [location]");

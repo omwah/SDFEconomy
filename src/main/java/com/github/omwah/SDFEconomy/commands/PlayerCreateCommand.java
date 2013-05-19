@@ -1,14 +1,14 @@
 package com.github.omwah.SDFEconomy.commands;
 
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
-import net.milkbowl.vault.economy.EconomyResponse;
-import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
+import com.github.omwah.omcommands.CommandHandler;
+import java.util.ResourceBundle;
 import org.bukkit.command.CommandSender;
 
-public class PlayerCreateCommand extends PlayerSpecificCommand {
+public class PlayerCreateCommand extends PlayerAndLocationSpecificCommand {
     
-    public PlayerCreateCommand(SDFEconomyAPI api) {
-        super("player create", api);
+    public PlayerCreateCommand(SDFEconomyAPI api, ResourceBundle translation) {
+        super("player create", api, translation);
         
         setDescription("Creates a new player account");
         setUsage(this.getName() + " §8<player_name> <location>");

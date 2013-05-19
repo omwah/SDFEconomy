@@ -2,12 +2,14 @@ package com.github.omwah.SDFEconomy.commands;
 
 import com.github.omwah.SDFEconomy.BankAccount;
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import com.github.omwah.omcommands.CommandHandler;
+import com.github.omwah.omcommands.TranslatedCommand;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
-public class BankRemoveCommand extends BasicCommand {
+public class BankRemoveCommand extends TranslatedCommand {
 
     private SDFEconomyAPI api;
 

@@ -1,12 +1,14 @@
 package com.github.omwah.SDFEconomy.commands;
 
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
+import com.github.omwah.omcommands.CommandHandler;
+import java.util.ResourceBundle;
 import org.bukkit.command.CommandSender;
 
-public class SetCommand extends PlayerSpecificCommand {
+public class SetCommand extends PlayerAndLocationSpecificCommand {
     
-    public SetCommand(SDFEconomyAPI api) {
-        super("set", api);
+    public SetCommand(SDFEconomyAPI api, ResourceBundle translation) {
+        super("set", api, translation);
    
         setDescription("Set the balance for a player, admin only");
         setUsage(this.getName() + " §8<player_name> <amount> [location]");

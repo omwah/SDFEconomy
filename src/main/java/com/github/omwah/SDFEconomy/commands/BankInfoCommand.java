@@ -2,11 +2,14 @@ package com.github.omwah.SDFEconomy.commands;
 
 import com.github.omwah.SDFEconomy.BankAccount;
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
+import com.github.omwah.omcommands.BasicCommand;
+import com.github.omwah.omcommands.CommandHandler;
+import com.github.omwah.omcommands.TranslatedCommand;
 import com.google.common.base.Joiner;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class BankInfoCommand extends BasicCommand {
+public class BankInfoCommand extends TranslatedCommand {
 
     private SDFEconomyAPI api;
 

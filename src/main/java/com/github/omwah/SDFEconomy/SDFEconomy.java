@@ -1,30 +1,28 @@
 package com.github.omwah.SDFEconomy;
 
+import com.github.omwah.SDFEconomy.commands.SDFEconomyCommandExecutor;
 import com.github.omwah.SDFEconomy.listener.ChestShopLoadListener;
 import com.github.omwah.SDFEconomy.listener.PlayerEventListener;
-import com.github.omwah.SDFEconomy.location.MultiverseInvLocationTranslator;
-import java.io.File;
-import java.util.Iterator;
-import java.util.Observer;
-import java.io.IOException;
-import java.util.logging.Level;
-import org.mcstats.Metrics;
-
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.plugin.RegisteredServiceProvider;
-import org.bukkit.command.PluginCommand;
-
-import net.milkbowl.vault.permission.Permission;
-
-import com.github.omwah.SDFEconomy.commands.SDFEconomyCommandExecutor;
 import com.github.omwah.SDFEconomy.location.FactionsLocationSupport;
 import com.github.omwah.SDFEconomy.location.GlobalLocationTranslator;
 import com.github.omwah.SDFEconomy.location.LocationTranslator;
 import com.github.omwah.SDFEconomy.location.MultiInvLocationTranslator;
+import com.github.omwah.SDFEconomy.location.MultiverseInvLocationTranslator;
 import com.github.omwah.SDFEconomy.location.PerWorldLocationTranslator;
 import com.github.omwah.SDFEconomy.location.SetDestinationLocationTranslator;
+import java.io.File;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.Locale;
+import java.util.Observer;
+import java.util.logging.Level;
+import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.RegisteredServiceProvider;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.mcstats.Metrics;
 
 /*
  * Bukkit Plugin class for SDFEconomy
@@ -122,7 +120,7 @@ public class SDFEconomy extends JavaPlugin {
         for(Iterator cmd_iter = this.getDescription().getCommands().keySet().iterator(); cmd_iter.hasNext();) {
             // set the command executor for the Command
             PluginCommand curr_cmd = this.getCommand((String) cmd_iter.next());
-            curr_cmd.setExecutor(new SDFEconomyCommandExecutor(curr_cmd, this.permission, this.api, this.getConfig(), this.getServer()));
+            curr_cmd.setExecutor(new SDFEconomyCommandExecutor(this, curr_cmd, Locale.getDefault()));
         }
         
         // Try and send metrics to MCStats

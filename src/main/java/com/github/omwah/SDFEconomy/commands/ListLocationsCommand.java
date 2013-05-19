@@ -1,6 +1,8 @@
 package com.github.omwah.SDFEconomy.commands;
 
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
+import com.github.omwah.omcommands.CommandHandler;
+import com.github.omwah.omcommands.TranslatedCommand;
 import com.google.common.base.Joiner;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +12,7 @@ import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 
-public class ListLocationsCommand extends BasicCommand
+public class ListLocationsCommand extends TranslatedCommand
 {
     private final SDFEconomyAPI api;
     private final Server server;

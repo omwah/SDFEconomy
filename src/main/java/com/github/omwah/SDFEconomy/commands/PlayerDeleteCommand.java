@@ -1,14 +1,14 @@
 package com.github.omwah.SDFEconomy.commands;
 
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
-import net.milkbowl.vault.economy.EconomyResponse;
-import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
+import com.github.omwah.omcommands.CommandHandler;
+import java.util.ResourceBundle;
 import org.bukkit.command.CommandSender;
 
-public class PlayerDeleteCommand extends PlayerSpecificCommand {
+public class PlayerDeleteCommand extends PlayerAndLocationSpecificCommand {
     
-    public PlayerDeleteCommand(SDFEconomyAPI api) {
-        super("player delete", api);
+    public PlayerDeleteCommand(SDFEconomyAPI api, ResourceBundle translation) {
+        super("player delete", api, translation);
         
         setDescription("Deletes a player account");
         setUsage(this.getName() + " §8<player_name> <location>");

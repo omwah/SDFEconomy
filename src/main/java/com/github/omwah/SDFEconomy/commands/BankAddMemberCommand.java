@@ -2,20 +2,22 @@ package com.github.omwah.SDFEconomy.commands;
 
 import com.github.omwah.SDFEconomy.BankAccount;
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
+import com.github.omwah.omcommands.CommandHandler;
+import com.github.omwah.omcommands.TranslatedCommand;
+import java.text.MessageFormat;
+import java.util.ResourceBundle;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class BankAddMemberCommand extends BasicCommand {
+public class BankAddMemberCommand extends TranslatedCommand {
 
     private SDFEconomyAPI api;
 
-    public BankAddMemberCommand(SDFEconomyAPI api) {
-        super("bank addmember");
+    public BankAddMemberCommand(SDFEconomyAPI api, ResourceBundle translation) {
+        super("bank addmember", translation);
 
         this.api = api;
         
-        setDescription("Add a member to a bank");
-        setUsage(this.getName() + " §8<account_name> <member_name>");
         setArgumentRange(2, 2);
         setIdentifiers(this.getName());
         setPermission("sdfeconomy.use_bank");
@@ -33,24 +35,27 @@ public class BankAddMemberCommand extends BasicCommand {
                     sender instanceof Player && account.isOwner(((Player)sender).getName())) {
                 
                 if (account.isMember(member_name)) {
-                    sender.sendMessage(member_name + " is already a member of bank: " + account_name);
+                    sender.sendMessage(getTranslation("BankAddMemberCommand-already_member",
+                            member_name, account_name));
                     return false;
                 }
                 
                 account.addMember(member_name);
                 if (account.isMember(member_name)) {
-                    sender.sendMessage("Succesfully added " + member_name + " to bank: " + account_name);
+                    sender.sendMessage(getTranslation("BankAddMemberCommand-successful_add",
+                            member_name, account_name));
                 } else {
-                    sender.sendMessage("Failed to add " + member_name + " to bank: " + account_name);
+                    sender.sendMessage(getTranslation("BankAddMemberCommand-failed_add",
+                            member_name, account_name));
                     return false;
                 }
                 
             } else {
-                sender.sendMessage("You are not the owner of the bank: " + account_name);
+                sender.sendMessage(getTranslation("BankCommon-not_owner", account_name));
                 return false;
             }
         } else {
-            sender.sendMessage("No bank named " + account_name + " was found");
+            sender.sendMessage(getTranslation("BankCommon-bank_not_found", account_name));
             return false;
         }
             

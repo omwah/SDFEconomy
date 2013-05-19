@@ -1,14 +1,15 @@
 package com.github.omwah.SDFEconomy.commands;
 
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
+import com.github.omwah.omcommands.CommandHandler;
+import java.util.List;
+import java.util.ResourceBundle;
 import org.bukkit.command.CommandSender;
 
-import java.util.List;
-
-public class ScaleCommand extends PlayerSpecificCommand {
+public class ScaleCommand extends PlayerAndLocationSpecificCommand {
     
-    public ScaleCommand(SDFEconomyAPI api) {
-        super("scale", api);
+    public ScaleCommand(SDFEconomyAPI api, ResourceBundle translation) {
+        super("scale", api, translation);
    
         setDescription("Scale the balance of all player accounts in a location, admin only");
         setUsage(this.getName() + " §8<amount> <location>");

@@ -2,13 +2,15 @@ package com.github.omwah.SDFEconomy.commands;
 
 import com.github.omwah.SDFEconomy.BankAccount;
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
+import com.github.omwah.omcommands.CommandHandler;
+import com.github.omwah.omcommands.TranslatedCommand;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class TopAccountsCommand extends BasicCommand {
+public class TopAccountsCommand extends TranslatedCommand {
     private final SDFEconomyAPI api;
     private final int topN;
     private final boolean includeBanks;

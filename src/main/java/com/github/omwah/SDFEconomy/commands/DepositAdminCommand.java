@@ -1,13 +1,15 @@
 package com.github.omwah.SDFEconomy.commands;
 
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
+import com.github.omwah.omcommands.CommandHandler;
+import java.util.ResourceBundle;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.command.CommandSender;
 
-public class DepositAdminCommand extends PlayerSpecificCommand {
+public class DepositAdminCommand extends PlayerAndLocationSpecificCommand {
     
-    public DepositAdminCommand(SDFEconomyAPI api) {
-        super("deposit", api);
+    public DepositAdminCommand(SDFEconomyAPI api, ResourceBundle translation) {
+        super("deposit", api, translation);
    
         setDescription("Deposit money into a player account, admin only");
         setUsage(this.getName() + " §8<player_name> <amount> [location]");

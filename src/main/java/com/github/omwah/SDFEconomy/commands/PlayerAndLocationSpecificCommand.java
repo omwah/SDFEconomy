@@ -1,15 +1,21 @@
 package com.github.omwah.SDFEconomy.commands;
 
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
+import com.github.omwah.omcommands.CommandHandler;
+import com.github.omwah.omcommands.TranslatedCommand;
+import java.util.ResourceBundle;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public abstract class PlayerSpecificCommand extends BasicCommand
+/**
+ * Implements convenience routines for getting player name and location from the arguments
+ */
+public abstract class PlayerAndLocationSpecificCommand extends TranslatedCommand
 {
     protected final SDFEconomyAPI api;
 
-    public PlayerSpecificCommand(String name, SDFEconomyAPI api) {
-        super(name);
+    public PlayerAndLocationSpecificCommand(String name, SDFEconomyAPI api, ResourceBundle translation) {
+        super(name, translation);
 
         this.api = api;
     }
@@ -44,7 +50,7 @@ public abstract class PlayerSpecificCommand extends BasicCommand
             Player player_obj = (Player) sender;
             if(playerIndex >= 0 && args.length > playerIndex && !args[playerIndex].equalsIgnoreCase(player_obj.getName())) {
                 // Player tried to specify owner's name without sufficient privileges
-                sender.sendMessage("Insufficient privileges to access another player's account");
+                sender.sendMessage(getTranslation("PlayerSpecificCommand-no_permission"));
                 return null;
 
             } else {
@@ -54,7 +60,7 @@ public abstract class PlayerSpecificCommand extends BasicCommand
 
         } else {
             // Sender is not a Player so must be a console access
-            sender.sendMessage("Must specify player name when using this command from the console");
+            sender.sendMessage(getTranslation("PlayerSpecificCommand-specify_player_name"));
             return null;
         }
    
@@ -70,7 +76,7 @@ public abstract class PlayerSpecificCommand extends BasicCommand
         }
         
         if (location_name == null) {
-            sender.sendMessage("Could not determine player location");
+            sender.sendMessage(getTranslation("PlayerAndLocationSpecificCommand-cannot_find_location"));
             return null;
         }
 

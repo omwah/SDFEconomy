@@ -2,15 +2,17 @@ package com.github.omwah.SDFEconomy.commands;
 
 import com.github.omwah.SDFEconomy.BankAccount;
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
+import com.github.omwah.omcommands.CommandHandler;
+import java.util.ResourceBundle;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class BankWithdrawCommand extends PlayerSpecificCommand {
+public class BankWithdrawCommand extends PlayerAndLocationSpecificCommand {
     
-    public BankWithdrawCommand(SDFEconomyAPI api) {
-        super("bank withdraw", api);
+    public BankWithdrawCommand(SDFEconomyAPI api, ResourceBundle translation) {
+        super("bank withdraw", api, translation);
         
         setDescription("Withdraw money from a bank into a player account");
         setUsage(this.getName() + " §8<bank_account> <amount> [player_name] [location]");

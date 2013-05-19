@@ -1,14 +1,16 @@
 package com.github.omwah.SDFEconomy.commands;
 
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
+import com.github.omwah.omcommands.CommandHandler;
+import java.util.ResourceBundle;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 import org.bukkit.command.CommandSender;
 
-public class BankCreateCommand extends PlayerSpecificCommand {
+public class BankCreateCommand extends PlayerAndLocationSpecificCommand {
     
-    public BankCreateCommand(SDFEconomyAPI api) {
-        super("bank create", api);
+    public BankCreateCommand(SDFEconomyAPI api, ResourceBundle translation) {
+        super("bank create", api, translation);
         
         setDescription("Creates a new bank account");
         setUsage(this.getName() + " §8<account_name> [owner] [location]");

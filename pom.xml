@@ -4,7 +4,7 @@
 
   <groupId>com.github.omwah</groupId>
   <artifactId>SDFEconomy</artifactId>
-  <version>0.2.9-SNAPSHOT</version>
+  <version>3.0-SNAPSHOT</version>
   <name>SDFEconomy</name>
   <description>CraftBukkit plugin which implements a Multiverse aware Economy.</description>
 
@@ -68,7 +68,16 @@
       <type>jar</type>
       <scope>provided</scope>
     </dependency>
-
+    
+    <!-- Commands library -->
+    <dependency>
+      <groupId>com.github.omwah</groupId>
+      <artifactId>OmCommands</artifactId>
+      <version>1.1-SNAPSHOT</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+    
     <!-- Following dependency is provided by CraftBukkit -->
     <dependency>
       <groupId>com.google.guava</groupId>
@@ -187,12 +196,23 @@
               <minimizeJar>true</minimizeJar>
               <artifactSet>
                 <includes>
+                  <include>com.github.omwah:OmCommands</include>
                   <include>org.mcstats.bukkit</include>
                 </includes>
               </artifactSet>
               <filters>
+                <filter>
+                   <artifact>com.github.omwah:OmCommands</artifact>
+                   <includes>
+                       <include>**</include>
+                   </includes>
+                </filter>
               </filters>
               <relocations>
+                <relocation>
+                  <pattern>com.github.omwah.omcommands</pattern>
+                  <shadedPattern>sdfeconomy.com.github.omwah.omcommands</shadedPattern>
+                </relocation>
                 <relocation>
                   <pattern>org.mcstats</pattern>
                   <shadedPattern>com.github.omwah.SDFEconomy.mcstats</shadedPattern>

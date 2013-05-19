@@ -2,6 +2,8 @@ package com.github.omwah.SDFEconomy.commands;
 
 import com.github.omwah.SDFEconomy.BankAccount;
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
+import com.github.omwah.omcommands.CommandHandler;
+import com.github.omwah.omcommands.TranslatedCommand;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.regex.PatternSyntaxException;
@@ -14,7 +16,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
-public class ConvertCommand extends BasicCommand {
+public class ConvertCommand extends TranslatedCommand {
         private SDFEconomyAPI api;
         private Server server;
     
