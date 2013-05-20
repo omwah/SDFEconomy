@@ -6,6 +6,7 @@ import com.github.omwah.omcommands.BasicCommand;
 import com.github.omwah.omcommands.CommandHandler;
 import com.github.omwah.omcommands.TranslatedCommand;
 import com.google.common.base.Joiner;
+import java.util.ResourceBundle;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -13,13 +14,11 @@ public class BankInfoCommand extends TranslatedCommand {
 
     private SDFEconomyAPI api;
 
-    public BankInfoCommand(SDFEconomyAPI api) {
-        super("bank info");
+    public BankInfoCommand(SDFEconomyAPI api, ResourceBundle translation) {
+        super("bank info", translation);
 
         this.api = api;
         
-        setDescription("Displays bank account balance and members");
-        setUsage(this.getName() + " §8<account_name>");
         setArgumentRange(1, 1);
         setIdentifiers(this.getName());
         setPermission("sdfeconomy.use_bank");
@@ -35,20 +34,22 @@ public class BankInfoCommand extends TranslatedCommand {
             if(handler.hasAdminPermission(sender) || 
                     sender instanceof Player && account.isOwner(((Player)sender).getName()) ||
                                                 account.isMember(((Player)sender).getName())) {
-                sender.sendMessage("§c-----[ " + "§f Bank Info: " + account_name + " §c ]-----");
-                sender.sendMessage("Location: " + account.getLocation());
-                sender.sendMessage("Balance: " + api.format(account.getBalance()));
-                sender.sendMessage("Owner: " + account.getOwner());
+                
+                String bank_info_desc = getClassTranslation("bank_info");
+                sender.sendMessage("§c-----[ " + "§f " + bank_info_desc + " " + account_name + " §c ]-----");
+                sender.sendMessage(getClassTranslation("location_line", account.getLocation()));
+                sender.sendMessage(getClassTranslation("balance_line", api.format(account.getBalance())));
+                sender.sendMessage(getClassTranslation("owner_line", account.getOwner()));
 
                 Joiner joiner = Joiner.on(", ");
                 String member_list = joiner.join(account.getMembers());
-                sender.sendMessage("Members: " + member_list);
+                sender.sendMessage(getClassTranslation("members_line", member_list));
             } else {
-                sender.sendMessage("You are not the owner or a member of the bank: " + account_name);
+                sender.sendMessage(getTranslation("BankCommon-not_owner", account_name));
                 return false;
             }
         } else {
-            sender.sendMessage("No bank named " + account_name + " was found");
+            sender.sendMessage(getTranslation("BankCommon-bank_not_found", account_name));
             return false;
         }
             

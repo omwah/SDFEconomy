@@ -13,8 +13,6 @@ public class BankListCommand extends PlayerAndLocationSpecificCommand
     {
         super("bank list", api, translation);
         
-        setDescription("List bank accounts");
-        setUsage(this.getName() + " §8[owner] [location]");
         setArgumentRange(0, 2);
         setIdentifiers(this.getName());
         setPermission("sdfeconomy.use_bank");
@@ -39,13 +37,15 @@ public class BankListCommand extends PlayerAndLocationSpecificCommand
             bank_accounts = api.getPlayerBanks(ploc.playerName, ploc.locationName);
         }
             
-        sender.sendMessage("§c-----[ " + "§f Bank Accounts §c ]-----");
+        String bank_accounts_desc = getClassTranslation("bank_accounts");
+        sender.sendMessage("§c-----[ " + "§f " + bank_accounts_desc + " §c ]-----");
         for(BankAccount account : bank_accounts) {
             String balance_str = api.format(account.getBalance());
             if (handler.hasAdminPermission(sender)) {
-                sender.sendMessage(account.getName() + " @ " + account.getLocation() + " : " + balance_str + ", Owner: " + account.getOwner());
+                sender.sendMessage(getClassTranslation("list_line_admin", 
+                        account.getName(), account.getLocation(), balance_str, account.getOwner()));
             } else {
-                sender.sendMessage(account.getName() + " : " + balance_str);
+                sender.sendMessage(getClassTranslation("list_line_normal", account.getName(), balance_str));
             }
         }
             

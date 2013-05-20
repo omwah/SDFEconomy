@@ -4,6 +4,7 @@ import com.github.omwah.SDFEconomy.BankAccount;
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
 import com.github.omwah.omcommands.CommandHandler;
 import com.github.omwah.omcommands.TranslatedCommand;
+import java.util.ResourceBundle;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -11,13 +12,11 @@ public class BankSetOwnerCommand extends TranslatedCommand {
 
     private SDFEconomyAPI api;
 
-    public BankSetOwnerCommand(SDFEconomyAPI api) {
-        super("bank setowner");
+    public BankSetOwnerCommand(SDFEconomyAPI api, ResourceBundle translation) {
+        super("bank setowner", translation);
 
         this.api = api;
-        
-        setDescription("Set a new owner for the bank account");
-        setUsage(this.getName() + " §8<account_name> <new_owner>");
+
         setArgumentRange(2, 2);
         setIdentifiers(this.getName());
         setPermission("sdfeconomy.use_bank");
@@ -38,30 +37,30 @@ public class BankSetOwnerCommand extends TranslatedCommand {
                 account.setOwner(new_owner);
 
                 if (account.isOwner(new_owner)) {
-                    sender.sendMessage("Succesfully set " + new_owner + " as owner of bank: " + account_name);
+                    sender.sendMessage(getClassTranslation("set_success", new_owner, account_name));
                 } else {
-                    sender.sendMessage("Failed to set " + new_owner + " as owner of bank: " + account_name);
+                    sender.sendMessage(getClassTranslation("set_failed", new_owner, account_name));
                     return false;
                 }
 
                 // new owner does not need to a be a member of their own bank
                 if (account.isMember(new_owner)) {
-                    sender.sendMessage("Removing " + new_owner + " as member of bank: " + account_name);
+                    sender.sendMessage(getClassTranslation("member_removing", new_owner, account_name));
                     account.removeMember(new_owner);
                 }
 
                 // Add previous owner as member of new bank
                 if (!account.isMember(old_owner)) {
-                    sender.sendMessage("Adding " + old_owner + " as member of bank: " + account_name);
+                    sender.sendMessage(getClassTranslation("member_adding", old_owner, account_name));
                     account.addMember(old_owner);
                 }
                 
             } else {
-                sender.sendMessage("You are not the owner of the bank: " + account_name);
+                sender.sendMessage(getTranslation("BankCommon-not_owner", account_name));
                 return false;
             }
         } else {
-            sender.sendMessage("No bank named " + account_name + " was found");
+            sender.sendMessage(getTranslation("BankCommon-bank_not_found", account_name));
             return false;
         }
             

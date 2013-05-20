@@ -44,19 +44,19 @@ public class SDFEconomyCommandExecutor extends NestedCommandExecutor {
         // Enable bank commands only if enabled
         if(api.hasBankSupport()) {
             sub_cmd_list.add(new BankListCommand(api, getTranslation()));
-            sub_cmd_list.add(new BankInfoCommand(api));
+            sub_cmd_list.add(new BankInfoCommand(api, getTranslation()));
 
             sub_cmd_list.add(new BankDepositCommand(api, getTranslation()));
             sub_cmd_list.add(new BankWithdrawCommand(api, getTranslation()));
 
             sub_cmd_list.add(new BankCreateCommand(api, getTranslation()));
-            sub_cmd_list.add(new BankRemoveCommand(api));
-            sub_cmd_list.add(new BankRenameCommand(api));        
+            sub_cmd_list.add(new BankRemoveCommand(api, getTranslation()));
+            sub_cmd_list.add(new BankRenameCommand(api, getTranslation()));        
             
             sub_cmd_list.add(new BankAddMemberCommand(api, getTranslation()));
-            sub_cmd_list.add(new BankRemoveMemberCommand(api));
+            sub_cmd_list.add(new BankRemoveMemberCommand(api, getTranslation()));
 
-            sub_cmd_list.add(new BankSetOwnerCommand(api));
+            sub_cmd_list.add(new BankSetOwnerCommand(api, getTranslation()));
         }
 
         if(config.contains("commands.topN")) {

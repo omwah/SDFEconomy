@@ -4,6 +4,7 @@ import com.github.omwah.SDFEconomy.BankAccount;
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
 import com.github.omwah.omcommands.CommandHandler;
 import com.github.omwah.omcommands.TranslatedCommand;
+import java.util.ResourceBundle;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 import org.bukkit.command.CommandSender;
@@ -13,13 +14,11 @@ public class BankRenameCommand extends TranslatedCommand {
 
     private SDFEconomyAPI api;
 
-    public BankRenameCommand(SDFEconomyAPI api) {
-        super("bank rename");
+    public BankRenameCommand(SDFEconomyAPI api, ResourceBundle translation) {
+        super("bank rename", translation);
 
         this.api = api;
-        
-        setDescription("Renames a bank account");
-        setUsage(this.getName() + " §8<old_account_name> <new_account_name>");
+
         setArgumentRange(2, 2);
         setIdentifiers(this.getName());
         setPermission("sdfeconomy.use_bank");
@@ -38,7 +37,7 @@ public class BankRenameCommand extends TranslatedCommand {
                 // Create a new bank with same attributes as old but with a new name              
                 EconomyResponse create_res = api.createBank(new_account_name, old_account.getOwner(), old_account.getLocation());
                 if(create_res.type != ResponseType.SUCCESS) {
-                    sender.sendMessage("Failed to create renamed bank account: " + create_res.errorMessage);
+                    sender.sendMessage(getClassTranslation("create_failed", new_account_name, create_res.errorMessage));
                     return false;
                 }
                 
@@ -52,17 +51,17 @@ public class BankRenameCommand extends TranslatedCommand {
                 // Delete old bank account
                 EconomyResponse delete_res = api.deleteBank(old_account_name);
                 if(delete_res.type != ResponseType.SUCCESS) {
-                    sender.sendMessage("Failed to remove old bank account: " + delete_res.errorMessage);
+                    sender.sendMessage(getClassTranslation("remove_failed", old_account_name, delete_res.errorMessage));
                     return false;
                 }
 
-                sender.sendMessage("Succesfully renamed bank: " + old_account_name + " to: " + new_account_name);
+                sender.sendMessage(getClassTranslation("rename_success", old_account_name, new_account_name));
             } else {
-                sender.sendMessage("You are not the owner of the bank: " + old_account_name);
+                sender.sendMessage(getTranslation("BankCommon-not_owner", old_account_name));
                 return false;
             }
         } else {
-            sender.sendMessage("No bank named " + old_account_name + " was found");
+            sender.sendMessage(getTranslation("BankCommon-bank_not_found", old_account_name));
             return false;
         }
             

@@ -4,6 +4,7 @@ import com.github.omwah.SDFEconomy.BankAccount;
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
 import com.github.omwah.omcommands.CommandHandler;
 import com.github.omwah.omcommands.TranslatedCommand;
+import java.util.ResourceBundle;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -11,13 +12,11 @@ public class BankRemoveMemberCommand extends TranslatedCommand {
 
     private SDFEconomyAPI api;
 
-    public BankRemoveMemberCommand(SDFEconomyAPI api) {
-        super("bank removemember");
+    public BankRemoveMemberCommand(SDFEconomyAPI api, ResourceBundle translation) {
+        super("bank removemember", translation);
 
         this.api = api;
         
-        setDescription("Remove a member from a bank");
-        setUsage(this.getName() + " §8<account_name> <member_name>");
         setArgumentRange(2, 2);
         setIdentifiers(this.getName());
         setPermission("sdfeconomy.use_bank");
@@ -35,24 +34,24 @@ public class BankRemoveMemberCommand extends TranslatedCommand {
                     sender instanceof Player && account.isOwner(((Player)sender).getName())) {
                 
                 if (!account.isMember(member_name)) {
-                    sender.sendMessage(member_name + " is not a member of bank: " + account_name);
+                    sender.sendMessage(getClassTranslation("not_a_member", member_name, account_name));
                     return false;
                 }
                 
                 account.removeMember(member_name);
                 if (!account.isMember(member_name)) {
-                    sender.sendMessage("Succesfully removed " + member_name + " from bank: " + account_name);
+                    sender.sendMessage(getClassTranslation("remove_success", member_name, account_name));
                 } else {
-                    sender.sendMessage("Failed to remove " + member_name + " from bank: " + account_name);
+                    sender.sendMessage(getClassTranslation("remove_failure", member_name, account_name));
                     return false;
                 }
                 
             } else {
-                sender.sendMessage("You are not the owner of the bank: " + account_name);
+                sender.sendMessage(getTranslation("BankCommon-not_owner", account_name));
                 return false;
             }
         } else {
-            sender.sendMessage("No bank named " + account_name + " was found");
+            sender.sendMessage(getTranslation("BankCommon-bank_not_found", account_name));
             return false;
         }
             

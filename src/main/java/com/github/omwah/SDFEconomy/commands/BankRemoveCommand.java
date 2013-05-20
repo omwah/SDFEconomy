@@ -4,6 +4,7 @@ import com.github.omwah.SDFEconomy.BankAccount;
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
 import com.github.omwah.omcommands.CommandHandler;
 import com.github.omwah.omcommands.TranslatedCommand;
+import java.util.ResourceBundle;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 import org.bukkit.command.CommandSender;
@@ -13,13 +14,11 @@ public class BankRemoveCommand extends TranslatedCommand {
 
     private SDFEconomyAPI api;
 
-    public BankRemoveCommand(SDFEconomyAPI api) {
-        super("bank remove");
+    public BankRemoveCommand(SDFEconomyAPI api, ResourceBundle translation) {
+        super("bank remove", translation);
 
         this.api = api;
-        
-        setDescription("Removes a bank account");
-        setUsage(this.getName() + " §8<account_name>");
+
         setArgumentRange(1, 1);
         setIdentifiers(this.getName());
         setPermission("sdfeconomy.use_bank");
@@ -40,25 +39,25 @@ public class BankRemoveCommand extends TranslatedCommand {
 
                 EconomyResponse result = api.deleteBank(account_name);
                 if (result.type == ResponseType.SUCCESS) {
-                    sender.sendMessage("Succesfully removed bank: " + account_name);
+                    sender.sendMessage(getClassTranslation("remove_success", account_name));
                 } else {
-                    sender.sendMessage("Failed to remove bank: " + account_name);
+                    sender.sendMessage(getClassTranslation("remove_failure", account_name));
                     return false;
                 }
 
                 result = api.depositPlayer(owner, bank_balance, location);
                 if (result.type == ResponseType.SUCCESS) {
-                    sender.sendMessage("Deposited bank balance of: " + api.format(bank_balance) + " into player account for: " + owner);
+                    sender.sendMessage(getClassTranslation("deposit_success", api.format(bank_balance), owner));
                 } else {
-                    sender.sendMessage("Failed to deposited bank balance of: " + api.format(bank_balance) + " into player account for: " + owner);
+                    sender.sendMessage(getClassTranslation("deposit_failure", api.format(bank_balance), owner));
                     return false;
                 }
             } else {
-                sender.sendMessage("You are not the owner of the bank: " + account_name);
+                sender.sendMessage(getTranslation("BankCommon-not_owner", account_name));
                 return false;
             }
         } else {
-            sender.sendMessage("No bank named " + account_name + " was found");
+            sender.sendMessage(getTranslation("BankCommon-bank_not_found", account_name));
             return false;
         }
             

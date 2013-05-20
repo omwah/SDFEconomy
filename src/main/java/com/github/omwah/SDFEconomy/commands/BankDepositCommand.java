@@ -14,8 +14,6 @@ public class BankDepositCommand extends PlayerAndLocationSpecificCommand {
     public BankDepositCommand(SDFEconomyAPI api, ResourceBundle translation) {
         super("bank deposit", api, translation);
         
-        setDescription("Deposit money to a bank from a player account");
-        setUsage(this.getName() + " §8<bank_account> <amount> [player_name] [location]");
         setArgumentRange(2, 4);
         setIdentifiers(this.getName());
         setPermission("sdfeconomy.use_bank");
@@ -33,7 +31,7 @@ public class BankDepositCommand extends PlayerAndLocationSpecificCommand {
         try {
             amount = Double.parseDouble(args[1]);
         } catch (NumberFormatException e) {
-            sender.sendMessage("Invalid amount specified: " + args[1]);
+            sender.sendMessage(getTranslation("AccountCommon-invalid_amount", args[1]));
             return false;
         }
         
@@ -43,19 +41,20 @@ public class BankDepositCommand extends PlayerAndLocationSpecificCommand {
         if (ploc != null) {
             // Check that we have a valid player account
             if(!api.hasAccount(ploc.playerName, ploc.locationName)) {
-                sender.sendMessage("Could not find player account for " + ploc.playerName + " @ " + ploc.locationName);
+                sender.sendMessage(getTranslation("AccountCommon-cannot_find_account",
+                        ploc.playerName, ploc.locationName));
                 return false;
             }
                         
             // Check that the bank account exists
             if(bank_account == null) {
-                sender.sendMessage("Could not find bank account: " + bank_name);
+                sender.sendMessage(getTranslation("BankCommon-bank_not_found", bank_name));
                 return false;
             }
             
             // Check that location of player and bank location match
             if(!ploc.locationName.equalsIgnoreCase(bank_account.getLocation())) {
-                sender.sendMessage("Can not deposit from bank located @ " + bank_account.getLocation() + " from player @ " + ploc.locationName);
+                sender.sendMessage(getClassTranslation("location_mismatch", bank_account.getName(), bank_account.getLocation(), ploc.locationName));
                 return false;
             }
             
@@ -66,19 +65,20 @@ public class BankDepositCommand extends PlayerAndLocationSpecificCommand {
                
                 EconomyResponse player_w_res = api.withdrawPlayer(ploc.playerName, amount, ploc.locationName);
                 if(player_w_res.type != ResponseType.SUCCESS) {
-                    sender.sendMessage("Could not withdraw from player account: " + player_w_res.errorMessage);
+                    sender.sendMessage(getClassTranslation("player_widthdraw_error",
+                            ploc.playerName, player_w_res.errorMessage));
                     return false;
                 }
                 
                 EconomyResponse bank_d_res = api.bankDeposit(bank_name, amount);
                 if(bank_d_res.type != ResponseType.SUCCESS) {
-                    sender.sendMessage("Could not deposit into bank: " + bank_d_res.errorMessage);
+                    sender.sendMessage(getClassTranslation("bank_deposit_error", bank_account.getName(), bank_d_res.errorMessage));
                     return false;
                 }
                 
-                sender.sendMessage("Succesfully deposited " + api.format(amount) + " from " + ploc.playerName + " into bank: " + bank_name);
+                sender.sendMessage(getClassTranslation("bank_deposit_success", api.format(amount), ploc.playerName, ploc.locationName, bank_name));
             } else {
-                sender.sendMessage("You are not the owner or a member of the bank: " + bank_name);
+                sender.sendMessage(getTranslation("BankCommon-not_owner", bank_name));
                 return false;
             }
         } else {

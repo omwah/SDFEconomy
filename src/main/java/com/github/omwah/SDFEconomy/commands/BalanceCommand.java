@@ -24,7 +24,7 @@ public class BalanceCommand extends PlayerAndLocationSpecificCommand {
         if (ploc != null) {
             if(api.hasAccount(ploc.playerName, ploc.locationName)) {
                 String balance = api.format(this.api.getBalance(ploc.playerName, ploc.locationName));
-                sender.sendMessage(getTranslation("BalanceCommand-balance_message", 
+                sender.sendMessage(getClassTranslation("balance_message", 
                         ploc.playerName, ploc.locationName, balance));
             } else {
                 sender.sendMessage(getTranslation("AccountCommon-cannot_find_account",

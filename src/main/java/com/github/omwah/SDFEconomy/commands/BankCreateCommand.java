@@ -12,8 +12,6 @@ public class BankCreateCommand extends PlayerAndLocationSpecificCommand {
     public BankCreateCommand(SDFEconomyAPI api, ResourceBundle translation) {
         super("bank create", api, translation);
         
-        setDescription("Creates a new bank account");
-        setUsage(this.getName() + " §8<account_name> [owner] [location]");
         setArgumentRange(1, 3);
         setIdentifiers(this.getName());
         setPermission("sdfeconomy.use_bank");
@@ -29,9 +27,9 @@ public class BankCreateCommand extends PlayerAndLocationSpecificCommand {
             
             EconomyResponse result = api.createBank(account_name, ploc.playerName, ploc.locationName);
             if(result.type == ResponseType.SUCCESS) {
-                sender.sendMessage("Succesfully created bank: " + account_name);
+                sender.sendMessage(getClassTranslation("create_success", account_name));
             } else {
-                sender.sendMessage("Failed to create bank: " + result.errorMessage);
+                sender.sendMessage(getClassTranslation("create_failed", result.errorMessage));
                 return false;
             }
         } else {

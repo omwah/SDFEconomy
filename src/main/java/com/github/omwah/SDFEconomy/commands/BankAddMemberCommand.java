@@ -35,18 +35,15 @@ public class BankAddMemberCommand extends TranslatedCommand {
                     sender instanceof Player && account.isOwner(((Player)sender).getName())) {
                 
                 if (account.isMember(member_name)) {
-                    sender.sendMessage(getTranslation("BankAddMemberCommand-already_member",
-                            member_name, account_name));
+                    sender.sendMessage(getClassTranslation("already_member", member_name, account_name));
                     return false;
                 }
                 
                 account.addMember(member_name);
                 if (account.isMember(member_name)) {
-                    sender.sendMessage(getTranslation("BankAddMemberCommand-successful_add",
-                            member_name, account_name));
+                    sender.sendMessage(getClassTranslation("add_success", member_name, account_name));
                 } else {
-                    sender.sendMessage(getTranslation("BankAddMemberCommand-failed_add",
-                            member_name, account_name));
+                    sender.sendMessage(getClassTranslation("add_failed", member_name, account_name));
                     return false;
                 }
                 
