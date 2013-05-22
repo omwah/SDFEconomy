@@ -36,9 +36,8 @@ public class BankListCommand extends PlayerAndLocationSpecificCommand
             // Only report those owned by player unless sender is op or console
             bank_accounts = api.getPlayerBanks(ploc.playerName, ploc.locationName);
         }
-            
-        String bank_accounts_desc = getClassTranslation("bank_accounts");
-        sender.sendMessage("§c-----[ " + "§f " + bank_accounts_desc + " §c ]-----");
+                    
+        sender.sendMessage(getClassTranslation("banner"));
         for(BankAccount account : bank_accounts) {
             String balance_str = api.format(account.getBalance());
             if (handler.hasAdminPermission(sender)) {

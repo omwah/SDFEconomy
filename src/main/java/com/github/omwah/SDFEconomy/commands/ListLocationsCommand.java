@@ -24,8 +24,6 @@ public class ListLocationsCommand extends TranslatedCommand
         this.api = api;
         this.server = server;
         
-        setDescription("List all valid economy location names");
-        setUsage(this.getName());
         setArgumentRange(0, 0);
         setIdentifiers(this.getName());
     }
@@ -45,10 +43,10 @@ public class ListLocationsCommand extends TranslatedCommand
         }
         
         // Display locations along with world names
-        sender.sendMessage("§c-----[ " + "§f Economy Location Names §c ]-----");
+        sender.sendMessage(getClassTranslation("banner"));
         for(String curr_loc_name : location_names.keySet()) {
             Joiner joiner = Joiner.on(", ");
-            sender.sendMessage(curr_loc_name + " : " + joiner.join(location_names.get(curr_loc_name)));
+            sender.sendMessage(getClassTranslation("location_line", curr_loc_name, joiner.join(location_names.get(curr_loc_name))));
         }
         return true;
     }

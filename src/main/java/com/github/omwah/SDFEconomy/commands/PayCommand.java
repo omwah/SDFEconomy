@@ -21,8 +21,6 @@ public class PayCommand extends TranslatedCommand
         this.api = api;
         this.server = server;
         
-        setDescription("Pay another player in your current location");
-        setUsage(this.getName() + " §8<player_name> <amount>");
         setArgumentRange(2, 2);
         setIdentifiers(this.getName());
         setPermission("sdfeconomy.pay_players");
@@ -43,7 +41,7 @@ public class PayCommand extends TranslatedCommand
             try {
                 amount = Double.parseDouble(args[1]);
             } catch (NumberFormatException e) {
-                sender.sendMessage("Invalid amount specified: " + args[1]);
+                sender.sendMessage(getTranslation("AccountCommon-invalid_amount", args[1]));
                 return false;
             }
             
@@ -51,14 +49,14 @@ public class PayCommand extends TranslatedCommand
             
             // Be paranoid, check that sender has an account
             if (!api.hasAccount(payer, location)) {
-                sender.sendMessage("You does not have an account @ " + location);
+                sender.sendMessage(getClassTranslation("payer_no_account", location));
                 return true;
             }
             
             // Do not proceed any further if there is no destination account in
             // existence
             if (!api.hasAccount(payee, location)) {
-                sender.sendMessage(payee + " does not have an account @ " + location);
+                sender.sendMessage(getClassTranslation("payee_no_account", payee, location));
                 return true;
             }
                         
@@ -66,7 +64,7 @@ public class PayCommand extends TranslatedCommand
             EconomyResponse resp_wd = api.withdrawPlayer(payer, amount, location);
            
             if (resp_wd.type != ResponseType.SUCCESS) {
-                sender.sendMessage("You do not have enough money to pay " + amount_str + " to " + payee + " @ " + location);
+                sender.sendMessage(getClassTranslation("", amount_str, payee, location));
                 return true;
             }
             
@@ -75,28 +73,28 @@ public class PayCommand extends TranslatedCommand
             EconomyResponse resp_dep = api.depositPlayer(payee, amount, location);
             
             if (resp_dep.type != ResponseType.SUCCESS) {
-                sender.sendMessage("Could not deposit " + amount_str + " into the account of " + payee + " @ " + location + "crediting your account back.");
+                sender.sendMessage(getClassTranslation("deposit_failure", amount_str, payee, location));
                 resp_dep = api.depositPlayer(payer, amount, location);
                 
                 // Wow, something is fubar, offer our apologies
                 if (resp_dep.type != ResponseType.SUCCESS) {
-                    sender.sendMessage("Could not credit back " + amount_str + " to your account. Sorry :-(");
+                    sender.sendMessage(getClassTranslation("credit_failure", amount_str));
                     return false;
                 }
             }
                     
             String balance = api.format(api.getBalance(payer, location));
-            sender.sendMessage("Payment of " + amount_str + " to " + payee + " succeeded, your balance @ " + location + " is now " + balance);
+            sender.sendMessage(getClassTranslation("payment_success", amount_str, payee, location, balance));
             
             // Send message to destination player
             Player dest_player = server.getPlayer(payee);
             if(dest_player != null && dest_player.isOnline()) {
                 balance = api.format(api.getBalance(payee, location));
-                dest_player.sendMessage(payer + " has sent you " + amount_str + " your balance @ " + location + " is now: " + balance);
+                dest_player.sendMessage(getClassTranslation("notify_payee", payer, amount_str, location, balance));
             }
         } else {
             // This will only be sent when command issued from console
-            sender.sendMessage("Pay command must be used by a player");
+            sender.sendMessage(getClassTranslation("must_be_player"));
         }
         return true;
     }

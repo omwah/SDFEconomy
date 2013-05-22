@@ -25,9 +25,7 @@ public class ConvertCommand extends TranslatedCommand {
    
         this.api = api;
         this.server = server;
-        
-        setDescription("Convert from another Vault economy");
-        setUsage(this.getName() + " §8<economy_name> <location1>=<scaling> [ <location2>=scaling ...]");
+
         setArgumentRange(2, 999); // Can specify many key val pairs
         setIdentifiers(this.getName());
         setPermission("sdfeconomy.admin");
@@ -38,7 +36,7 @@ public class ConvertCommand extends TranslatedCommand {
     {
         // Command handler, checks permission, but check again just in case
         if(!handler.hasAdminPermission(sender)) {
-            sender.sendMessage("Insufficient privileges to set another player's balance");
+            sender.sendMessage(getTranslation("AccountCommon-not_admin"));
         }
 
         // Which economy to load from
@@ -52,7 +50,7 @@ public class ConvertCommand extends TranslatedCommand {
                 
                 String location_name = loc_scal_pair[0].trim();
                 if(!api.validLocationName(location_name)) {
-                    sender.sendMessage("Invalid location name: " + location_name);
+                    sender.sendMessage(getTranslation("AccountCommon-invalid_location"));
                     return false;
                 }
                 
@@ -60,47 +58,47 @@ public class ConvertCommand extends TranslatedCommand {
                 if (loc_scal_pair.length > 1) {
                     scaling = new Double(loc_scal_pair[1]);
                 } else {
-                    sender.sendMessage("No scaling specified for " + location_name + " using 1.0");
+                    sender.sendMessage(getClassTranslation("scaling_not_specified", location_name));
                     scaling = new Double(1.0);
                 }
                 location_scales.put(location_name, scaling);
             } catch(PatternSyntaxException e) {
-                sender.sendMessage("Could not parse argument #" + arg_idx + " : " + args[arg_idx]);
-                sender.sendMessage("Specify location=scaling pairs where location is a name and scaling a double");
+                sender.sendMessage(getClassTranslation("could_not_parse_argument", arg_idx, args[arg_idx]));
+                sender.sendMessage(getClassTranslation("specify_pairs"));
                 return false;
             } catch (NumberFormatException e) {
-                sender.sendMessage("Could not parse argument #" + arg_idx + " : " + args[arg_idx]);
-                sender.sendMessage("Make sure that scalings are numbers");
+                sender.sendMessage(getClassTranslation("could_not_parse_argument", arg_idx, args[arg_idx]));
+                sender.sendMessage(getClassTranslation("use_numbers_for_scalings"));
                 return false;
             }
         }
             
         Collection<RegisteredServiceProvider<Economy>> econs = this.server.getServicesManager().getRegistrations(Economy.class);
         if (econs == null || econs.size() < 2) {
-            sender.sendMessage("You must have at least 1 other economy loaded to convert.");
+            sender.sendMessage(getClassTranslation("need_other_economy"));
             return false;
         }
         
         Economy src_econ = null;
         for (RegisteredServiceProvider<Economy> econ : econs) {
             String econName = econ.getProvider().getName().replace(" ", "");
-            sender.sendMessage("Considering loaded economy for conversion: " + econName);
+            sender.sendMessage(getClassTranslation("considering_economy", econName));
             if (econName.equalsIgnoreCase(economy_name)) {
                 src_econ = econ.getProvider();
             }
         }
 
         if (src_econ == null) {
-            sender.sendMessage("Could not find " + economy_name + " loaded on the server, check your spelling");
+            sender.sendMessage(getClassTranslation("could_not_find_economy", economy_name));
             return false;
         }
 
-        sender.sendMessage("This may take some time to convert, expect server lag.");
+        sender.sendMessage(getClassTranslation("conversion_starting"));
         
         // Create all destination banks, with one created for each destination location
         // We have to loop over all players checking for ownership and membership
         // First onwer found becomes the defacto owner
-        sender.sendMessage("Converting banks...");
+        sender.sendMessage(getClassTranslation("converting_banks"));
         for(String location_name : location_scales.keySet()) {
             for(String src_bank_name : src_econ.getBanks()) {
                 String dest_bank_name = src_bank_name + "-" + location_name;
@@ -108,7 +106,7 @@ public class ConvertCommand extends TranslatedCommand {
                 // Skip existing banks
                 if(api.getBankAccount(dest_bank_name) != null) {
                     if(!(sender instanceof Player)) {
-                        sender.sendMessage(dest_bank_name + " already exists, skipping");
+                        sender.sendMessage(getClassTranslation("bank_exists", dest_bank_name));
                     }
                     continue;
                 }
@@ -119,7 +117,7 @@ public class ConvertCommand extends TranslatedCommand {
                 EconomyResponse res = api.bankDeposit(dest_bank_name, new_balance);
                 
                 if(res.type != ResponseType.SUCCESS) {
-                    sender.sendMessage("Could not deposit into desination account " + dest_bank_name + " : " + res.errorMessage);
+                    sender.sendMessage(getClassTranslation("bank_deposit_failure", dest_bank_name, res.errorMessage));
                     api.deleteBank(dest_bank_name);
                 }
                 
@@ -146,14 +144,14 @@ public class ConvertCommand extends TranslatedCommand {
                 }
                 
                 if(!(sender instanceof Player)) {
-                    sender.sendMessage("Created new bank account: " + dest_bank_name);
+                    sender.sendMessage(getClassTranslation("bank_created", dest_bank_name));
                 }
             }
         }
         
         // Create accounts for every player who as ever played and has an account
         // in the old economy
-        sender.sendMessage("Converting player accounts...");
+        sender.sendMessage(getClassTranslation("converting_player_accounts"));
         for (OfflinePlayer op : server.getOfflinePlayers()) {
             String pName = op.getName();
             if (src_econ.hasAccount(pName)) {
@@ -162,7 +160,7 @@ public class ConvertCommand extends TranslatedCommand {
                 for(String location_player : location_scales.keySet()) {
                     if (api.hasAccount(pName, location_player)) {
                         if(!(sender instanceof Player)) {
-                            sender.sendMessage(pName + " already has an account @ " + location_player + ", skipping.");
+                            sender.sendMessage(getClassTranslation("player_account_exists ", pName, location_player));
                         }
                         continue;
                     }
@@ -170,14 +168,14 @@ public class ConvertCommand extends TranslatedCommand {
                 
                     double new_balance = src_balance * location_scales.get(location_player).doubleValue();
                     if(!(sender instanceof Player)) {
-                        sender.sendMessage(pName + " @ " + location_player + " -> " + new_balance);
+                        sender.sendMessage(getClassTranslation("player_account_created", pName, location_player, new_balance));
                     }
                     api.setBalance(pName, location_player, new_balance);
                 }
             }
         }
         api.forceCommit();
-        sender.sendMessage("Converson complete, please verify the data before using it.");
+        sender.sendMessage(getClassTranslation("conversion_complete"));
         
         return true;
     }
