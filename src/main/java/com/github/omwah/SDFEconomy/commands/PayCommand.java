@@ -3,6 +3,7 @@ package com.github.omwah.SDFEconomy.commands;
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
 import com.github.omwah.omcommands.CommandHandler;
 import com.github.omwah.omcommands.TranslatedCommand;
+import java.util.ResourceBundle;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 import org.bukkit.Server;
@@ -14,9 +15,9 @@ public class PayCommand extends TranslatedCommand
     private final SDFEconomyAPI api;
     private final Server server;
 
-    public PayCommand(SDFEconomyAPI api, Server server)
+    public PayCommand(SDFEconomyAPI api, Server server, ResourceBundle translation)
     {
-        super("pay");
+        super("pay", translation);
         
         this.api = api;
         this.server = server;

@@ -7,6 +7,7 @@ import com.google.common.base.Joiner;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.TreeMap;
 import org.bukkit.Server;
 import org.bukkit.World;
@@ -17,9 +18,9 @@ public class ListLocationsCommand extends TranslatedCommand
     private final SDFEconomyAPI api;
     private final Server server;
 
-    public ListLocationsCommand(SDFEconomyAPI api, Server server)
+    public ListLocationsCommand(SDFEconomyAPI api, Server server, ResourceBundle translation)
     {
-        super("listlocations");
+        super("listlocations", translation);
         
         this.api = api;
         this.server = server;

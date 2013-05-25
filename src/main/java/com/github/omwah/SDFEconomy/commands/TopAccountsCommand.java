@@ -5,6 +5,7 @@ import com.github.omwah.SDFEconomy.SDFEconomyAPI;
 import com.github.omwah.omcommands.CommandHandler;
 import com.github.omwah.omcommands.TranslatedCommand;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import org.bukkit.command.CommandSender;
@@ -34,8 +35,8 @@ public class TopAccountsCommand extends TranslatedCommand {
         }        
     }
     
-    public TopAccountsCommand(SDFEconomyAPI api, int topN, boolean includeBanks) {
-        super("top");
+    public TopAccountsCommand(SDFEconomyAPI api, int topN, boolean includeBanks, ResourceBundle translation) {
+        super("top", translation);
         
         this.api = api;
         this.topN = topN;

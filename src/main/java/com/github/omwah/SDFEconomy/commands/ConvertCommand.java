@@ -6,6 +6,7 @@ import com.github.omwah.omcommands.CommandHandler;
 import com.github.omwah.omcommands.TranslatedCommand;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.ResourceBundle;
 import java.util.regex.PatternSyntaxException;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -20,8 +21,8 @@ public class ConvertCommand extends TranslatedCommand {
         private SDFEconomyAPI api;
         private Server server;
     
-    public ConvertCommand(SDFEconomyAPI api, Server server) {
-        super("convert");
+    public ConvertCommand(SDFEconomyAPI api, Server server, ResourceBundle translation) {
+        super("convert", translation);
    
         this.api = api;
         this.server = server;

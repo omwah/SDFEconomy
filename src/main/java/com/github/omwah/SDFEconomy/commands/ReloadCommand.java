@@ -3,15 +3,16 @@ package com.github.omwah.SDFEconomy.commands;
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
 import com.github.omwah.omcommands.CommandHandler;
 import com.github.omwah.omcommands.TranslatedCommand;
+import java.util.ResourceBundle;
 import org.bukkit.command.CommandSender;
 
 public class ReloadCommand extends TranslatedCommand
 {
     private final SDFEconomyAPI api;
 
-    public ReloadCommand(SDFEconomyAPI api)
+    public ReloadCommand(SDFEconomyAPI api, ResourceBundle translation)
     {
-        super("reload");
+        super("reload", translation);
         
         this.api = api;
 

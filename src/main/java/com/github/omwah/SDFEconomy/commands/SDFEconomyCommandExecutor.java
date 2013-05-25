@@ -39,7 +39,7 @@ public class SDFEconomyCommandExecutor extends NestedCommandExecutor {
         // Set up which subcommands of the main command are available
         ArrayList<PluginCommand> sub_cmd_list = new ArrayList<PluginCommand>();
         sub_cmd_list.add(new BalanceCommand(api, getTranslation()));
-        sub_cmd_list.add(new PayCommand(api, server));
+        sub_cmd_list.add(new PayCommand(api, server, getTranslation()));
         
         // Enable bank commands only if enabled
         if(api.hasBankSupport()) {
@@ -64,18 +64,18 @@ public class SDFEconomyCommandExecutor extends NestedCommandExecutor {
         }
         int top_number = config.getInt("commands.top.number", 5);
         boolean top_include_banks = config.getBoolean("commands.top.include_banks", true);
-        sub_cmd_list.add(new TopAccountsCommand(api, top_number, top_include_banks));
+        sub_cmd_list.add(new TopAccountsCommand(api, top_number, top_include_banks, getTranslation()));
 
-        sub_cmd_list.add(new ReloadCommand(api));
+        sub_cmd_list.add(new ReloadCommand(api, getTranslation()));
         sub_cmd_list.add(new SetCommand(api, getTranslation()));
         sub_cmd_list.add(new DepositAdminCommand(api, getTranslation()));
         sub_cmd_list.add(new WithdrawAdminCommand(api, getTranslation()));
         sub_cmd_list.add(new ScaleCommand(api, getTranslation()));
-        sub_cmd_list.add(new ConvertCommand(api, server));
+        sub_cmd_list.add(new ConvertCommand(api, server, getTranslation()));
         sub_cmd_list.add(new PlayerCreateCommand(api, getTranslation()));
         sub_cmd_list.add(new PlayerDeleteCommand(api, getTranslation()));
         
-        sub_cmd_list.add(new ListLocationsCommand(api, server));
+        sub_cmd_list.add(new ListLocationsCommand(api, server, getTranslation()));
 
         return sub_cmd_list;
     }
