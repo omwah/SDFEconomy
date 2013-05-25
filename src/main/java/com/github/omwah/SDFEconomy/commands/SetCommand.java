@@ -31,7 +31,7 @@ public class SetCommand extends PlayerAndLocationSpecificCommand {
             try {
                 amount = Double.parseDouble(args[1]);
             } catch (NumberFormatException e) {
-                sender.sendMessage(getClassTranslation("AccountCommon-invalid_amount", args[1]));
+                sender.sendMessage(getTranslation("AccountCommon-invalid_amount", args[1]));
                 return false;
             }
             
@@ -40,7 +40,7 @@ public class SetCommand extends PlayerAndLocationSpecificCommand {
                 String balance = api.format(this.api.getBalance(ploc.playerName, ploc.locationName));
                 sender.sendMessage(getTranslation("AccountCommon-new_balance", ploc.playerName, ploc.locationName, balance));
             } else {
-                sender.sendMessage(getClassTranslation("AccountCommon-cannot_find_account ", ploc.playerName, ploc.locationName));
+                sender.sendMessage(getTranslation("AccountCommon-cannot_find_account", ploc.playerName, ploc.locationName));
             }
         } else {
             sender.sendMessage(getTranslation("AccountCommon-not_admin"));

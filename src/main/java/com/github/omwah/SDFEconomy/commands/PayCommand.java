@@ -65,7 +65,7 @@ public class PayCommand extends TranslatedCommand
             EconomyResponse resp_wd = api.withdrawPlayer(payer, amount, location);
            
             if (resp_wd.type != ResponseType.SUCCESS) {
-                sender.sendMessage(getClassTranslation("", amount_str, payee, location));
+                sender.sendMessage(getClassTranslation("not_enough_money", amount_str, payee, location));
                 return true;
             }
             

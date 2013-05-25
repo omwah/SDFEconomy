@@ -41,7 +41,7 @@ public class BankWithdrawCommand extends PlayerAndLocationSpecificCommand {
         if (ploc != null) {
             // Check that we have a valid player account
             if(!api.hasAccount(ploc.playerName, ploc.locationName)) {
-                sender.sendMessage(getTranslation("AccountCommon-cannot_find_accoun", ploc.playerName, ploc.locationName));
+                sender.sendMessage(getTranslation("AccountCommon-cannot_find_account", ploc.playerName, ploc.locationName));
                 return false;
             }
             

@@ -161,7 +161,7 @@ public class ConvertCommand extends TranslatedCommand {
                 for(String location_player : location_scales.keySet()) {
                     if (api.hasAccount(pName, location_player)) {
                         if(!(sender instanceof Player)) {
-                            sender.sendMessage(getClassTranslation("player_account_exists ", pName, location_player));
+                            sender.sendMessage(getClassTranslation("player_account_exists", pName, location_player));
                         }
                         continue;
                     }
