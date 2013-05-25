@@ -10,9 +10,7 @@ public class WithdrawAdminCommand extends PlayerAndLocationSpecificCommand {
     
     public WithdrawAdminCommand(SDFEconomyAPI api, ResourceBundle translation) {
         super("withdraw", api, translation);
-   
-        setDescription("Withdraw money from a player account, admin only");
-        setUsage(this.getName() + " §8<player_name> <amount> [location]");
+
         setArgumentRange(2, 3);
         setIdentifiers(this.getName());
         setPermission("sdfeconomy.admin");
@@ -34,7 +32,7 @@ public class WithdrawAdminCommand extends PlayerAndLocationSpecificCommand {
             try {
                 amount = Double.parseDouble(args[1]);
             } catch (NumberFormatException e) {
-                sender.sendMessage("Invalid amount specified: " + args[1]);
+                sender.sendMessage(getTranslation("AccountCommon-invalid_amount", args[1]));
                 return false;
             }
             
@@ -42,17 +40,17 @@ public class WithdrawAdminCommand extends PlayerAndLocationSpecificCommand {
                 EconomyResponse response = this.api.withdrawPlayer(ploc.playerName, amount, ploc.locationName);
                 if (response.type == EconomyResponse.ResponseType.SUCCESS) {
                     String balance = api.format(this.api.getBalance(ploc.playerName, ploc.locationName));
-                    sender.sendMessage("Successful withdraw of " + api.format(amount) + " from " + ploc.playerName + " @ " + ploc.locationName);                    
-                    sender.sendMessage(ploc.playerName + "'s balance @ " + ploc.locationName + " is now: " + balance);
+                    sender.sendMessage(getClassTranslation("withdraw_success", api.format(amount), ploc.playerName, ploc.locationName)); 
+                    sender.sendMessage(getTranslation("AccountCommon-new_balance", ploc.playerName, ploc.locationName, balance));
                 } else {                   
-                    sender.sendMessage(ploc.playerName + " does not have enough money to withdraw " + amount + " @ " + ploc.locationName);
+                    sender.sendMessage(getClassTranslation("withdraw_failure", ploc.playerName, ploc.locationName, amount));
                     return false;                    
                 }
             } else {
-                sender.sendMessage("Could not find an account for " + ploc.playerName + " @ " + ploc.locationName);
+                sender.sendMessage(getTranslation("AccountCommon-cannot_find_account", ploc.playerName, ploc.locationName));
             }
         } else {
-            sender.sendMessage("Insufficient privileges to set another player's balance");
+            sender.sendMessage(getTranslation("AccountCommon-not_admin"));
         }
            
         return true;

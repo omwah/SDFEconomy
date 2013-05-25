@@ -10,8 +10,6 @@ public class PlayerDeleteCommand extends PlayerAndLocationSpecificCommand {
     public PlayerDeleteCommand(SDFEconomyAPI api, ResourceBundle translation) {
         super("player delete", api, translation);
         
-        setDescription("Deletes a player account");
-        setUsage(this.getName() + " §8<player_name> <location>");
         setArgumentRange(2, 2);
         setIdentifiers(this.getName());
         setPermission("sdfeconomy.admin");
@@ -31,9 +29,9 @@ public class PlayerDeleteCommand extends PlayerAndLocationSpecificCommand {
 
         boolean success = api.deletePlayerAccount(ploc.playerName, ploc.locationName);
         if(success) {
-            sender.sendMessage("Succesfully deleted player account: " + ploc.playerName + " @ " + ploc.locationName);
+            sender.sendMessage(getClassTranslation("delete_success", ploc.playerName, ploc.locationName));
         } else {
-            sender.sendMessage("Failed to delete player account: " + ploc.playerName + " @ " + ploc.locationName);
+            sender.sendMessage(getClassTranslation("delete_failure", ploc.playerName, ploc.locationName));
             return false;
         }
         

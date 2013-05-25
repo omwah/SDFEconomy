@@ -41,7 +41,7 @@ public class DepositAdminCommand extends PlayerAndLocationSpecificCommand {
                 if (response.type == EconomyResponse.ResponseType.SUCCESS) {                
                     String balance = api.format(this.api.getBalance(ploc.playerName, ploc.locationName));
                     sender.sendMessage(getClassTranslation("deposit_success", api.format(amount), ploc.playerName, ploc.locationName));
-                    sender.sendMessage(getClassTranslation("new_balance", ploc.playerName, ploc.locationName, balance));
+                    sender.sendMessage(getTranslation("AccountCommon-new_balance", ploc.playerName, ploc.locationName, balance));
                 } else {
                     sender.sendMessage(getClassTranslation("deposit_failure", amount, ploc.playerName, ploc.locationName, response.errorMessage));
                     return false;                    

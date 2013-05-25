@@ -41,8 +41,6 @@ public class TopAccountsCommand extends TranslatedCommand {
         this.topN = topN;
         this.includeBanks = includeBanks;
         
-        setDescription("List top account holders for location");
-        setUsage(this.getName() + " §8[location]");
         setArgumentRange(0, 2);
         setIdentifiers(this.getName());
         setPermission("sdfeconomy.use_account");
@@ -65,12 +63,12 @@ public class TopAccountsCommand extends TranslatedCommand {
         
         // If arguments are supplied then check for another players wealth
         if (location_name == null) {
-            sender.sendMessage("Must specify location name when using this command from the console");
+            sender.sendMessage(getClassTranslation("specify_location"));
             return false;
         }
         
         if(!api.validLocationName(location_name)) {
-            sender.sendMessage(location_name + " is not a valid location");
+            sender.sendMessage(getTranslation("AccountCommon-invalid_location", location_name));
             return false;
         }
 
@@ -111,12 +109,12 @@ public class TopAccountsCommand extends TranslatedCommand {
         }
 
         // Now output top players info
-        sender.sendMessage("§c-----[ " + "§f Top " + top_count + " Richest Players @ " + location_name + " §c ]-----");
+        sender.sendMessage(getClassTranslation("banner", top_count, location_name));
         for(PlayerBalanceComparable p : top_players) {
             if(show_balances) {
-                sender.sendMessage(p.playerName + " : " + api.format(p.balance));
+                sender.sendMessage(getClassTranslation("line_with_balance", p.playerName, api.format(p.balance)));
             } else {
-                sender.sendMessage(p.playerName);
+                sender.sendMessage(getClassTranslation("line_no_balance", p.playerName));
             }
         }
         

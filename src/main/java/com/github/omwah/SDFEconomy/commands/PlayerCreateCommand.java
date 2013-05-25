@@ -9,9 +9,7 @@ public class PlayerCreateCommand extends PlayerAndLocationSpecificCommand {
     
     public PlayerCreateCommand(SDFEconomyAPI api, ResourceBundle translation) {
         super("player create", api, translation);
-        
-        setDescription("Creates a new player account");
-        setUsage(this.getName() + " §8<player_name> <location>");
+
         setArgumentRange(2, 2);
         setIdentifiers(this.getName());
         setPermission("sdfeconomy.admin");
@@ -31,9 +29,9 @@ public class PlayerCreateCommand extends PlayerAndLocationSpecificCommand {
 
         boolean success = api.createPlayerAccount(ploc.playerName, ploc.locationName);
         if(success) {
-            sender.sendMessage("Succesfully created player account: " + ploc.playerName + " @ " + ploc.locationName);
+            sender.sendMessage(getClassTranslation("create_success", ploc.playerName, ploc.locationName));
         } else {
-            sender.sendMessage("Failed to create player account: " + ploc.playerName + " @ " + ploc.locationName);
+            sender.sendMessage(getClassTranslation("create_failure", ploc.playerName, ploc.locationName));
             return false;
         }
         
