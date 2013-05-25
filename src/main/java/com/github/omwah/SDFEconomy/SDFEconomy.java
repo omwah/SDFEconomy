@@ -117,10 +117,11 @@ public class SDFEconomy extends JavaPlugin {
         // Load up the list of commands in the plugin.yml and register each of these
         // This makes is simpler to update the command names that this Plugin responds
         // to just by editing plugin.yml
+        Locale locale = getLocale();
         for(Iterator cmd_iter = this.getDescription().getCommands().keySet().iterator(); cmd_iter.hasNext();) {
             // set the command executor for the Command
             PluginCommand curr_cmd = this.getCommand((String) cmd_iter.next());
-            curr_cmd.setExecutor(new SDFEconomyCommandExecutor(this, curr_cmd, Locale.getDefault()));
+            curr_cmd.setExecutor(new SDFEconomyCommandExecutor(this, curr_cmd, locale));
         }
         
         // Try and send metrics to MCStats
@@ -165,5 +166,24 @@ public class SDFEconomy extends JavaPlugin {
             permission = permissionProvider.getProvider();
         }
         return (permission != null);
+    }
+    
+    /*
+     * Gets locale from config or else returns the default
+     */
+    private Locale getLocale() {
+        String language = this.getConfig().getString("locale.language");
+        String country = this.getConfig().getString("locale.country");
+        Locale locale;
+        if(language != null && country != null) {
+            locale = new Locale(language, country);
+        } else if(language != null) {
+            locale = new Locale(language);
+        } else {
+            this.getLogger().info("Locale not defined in config, using system default.");
+            locale = Locale.getDefault();
+        }
+        this.getLogger().log(Level.INFO, "Using locale: {0}", locale);
+        return locale;
     }
 }

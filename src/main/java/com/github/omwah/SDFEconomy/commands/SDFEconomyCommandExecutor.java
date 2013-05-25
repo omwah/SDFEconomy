@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.configuration.file.FileConfiguration;

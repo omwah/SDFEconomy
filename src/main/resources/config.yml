@@ -79,3 +79,20 @@ storage:
         # There are 20 ticks per second, so the default delay is 60/20 = 3 seconds.
         commit_delay: 60
  
+# If language and optionaly country are defined then the plugin will try and
+# find a localization file matching. These files must already be included in the plugin.
+# By default the locale is commented out so that the default configured by the system
+# is used. You can define only language without country, but the default will still
+# be used if you only define country.
+#
+# Look at which CommandTranslation*.properties files are available:
+# https://github.com/omwah/SDFEconomy/tree/master/src/main/resources
+# The language and country code will be in the name of the file
+#
+# Language codes:
+# http://www.loc.gov/standards/iso639-2/englangn.html
+# Country codes:
+# http://www.iso.org/iso/prods-services/iso3166ma/02iso-3166-code-lists/country_names_and_code_elements
+locale:
+    # language: en
+    # country: US
