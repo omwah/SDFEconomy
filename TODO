@@ -1,9 +1,0 @@
-Features to add
----------------
-* More storage options
-
-Known caveats
--------------
-* ChestShop through Vault checks the last location of an offline player or current
-  location of an online player to see if they have enough money to buy items instead 
-  of directly using the location of the shop.

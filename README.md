@@ -42,3 +42,10 @@ therefore managed by Maven. You should be able to build it with Maven by running
 
 a jar will be generated in the target folder. For those unfamilliar with Maven
 it is a build system, see http://maven.apache.org/ for more information.
+
+Known caveats
+-------------
+
+ChestShop through Vault checks the last location of an offline player or
+current location of an online player to see if they have enough money to
+buy items instead of directly using the location of the shop.

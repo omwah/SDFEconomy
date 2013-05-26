@@ -1,9 +1,11 @@
 3.0
 ---
 * Switch to a better version numbering scheme by shifting 
-  version digits left
+  version digits left, ie 0.3.0 -> 3.0
 * Switched to using OmCommands library for commands
 * Added support for command translations, ie localizations
+* Fixed some command message spelling an some wording in
+  the process of adding localization support
 
 0.2.8
 -----
