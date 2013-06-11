@@ -1,0 +1,13 @@
+Language Conversion
+-------------------
+
+To convert a native encoded Russian translation to a format Java can use:
+
+native2ascii -encoding windows-1251 CommandTranslation_ru.properties.orig CommandTranslation_ru.properties
+
+
+Known caveats
+-------------
+* ChestShop through Vault checks the last location of an offline player or current
+  location of an online player to see if they have enough money to buy items instead 
+  of directly using the location of the shop.

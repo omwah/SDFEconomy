@@ -6,6 +6,7 @@
 * Added support for command translations, ie localizations
 * Fixed some command message spelling an some wording in
   the process of adding localization support
+* Add Russian translation from ValeraSTK
 
 0.2.8
 -----
