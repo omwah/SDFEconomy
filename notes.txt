@@ -1,6 +1,10 @@
-Features to add
----------------
-* More storage options
+Language Conversion
+-------------------
+
+To convert a native encoded Russian translation to a format Java can use:
+
+native2ascii -encoding windows-1251 CommandTranslation_ru.properties.orig CommandTranslation_ru.properties
+
 
 Known caveats
 -------------

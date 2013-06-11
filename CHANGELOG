@@ -4,6 +4,7 @@
   version digits left
 * Switched to using OmCommands library for commands
 * Added support for command translations, ie localizations
+* Add Russian translation from ValeraSTK
 
 0.2.8
 -----

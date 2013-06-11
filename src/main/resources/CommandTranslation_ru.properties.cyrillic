@@ -1,0 +1,198 @@
+# Translations for OmCommands library routines 
+CommandHandler-no_permission = Недостаточно полномочий.
+TranslatedCommand-help_line_command = \u00a7cКомманда:\u00a7e {0}
+TranslatedCommand-help_line_description = \u00a7cОписание:\u00a7e {0}
+TranslatedCommand-help_line_usage = \u00a7cПрименение:\u00a7e {0}
+PlayerSpecificCommand-no_permission = Недостаточно полномочий для доступа к счету другого игрока.
+PlayerSpecificCommand-specify_player_name = Нужно указать имя игрока чтобы использовать эту комманду через консоль.  
+HelpCommand-description = Отображает меню справки.
+HelpCommand-usage = /{0} help \u00a78[page#]
+HelpCommand-banner = \u00a7c-----[\u00a7f {0} Справка <{1,number,integer}/{2,number,integer}>\u00a7c ]-----
+HelpCommand-help_line =   \u00a7a{0}
+HelpCommand-for_more_help = \u00a7cЧтобы получить подробную информацию об определенной комманде, используйте \u00a7f/{0} <command> ?
+
+# PlayerAndLocationSpecificCommand class
+# Also uses: PlayerSpecificCommand-no_permission, PlayerSpecificCommand-specify_player_name 
+PlayerAndLocationSpecificCommand-cannot_find_location = Невозможно определить местонахождение игрока.
+
+# AccountCommon
+# Messages used by multiple commands
+AccountCommon-cannot_find_account = Невозможно найти счет игрока для {0} @ {1}
+AccountCommon-invalid_amount = Указано неверное количество: {0}
+AccountCommon-not_admin = Эта комманда только для администраторов и модераторов.
+AccountCommon-invalid_location = Неверное название локации: {0}
+AccountCommon-new_balance = Счет {0} @ {1} теперь: {2}
+
+# BankCommon
+# Messages used by multiple commands
+BankCommon-bank_not_found = Банка с названием {0} не найдено. 
+BankCommon-not_owner = Вы не владелец банка: {0}
+
+# BalanceCommand class
+BalanceCommand-description = Проверка счета игрока:
+BalanceCommand-usage = /{0} \u00a78[player_name] [location]
+BalanceCommand-balance_message = {0}''s счет в @ {1}: {2}
+
+# BankAddMemberCommand class
+BankAddMemberCommand-description = Добавить игрока в банк
+BankAddMemberCommand-usage = /{0} \u00a78<account_name> <member_name>
+BankAddMemberCommand-already_member = {0} уже является членом банка: {1}
+BankAddMemberCommand-add_success =  {0} успешно добавлен в банк: {1}
+BankAddMemberCommand-add_failed = Не удалось добавить {0} в банк: {1}
+
+# BankCreateCommand class
+BankCreateCommand-description = Создать новый счет банка
+BankCreateCommand-usage = /{0} \u00a78<account_name> [owner] [location]
+BankCreateCommand-create_success = Банк создан успешно: {0}
+BankCreateCommand-create_failed = Не удалось создать банк: {0}
+
+# BankDepositCommand class
+BankDepositCommand-description = Перевести деньги в банк со счета игрока
+BankDepositCommand-usage = /{0} \u00a78<bank_account> <amount> [player_name] [location]
+BankDepositCommand-location_mismatch = Не удалось перевести деньги на банковский счет  {0} @ {1} от игрока в локации {2}
+BankDepositCommand-player_widthdraw_error = Не удалось изьять деньги со счета игрока: {0} из за ошибки: {1}
+BankDepositCommand-bank_deposit_error = Не удалось положить деньги на банковский счет: {0} из за ошибки: {1}
+BankDepositCommand-bank_deposit_success = Деньги успешно переведены {0} из {1} @ {2} в банк: {3}
+
+# BankInfoCommand class
+BankInfoCommand-description = Отображает счет банка и его членов.
+BankInfoCommand-usage = /{0} \u00a78<account_name>
+BankInfoCommand-bank_info = \u00a7fИнформация о Банке:
+BankInfoCommand-location_line = \u00a7cМестоположение: \u00a7e{0}
+BankInfoCommand-balance_line = \u00a7cСчет: \u00a7e{0}
+BankInfoCommand-owner_line = \u00a7cВладелец: \u00a7e{0}
+BankInfoCommand-members_line = \u00a7cЧлены: \u00a7e{0}
+
+# BankListCommand class
+BankListCommand-description = Список банковских счетов
+BankListCommand-usage = /{0} \u00a78[owner] [location]
+BankListCommand-banner = \u00a7c-----[\u00a7f Банковские Счета \u00a7c]-----
+BankListCommand-list_line_admin = {0} @ {1} : {2}, Владелец: {3}
+BankListCommand-list_line_normal = {0} : {1}
+
+# BankRemoveCommand class
+BankRemoveCommand-description = Удаляет банковский счет
+BankRemoveCommand-usage = /{0} \u00a78<account_name>
+BankRemoveCommand-remove_success = Банк успешно удален: {0}
+BankRemoveCommand-remove_failure = Не удалось удалить банк: {0}
+BankRemoveCommand-deposit_success = Переведен банковский счет: {0} на счет игрока для: {1}
+BankRemoveCommand-deposit_failure = Не удалось первести банковский счет: {0} на счет игрока для: {1}
+
+# BankRemoveMemberCommand class
+BankRemoveMemberCommand-description = Удаляет члена банка.
+BankRemoveMemberCommand-usage = /{0} \u00a78<account_name> <member_name>
+BankRemoveMemberCommand-not_a_member = {0} не является членом банка: {1}
+BankRemoveMemberCommand-remove_success = {0} успешно удален из банка: {1}
+BankRemoveMemberCommand-remove_failure = Не удалось удалить {0} из банка: {1}
+
+# BankRenameCommand class
+BankRenameCommand-description = Переименовывает банковский счет.
+BankRenameCommand-usage = /{0}  \u00a78<old_account_name> <new_account_name>
+BankRenameCommand-create_failed = Не удалось создать переименованный банковский счет: {0} из за ошибки: {1}
+BankRenameCommand-remove_failed = Не удалось удалить старый банковский счет: {0} из за ошибки: {1}
+BankRenameCommand-rename_success = Банк успешно переименован: {0} to: {1}
+
+# BankSetOwnerCommand class
+BankSetOwnerCommand-description = Назначает нового владельца банковского счета
+BankSetOwnerCommand-usage = /{0} \u00a78<account_name> <new_owner>
+BankSetOwnerCommand-set_success = {0} успешно назначен владельцем банка: {1}
+BankSetOwnerCommand-set_failed = Не удалось назначить {0} владельцем банка: {1}
+BankSetOwnerCommand-member_removing = {0} удален из списка членов банка: {1}
+BankSetOwnerCommand-member_adding = {0} добавлен в список членов банка: {1}
+        
+# BankWithdrawCommand class
+BankWithdrawCommand-description = Перевести деньги с банковского счета на счет игрока.
+BankWithdrawCommand-usage = /{0} \u00a78<bank_account> <amount> [player_name] [location]
+BankWithdrawCommand-location_mismatch = Невозможно изьять деньги с банковского счета {0} @ {1} от игрока в локации {2}
+
+BankWithdrawCommand-bank_widthdraw_error = Невозможно изьять деньги с банковского счета: {0} из-за ошибки: {1}
+BankWithdrawCommand-player_deposit_error = Не удалось положить деньги на счет игрока: {0} из-за ошибки: {1}
+BankWithdrawCommand-bank_withdraw_success = Успешно переведено {0} с {1} @ {2} на счет игрока: {3}
+
+# ConvertCommand class
+ConvertCommand-description = Конвертация из другой Vault экономики
+ConvertCommand-usage = /{0} \u00a78<economy_name> <location1>=<scaling> [ <location2>=scaling ...]
+ConvertCommand-scaling_not_specified = Не указано скалирование для {0} используем 1.0
+ConvertCommand-could_not_parse_argument = Не удалось разобрать аргумент #{0,number,integer} : {1}
+ConvertCommand-specify_pairs = Specify location=scaling pairs where location is a name and scaling a double
+ConvertCommand-use_numbers_for_scalings = Убедитесь, что скалирование уканазно в числовом формате
+ConvertCommand-need_other_economy = У вас должна быть загружена хотя бы одна дополнительная экономика для конвертации
+ConvertCommand-considering_economy = Considering loaded economy for conversion: {0}
+ConvertCommand-could_not_find_economy = Could not find {0} loaded on the server, check your spelling
+ConvertCommand-conversion_starting = Для конвертации требуется время, возможен серверный лаг.
+ConvertCommand-converting_banks = Конвертируем банки...
+ConvertCommand-bank_exists = {0} уже существует, пропуск.
+ConvertCommand-bank_deposit_failure = Не удалось перевести в банк {0}, из-за ошибки: {1}
+ConvertCommand-bank_created = Создан банковский счет: {0}
+ConvertCommand-converting_player_accounts = Конвертируем счета игроков...
+ConvertCommand-player_account_exists = {0} счет уже существует @ {1}, пропуск
+ConvertCommand-player_account_created = {0} @ {1} -> {2}
+ConvertCommand-conversion_complete = Конвертация завершена, пожалуйста проверьте данные, перед использованием.
+
+# DepositAdminCommand class
+DepositAdminCommand-description = Положить деньги на счет игрока, только для администраторов.
+DepositAdminCommand-usage = /{0} \u00a78<player_name> <amount> [location]
+DepositAdminCommand-deposit_success = Успешно переведено из {0} в {1} @ {2}
+DepositAdminCommand-deposit_failure = Не удалось перевести {0} на счет of {1} @ {2}, из за ошибки: 
+
+# ListLocationsCommand class
+ListLocationsCommand-description = Список всех допустимых имен для экономических локаций
+ListLocationsCommand-usage = /{0}
+ListLocationsCommand-banner = \u00a7c-----[\u00a7f Названия Локаций Экономики\u00a7c ]-----
+ListLocationsCommand-location_line = {0} : {1}
+
+# PayCommand class
+PayCommand-description = Заплатить другому игроку в текущей локации
+PayCommand-usage = /{0} \u00a78<player_name> <amount>
+PayCommand-payer_no_account = У вас нет счета @ {0}
+PayCommand-payee_no_account = {0} не имеет счета @ {1}
+PayCommand-not_enough_money = У вас недостаточно денег {0} to {1} @ {2}
+PayCommand-deposit_failure = Невозможно перевести {0} на счет {1} @ {2} crediting your account back
+PayCommand-credit_failure = Невозможно занять {0} для вашего счета.
+PayCommand-payment_success = Выплата {0} для {1} прошла успешно, ваш счет в @ {2} теперь {3}
+PayCommand-notify_payee = {0} отправил вам {1} ваш счет в @ {2} теперь: {3}
+PayCommand-must_be_player = Комманда Pay должна быть использована игроком.
+
+# PlayerCreateCommand class
+PlayerCreateCommand-description = Создать новый счет, только для администраторов.
+PlayerCreateCommand-usage = /{0} \u00a78<player_name> <location>
+PlayerCreateCommand-create_success = Создан счет игрока: {0} @ {1}
+PlayerCreateCommand-create_failure = Не удалось создать счет: {0} @ {1}
+
+# PlayerDeleteCommand class
+PlayerDeleteCommand-description = Удаляет счет игрока, только для администраторов.
+PlayerDeleteCommand-usage = /{0} \u00a78<player_name> <location>
+PlayerDeleteCommand-delete_success = Успешно удален счет игрока: {0} @ {1}
+PlayerDeleteCommand-delete_failure = Не удалось удалить счет игрока: {0} @ {1}
+
+# ReloadCommand class
+ReloadCommand-description = Перезагрузить данны плагина, только для администраторов
+ReloadCommand-usage = /{0}
+ReloadCommand-reload_success = Данные счетов перезагружены из хранилища
+# Currently not used
+ReloadCommand-reload_failure = Не удалось перезагрузить данные счетов из хранилища.
+
+# ScaleCommand class
+ScaleCommand-description = Масштабировать счета всех игроков в локации, только для администратора.
+ScaleCommand-usage = /{0} \u00a78<amount> <location>
+ScaleCommand-incorrect_scaling = Значение масштабирования: {0} не может быть конвертировано в число
+ScaleCommand-scaling_starting = Scaling {0,number,integer} players @ {1} by: {2,number,#.##}
+ScaleCommand-scaling_finished = Масштабирование выполнено.
+
+# SetCommand class
+SetCommand-description = Установить значение счета игрока, только для администраторов
+SetCommand-usage = /{0} \u00a78<player_name> <amount> [location]
+
+# TopAccountsCommand class
+TopAccountsCommand-description = Список самых богатых игроков
+TopAccountsCommand-usage = /{0} \u00a78[location]
+TopAccountsCommand-specify_location = Нужно указать имя локации, для использования это комманды из консоли
+TopAccountsCommand-banner = \u00a7c-----[\u00a7f Top {0,number,integer} Richest Players @ {1} \u00a7c ]-----
+TopAccountsCommand-line_with_balance = {0} : {1}
+TopAccountsCommand-line_no_balance = {0}
+
+# WithdrawAdminCommand class
+WithdrawAdminCommand-description = Изъять деньга со счета игрока, только для администраторов
+WithdrawAdminCommand-usage = /{0} \u00a78<player_name> <amount> [location]
+WithdrawAdminCommand-withdraw_success = Успешно изъято {0} from {1} @ {2}
+WithdrawAdminCommand-withdraw_failure = {0} @ {1} не имеет достаточно денег для изъятия {2}
