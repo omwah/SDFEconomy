@@ -8,6 +8,7 @@ import com.github.omwah.SDFEconomy.location.GlobalLocationTranslator;
 import com.github.omwah.SDFEconomy.location.LocationTranslator;
 import com.github.omwah.SDFEconomy.location.MultiInvLocationTranslator;
 import com.github.omwah.SDFEconomy.location.MultiverseInvLocationTranslator;
+import com.github.omwah.SDFEconomy.location.MyWorldsLocationTranslator;
 import com.github.omwah.SDFEconomy.location.PerWorldLocationTranslator;
 import com.github.omwah.SDFEconomy.location.SetDestinationLocationTranslator;
 import java.io.File;
@@ -77,6 +78,9 @@ public class SDFEconomy extends JavaPlugin {
         } else if (translator_str.equalsIgnoreCase("worldinventories")) {
             getLogger().info("Using WorldInventories location translator");
             locationTrans = new MultiInvLocationTranslator(this);
+        } else if (translator_str.equalsIgnoreCase("myworlds")) {
+            getLogger().info("Using My Worlds location translator");
+            locationTrans = new MyWorldsLocationTranslator(this);
         } else if (translator_str.equalsIgnoreCase("per_world")) {
             getLogger().info("Using Per World location translator");
             locationTrans = new PerWorldLocationTranslator(this.getServer());

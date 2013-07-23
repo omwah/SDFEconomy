@@ -33,6 +33,12 @@
       <url>http://repo.onarandombox.com/content/groups/public</url>
     </repository>
 
+    <!-- My Worlds -->
+    <repository>
+      <id>dj-tcraft-repository</id>
+      <url>http://ci.dj-tcraft.nl/plugin/repository/everything/</url>
+    </repository>
+
     <!-- For anything else without its own repo -->
     <repository>
       <id>omwah-repo</id>
@@ -116,6 +122,14 @@
       <groupId>me.drayshak</groupId>
       <artifactId>WorldInventories</artifactId>
       <version>dev-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- My Worlds -->
+    <dependency>
+      <groupId>com.bergerkiller.bukkit</groupId>
+      <artifactId>MyWorlds</artifactId>
+      <version>1.63</version>
       <scope>provided</scope>
     </dependency>
 
