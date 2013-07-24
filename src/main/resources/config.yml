@@ -32,6 +32,7 @@ api:
 # * multiinv - Uses the MultiInv plugin, similar to Multiverse-Inventories
 # * worldinventories - Uses the WorldInventories plugin, similar to Multiverse-Inventories
 # * per_world - One accounts location per world
+# * myworlds - Use the My Worlds plugin for seperating economies
 # * global - One location per server, ie one global account location
 
 location:
