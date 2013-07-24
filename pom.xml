@@ -79,7 +79,7 @@
     <dependency>
       <groupId>com.github.omwah</groupId>
       <artifactId>OmCommands</artifactId>
-      <version>1.1-SNAPSHOT</version>
+      <version>1.1</version>
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
