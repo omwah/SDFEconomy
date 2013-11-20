@@ -49,6 +49,8 @@ public class SDFEconomy extends JavaPlugin {
         this.getConfig().addDefault("location.translator", "multiverse");
         this.getConfig().addDefault("location.factions_support.enabled", true);
         this.getConfig().addDefault("location.factions_support.name", "factions");
+        this.getConfig().addDefault("location.towny_support.enabled", true);
+        this.getConfig().addDefault("location.towny_support.name", "towny");
                 
         File storageFile = new File(this.getDataFolder(), this.getConfig().getString("storage.yaml.filename"));
 
@@ -97,6 +99,11 @@ public class SDFEconomy extends JavaPlugin {
         if(this.getConfig().getBoolean("location.factions_support.enabled")) {
             getLogger().info("Enabling Factions account support");
             locationTrans = new FactionsLocationSupport(locationTrans, getConfig().getString("location.factions_support.name"));
+        }
+        
+        if(this.getConfig().getBoolean("location.towny_support.enabled")) {
+            getLogger().info("Enabling Towny account support");
+            locationTrans = new TownyLocationSupport(locationTrans, getConfig().getString("location.towny_support.name"));
         }
         
         // Create the API used both by Vault and the Plugin commands
