@@ -112,7 +112,7 @@ public class SDFEconomyAPI {
     public boolean createPlayerAccount(String playerName, String locationName) {        
         // Make sure an account can not be created without a location
         if(locationName != null && validLocationName(locationName) && !hasAccount(playerName, locationName)) {
-            double initialBalance = config.getDouble("api.player.initial_balance");
+            double initialBalance = (playerName.startsWith("town-") ? 0 : config.getDouble("api.player.initial_balance"));
             PlayerAccount account = storage.createPlayerAccount(playerName, locationName, initialBalance);
             return true;
         } else {
