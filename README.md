@@ -14,6 +14,7 @@ As Vault is not itself multiverse aware, we sometimes need to add specific suppo
 
 * [ChestShop](http://dev.bukkit.org/server-mods/chestshop/)
 * [Factions](http://dev.bukkit.org/server-mods/factions/)
+* [Towny / Towny Advanced](http://palmergames.com/)
 
 You will need at least [Vault version 1.2.3](http://dev.bukkit.org/server-mods/vault/files/37-vault-1-2-23/) or higher to use this plugin.
 
