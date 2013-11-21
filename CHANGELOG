@@ -1,3 +1,9 @@
+3.1
+---
+
+* Added Towny support thanks to @thesbros
+* Updated some dependencies to enable easier building
+
 3.0
 ---
 * Switch to a better version numbering scheme by shifting 
