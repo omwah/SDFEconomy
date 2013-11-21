@@ -11,7 +11,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <!-- Bukkit API Version, change if out dated -->
-    <bukkit.version>1.6.2-R0.1-SNAPSHOT</bukkit.version>
+    <bukkit.version>1.6.4-R2.0</bukkit.version>
   </properties>
 
   <repositories>
@@ -97,7 +97,7 @@
     <dependency>
       <groupId>net.milkbowl.vault</groupId>
       <artifactId>Vault</artifactId>
-      <version>1.2.22-SNAPSHOT</version>
+      <version>1.2.27</version>
       <scope>provided</scope>
     </dependency>
 

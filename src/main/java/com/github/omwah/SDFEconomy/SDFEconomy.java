@@ -11,6 +11,7 @@ import com.github.omwah.SDFEconomy.location.MultiverseInvLocationTranslator;
 import com.github.omwah.SDFEconomy.location.MyWorldsLocationTranslator;
 import com.github.omwah.SDFEconomy.location.PerWorldLocationTranslator;
 import com.github.omwah.SDFEconomy.location.SetDestinationLocationTranslator;
+import com.github.omwah.SDFEconomy.location.TownyLocationSupport;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
