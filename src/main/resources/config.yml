@@ -53,9 +53,16 @@ location:
   # to apply to the factions account. This should be different
   # than all other location names to avoid possible conflicts.
   factions_support:
-    enabled: True
+    enabled: true
     name: "factions"
-            
+  
+  # Support for Towny accounts. Name is the location name
+  # to apply to the towns account. This should be different
+  # than all other location names to avoid possible conflicts.
+  towny_support:
+    enabled: true
+    name: "towny"
+    
 # Settings for commands            
 commands:
     # Settings for /top command
