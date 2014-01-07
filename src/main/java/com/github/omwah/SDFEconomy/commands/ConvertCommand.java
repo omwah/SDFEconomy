@@ -4,8 +4,10 @@ import com.github.omwah.SDFEconomy.BankAccount;
 import com.github.omwah.SDFEconomy.SDFEconomyAPI;
 import com.github.omwah.omcommands.CommandHandler;
 import com.github.omwah.omcommands.TranslatedCommand;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.PatternSyntaxException;
 import net.milkbowl.vault.economy.Economy;
@@ -100,8 +102,16 @@ public class ConvertCommand extends TranslatedCommand {
         // We have to loop over all players checking for ownership and membership
         // First onwer found becomes the defacto owner
         sender.sendMessage(getClassTranslation("converting_banks"));
+
+        List<String> bank_names = new ArrayList<String>();
+        try {
+            bank_names.addAll(src_econ.getBanks());
+        } catch (UnsupportedOperationException ex) {
+            sender.sendMessage(getClassTranslation("bank_list_failed"));
+        }
+
         for(String location_name : location_scales.keySet()) {
-            for(String src_bank_name : src_econ.getBanks()) {
+            for(String src_bank_name : bank_names) {
                 String dest_bank_name = src_bank_name + "-" + location_name;
                 
                 // Skip existing banks
