@@ -20,7 +20,7 @@ public class TownyLocationSupport implements LocationTranslator {
 
     public String getLocationName(String playerName) {
         String proxied_name = translator.getLocationName(playerName);
-        if (proxied_name == null && playerName.startsWith("town-") || playerName.startsWith("towny-")) {
+        if (proxied_name == null && playerName.startsWith("town-") || playerName.startsWith("towny-") || playerName.startsWith("nation")) {
             return this.locationName;
         } else {
             return proxied_name;
