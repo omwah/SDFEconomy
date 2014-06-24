@@ -4,37 +4,37 @@
 package sdfeconomy.storage;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Interface for storage of Economy data
  */
 public interface EconomyStorage
 {
-
 	/*
 	 * Get the name of all player accounts in a section
 	 */
-	public List<String> getPlayerNames(String location);
+	public List<String> getPlayerAccounts(String location);
 
 	/*
 	 * Does the player have an account in a given location
 	 */
-	boolean hasPlayerAccount(String playerName, String location);
+	boolean hasPlayerAccount(UUID uuid, String location);
 
 	/*
 	 * Get a Player account for a given location
 	 */
-	PlayerAccount getPlayerAccount(String playerName, String location);
+	PlayerAccount getPlayerAccount(UUID uuid, String location);
 
 	/*
 	 * Create a new Player account in a given location with an initial balance
 	 */
-	PlayerAccount createPlayerAccount(String playerName, String location, double begBalance);
+	PlayerAccount createPlayerAccount(UUID uuid, String location, double begBalance);
 
 	/*
 	 * Delete a new Player account in a given location
 	 */
-	void deletePlayerAccount(String playerName, String location);
+	void deletePlayerAccount(UUID uuid, String location);
 
 	/*
 	 * Get a list of all bank names
@@ -54,7 +54,7 @@ public interface EconomyStorage
 	/*
 	 * Create a new Bank account, Bank is tied to location during creation
 	 */
-	BankAccount createBankAccount(String accountName, String ownerName, String location, double begBalance);
+	BankAccount createBankAccount(String accountName, UUID ownerUUID, String location, double begBalance);
 
 	/*
 	 * Create a new Bank account

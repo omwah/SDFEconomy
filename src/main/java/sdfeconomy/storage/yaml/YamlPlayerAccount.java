@@ -11,9 +11,8 @@ import sdfeconomy.storage.PlayerAccount;
  */
 public class YamlPlayerAccount extends YamlAccount implements PlayerAccount
 {
-
-    public YamlPlayerAccount(ConfigurationSection section) {
-        super(section);
-    }
-
+	public YamlPlayerAccount(ConfigurationSection section)
+	{
+		super(section);
+	}
 }

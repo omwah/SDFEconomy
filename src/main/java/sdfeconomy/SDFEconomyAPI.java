@@ -43,7 +43,7 @@ public class SDFEconomyAPI
 	}
 
     /*
-     * Whether bank support is enabled
+	 * Whether bank support is enabled
      */
 
 	public boolean hasBankSupport()
