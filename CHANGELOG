@@ -1,8 +1,12 @@
+4.0.0
+---
+* TODO
+
 3.2
 ---
 
-* Fix missing towny support in config. @thebros
-* Fix some towny location name bugs. @thebros
+* Fix missing towny support in config. @thesbros
+* Fix some towny location name bugs. @thesbros
 * Add Towny nation support. @Croyd
 * Fixed conversion error caused by iConomy not being able to list banks.
 

@@ -1,254 +1,216 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <!-- All the information -->
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>sdfeconomy</groupId>
+    <artifactId>SDFEconomy</artifactId>
+    <version>4.0.0-SNAPSHOT</version>
+    <name>SDFEconomy</name>
+    <description>CraftBukkit plugin which implements a multi-world aware Economy.</description>
 
-  <groupId>com.github.omwah</groupId>
-  <artifactId>SDFEconomy</artifactId>
-  <version>3.3-SNAPSHOT</version>
-  <name>SDFEconomy</name>
-  <description>CraftBukkit plugin which implements a Multiverse aware Economy.</description>
+    <!-- All the repositories -->
+    <repositories>
+        <!-- Bukkit -->
+        <repository>
+            <id>bukkit-repo</id>
+            <url>http://repo.bukkit.org/content/groups/public/</url>
+        </repository>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <!-- Bukkit API Version, change if out dated -->
-    <bukkit.version>1.6.4-R2.0</bukkit.version>
-  </properties>
+        <!-- Vault -->
+        <repository>
+            <id>vault-repo</id>
+            <url>http://ci.herocraftonline.com/plugin/repository/everything</url>
+        </repository>
 
-  <repositories>
-    <!-- Bukkit -->
-    <repository>
-      <id>bukkit-repo</id>
-      <url>http://repo.bukkit.org/content/groups/public/</url>
-    </repository>
+        <!-- Multiverse-Inventories -->
+        <repository>
+            <id>onarandombox</id>
+            <url>http://repo.onarandombox.com/content/groups/public</url>
+        </repository>
 
-    <!-- Vault -->
-    <repository>
-      <id>vault-repo</id>
-      <url>http://ci.herocraftonline.com/plugin/repository/everything</url>
-    </repository>
+        <!-- My Worlds -->
+        <repository>
+            <id>dj-tcraft-repository</id>
+            <url>http://ci.dj-tcraft.nl/plugin/repository/everything/</url>
+        </repository>
 
-    <!-- Multiverse-Inventories -->
-    <repository>
-      <id>onarandombox</id>
-      <url>http://repo.onarandombox.com/content/groups/public</url>
-    </repository>
+        <!-- For anything else without its own repo -->
+        <repository>
+            <id>omwah-repo</id>
+            <url>http://omwah.sdf.org/maven/repo/releases/</url>
+        </repository>
 
-    <!-- My Worlds -->
-    <repository>
-      <id>dj-tcraft-repository</id>
-      <url>http://ci.dj-tcraft.nl/plugin/repository/everything/</url>
-    </repository>
+        <!-- MCStats -->
+        <repository>
+            <id>Plugin Metrics</id>
+            <url>http://repo.mcstats.org/content/repositories/public</url>
+        </repository>
 
-    <!-- For anything else without its own repo -->
-    <repository>
-      <id>omwah-repo</id>
-      <url>http://omwah.sdf.org/maven/repo/releases/</url>
-    </repository>
+        <!-- For JUnitBenchmarks -->
+        <repository>
+            <id>sonatype-nexus-public</id>
+            <name>SonaType public snapshots and releases repository</name>
+            <url>https://oss.sonatype.org/content/groups/public</url>
+            <releases>
+                <!-- set to true if you wish to fetch releases from this repo too. -->
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
-    <!-- MCStats -->
-    <repository>
-        <id>Plugin Metrics</id>
-        <url>http://repo.mcstats.org/content/repositories/public</url>
-    </repository>
-    
-    <!-- For JUnitBenchmarks -->
-    <repository>
-      <id>sonatype-nexus-public</id>
-      <name>SonaType public snapshots and releases repository</name>
-      <url>https://oss.sonatype.org/content/groups/public</url>
-      <releases> 
-          <!-- set to true if you wish to fetch releases from this repo too. -->
-          <enabled>false</enabled>
-      </releases> 
-      <snapshots>
-          <enabled>true</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
+    <!-- All the properties -->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.bukkit</groupId>
-      <artifactId>bukkit</artifactId>
-      <version>${bukkit.version}</version>
-      <type>jar</type>
-      <scope>provided</scope>
-    </dependency>
-    
-    <!-- Commands library -->
-    <dependency>
-      <groupId>com.github.omwah</groupId>
-      <artifactId>OmCommands</artifactId>
-      <version>1.1</version>
-      <type>jar</type>
-      <scope>compile</scope>
-    </dependency>
-    
-    <!-- Following dependency is provided by CraftBukkit -->
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>10.0.1</version>
-      <type>jar</type>
-      <scope>provided</scope>
-    </dependency>
+    <dependencies>
+        <!-- Bukkit -->
+        <dependency>
+            <groupId>org.bukkit</groupId>
+            <artifactId>bukkit</artifactId>
+            <version>1.7.9-R0.3-SNAPSHOT</version>
+        </dependency>
 
-    <!-- Use Vault Economy API interface -->
-    <dependency>
-      <groupId>net.milkbowl.vault</groupId>
-      <artifactId>Vault</artifactId>
-      <version>1.2.27</version>
-      <scope>provided</scope>
-    </dependency>
+        <!-- Commands library -->
+        <dependency>
+            <groupId>com.github.omwah</groupId>
+            <artifactId>OmCommands</artifactId>
+            <version>1.1</version>
+        </dependency>
 
-    <!-- MultiverseInventories -->
-    <dependency>
-      <groupId>com.onarandombox.multiverseinventories</groupId>
-      <artifactId>Multiverse-Inventories</artifactId>
-      <version>2.5</version>
-      <scope>provided</scope>
-    </dependency>
+        <!-- Use Vault Economy API interface -->
+        <dependency>
+            <groupId>net.milkbowl.vault</groupId>
+            <artifactId>Vault</artifactId>
+            <version>1.4.1</version>
+        </dependency>
 
-    <!-- MultiInv -->
-    <dependency>
-      <groupId>uk.co</groupId>
-      <artifactId>MultiInv</artifactId>
-      <version>3.2.5</version>
-      <scope>provided</scope>
-    </dependency>
+        <!-- MultiverseInventories -->
+        <dependency>
+            <groupId>com.onarandombox.multiverseinventories</groupId>
+            <artifactId>Multiverse-Inventories</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
 
-    <!-- WorldInventories -->
-    <dependency>
-      <groupId>me.drayshak</groupId>
-      <artifactId>WorldInventories</artifactId>
-      <version>dev-SNAPSHOT</version>
-      <scope>provided</scope>
-    </dependency>
+        <!-- MultiInv -->
+        <dependency>
+            <groupId>uk.co</groupId>
+            <artifactId>MultiInv</artifactId>
+            <version>3.2.5</version>
+            <scope>provided</scope>
+        </dependency>
 
-    <!-- My Worlds -->
-    <dependency>
-      <groupId>com.bergerkiller.bukkit</groupId>
-      <artifactId>MyWorlds</artifactId>
-      <version>1.66</version>
-      <scope>provided</scope>
-    </dependency>
+        <!-- WorldInventories -->
+        <dependency>
+            <groupId>me.drayshak</groupId>
+            <artifactId>WorldInventories</artifactId>
+            <version>dev-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
 
-    <!-- ChestShop-3 -->
-    <dependency>
-      <groupId>com.acrobot.chestshop</groupId>
-      <artifactId>ChestShop</artifactId>
-      <version>3.50</version>
-      <scope>provided</scope>
-    </dependency>
+        <!-- My Worlds -->
+        <dependency>
+            <groupId>com.bergerkiller.bukkit</groupId>
+            <artifactId>MyWorlds</artifactId>
+            <version>1.66</version>
+            <scope>provided</scope>
+        </dependency>
 
-    <!-- McStats -->
-    <dependency>
-        <groupId>org.mcstats.bukkit</groupId>
-        <artifactId>metrics</artifactId>
-        <version>R6</version>
-        <scope>compile</scope>
-    </dependency>
-    
-    <!-- Testing only -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.10</version>
-      <type>jar</type>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.carrotsearch</groupId>
-      <artifactId>junit-benchmarks</artifactId>
-      <version>0.4.0</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+        <!-- ChestShop-3 -->
+        <dependency>
+            <groupId>com.acrobot.chestshop</groupId>
+            <artifactId>ChestShop</artifactId>
+            <version>3.50</version>
+            <scope>provided</scope>
+        </dependency>
 
-  <build>
-    <!-- Filter only plugin.yml -->
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>true</filtering>
-        <includes>
-          <include>plugin.yml</include>
-        </includes>
-      </resource>
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>false</filtering>
-        <excludes>
-            <exclude>plugin.yml</exclude>
-        </excludes>
-      </resource>
-    </resources>
+        <!-- McStats -->
+        <dependency>
+            <groupId>org.mcstats.bukkit</groupId>
+            <artifactId>metrics</artifactId>
+            <version>R6</version>
+        </dependency>
 
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
-        <configuration>
-          <!-- Minimum Minecraft requirement -->
-          <source>1.5</source>
-          <target>1.5</target>
-        </configuration>
-      </plugin>
+        <!-- Testing only -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+            <type>jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.carrotsearch</groupId>
+            <artifactId>junit-benchmarks</artifactId>
+            <version>0.4.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>2.1</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-            <configuration>
-              <minimizeJar>true</minimizeJar>
-              <artifactSet>
+    <!-- The build configuration -->
+    <build>
+        <!-- The plugins -->
+        <plugins>
+            <!-- maven-compiler, we want to target 1.6 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+            <!-- maven-shade, for including dependencies in the jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <include>com.github.omwah:OmCommands</include>
+                                    <include>org.mcstats.bukkit</include>
+                                </includes>
+                            </artifactSet>
+                            <relocations>
+                                <relocation>
+                                    <pattern>com.github.omwah.omcommands</pattern>
+                                    <shadedPattern>sdfeconomy.omcommands</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.mcstats</pattern>
+                                    <shadedPattern>sdfeconomy.mcstats</shadedPattern>
+                                </relocation>
+                            </relocations>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <!-- Include all resources from src/main/resources -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
                 <includes>
-                  <include>com.github.omwah:OmCommands</include>
-                  <include>org.mcstats.bukkit</include>
+                    <include>*</include>
                 </includes>
-              </artifactSet>
-              <filters>
-                <filter>
-                   <artifact>com.github.omwah:OmCommands</artifact>
-                   <includes>
-                       <include>**</include>
-                   </includes>
-                </filter>
-              </filters>
-              <relocations>
-                <relocation>
-                  <pattern>com.github.omwah.omcommands</pattern>
-                  <shadedPattern>sdfeconomy.com.github.omwah.omcommands</shadedPattern>
-                </relocation>
-                <relocation>
-                  <pattern>org.mcstats</pattern>
-                  <shadedPattern>com.github.omwah.SDFEconomy.mcstats</shadedPattern>
-                </relocation>
-              </relocations>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
- 
-    </plugins>
-  </build>
-
-  <distributionManagement>
-    <repository>
-      <id>stage-repo</id>
-      <url>file://${basedir}/../repo/releases</url>
-    </repository>
-    <snapshotRepository>
-      <id>stage-repo-stapshots</id>
-      <url>file://${basedir}/../repo/snapshots</url>
-    </snapshotRepository>
-  </distributionManagement>
-
+            </resource>
+        </resources>
+        <directory>target</directory>
+        <finalName>${project.name}-${project.version}</finalName>
+    </build>
 </project>

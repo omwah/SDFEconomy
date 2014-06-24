@@ -1,12 +1,9 @@
-# This is a sample plugin.yml
-# For more infomration refer to http://wiki.bukkit.org/Plugin_YAML
-main: com.github.omwah.SDFEconomy.SDFEconomy
+main: sdfeconomy.SDFEconomy
 name: ${project.name}
 version: ${project.version}
-author: Omwah
 description: ${project.description}
-loadbefore: [Vault]
-softdepend: [Multiverse-Inventories]
+authors: [Omwah, thesbros]
+softdepend: [Vault, Multiverse-Inventories]
 
 commands:
     sdfeconomy:
